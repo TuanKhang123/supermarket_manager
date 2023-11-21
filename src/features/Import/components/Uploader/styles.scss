@@ -1,0 +1,83 @@
+.cuploader__wrapper {}
+
+.cuploader__wrapper label {
+    display: block;
+    color: #1677FF;
+}
+
+.cuploader__wrapper .fake_label {
+    color: #000;
+    display: block;
+    font-weight: 700;
+}
+
+.cuploader__wrapper .real_label {
+    display: flex;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #1677FF;
+    align-items: center;
+    padding-left: 10px;
+    gap: 12px;
+}
+
+.cuploader__wrapper .alternative_layout {
+    display: flex;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #1677FF;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.alternative_layout h2{
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.alternative_layout .group {
+    display: flex;
+    gap: 30px;
+}
+
+.alternative_layout .preview,
+.alternative_layout .replace{
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.real_label img {
+    height: 15px;
+}
+
+.real_label h2 {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.cuploader__wrapper .fake_label__star {
+    color: #F00;
+    margin-left: 5px;
+}
+
+.cuploader__wrapper input[type="file"] {
+    appearance: none;
+    display: none;
+}
+
+.cuploader__wrapper .description {
+    color: #00000080;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 400;
+}

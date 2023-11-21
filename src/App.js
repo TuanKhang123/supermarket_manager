@@ -4,6 +4,7 @@ import Home from "./features/Home";
 import Login from "./features/Login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Import from "./features/Import";
 import { ToastContainer } from "react-toastify";
 
 
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
+          <Route path="/import" element={<Import />}></Route>
         </Routes>
       </Router>
       <Footer></Footer>

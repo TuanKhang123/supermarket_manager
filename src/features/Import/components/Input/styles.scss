@@ -1,0 +1,29 @@
+.cinput__container {
+    display: block;
+}
+
+.cinput__container label {
+    color: #000;
+    display: block;
+    font-weight: 700;
+}
+
+.cinput__container .cinput__container__star {
+    color: #F00;
+    margin-left: 5px;
+}
+
+.cinput__container input {
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #1677FF;
+    padding: 9px;
+    width: 100%;
+}
+
+
+.cinput__container input::placeholder {
+    color: #7D7D7D;
+    font-weight: 400;
+    line-height: normal;
+}
