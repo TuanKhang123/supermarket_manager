@@ -1,72 +1,50 @@
-import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import React from 'react';
 import '../SideBar/style.scss'
+import {
+    PieChartOutlined,
+    HomeOutlined,
 
+} from '@ant-design/icons';
 
+import { MdOutlineInventory } from "react-icons/md";
+import { MdShelves } from "react-icons/md";
+import { Menu } from 'antd';
+import { AiOutlineAudit } from "react-icons/ai";
+import { MdManageAccounts } from "react-icons/md";
+
+function getItem(label, key, icon, children, type) {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    };
+}
 const items = [
-    {
-        label: 'Navigation One',
-        key: 'mail',
-        icon: <MailOutlined />,
-    },
-    {
-        label: 'Navigation Two',
-        key: 'app',
-        icon: <AppstoreOutlined />,
-        disabled: true,
-    },
-    {
-        label: 'Navigation Three - Submenu',
-        key: 'SubMenu',
-        icon: <SettingOutlined />,
-        children: [
-            {
-                type: 'group',
-                label: 'Item 1',
-                children: [
-                    {
-                        label: 'Option 1',
-                        key: 'setting:1',
-                    },
-                    {
-                        label: 'Option 2',
-                        key: 'setting:2',
-                    },
-                ],
-            },
-            {
-                type: 'group',
-                label: 'Item 2',
-                children: [
-                    {
-                        label: 'Option 3',
-                        key: 'setting:3',
-                    },
-                    {
-                        label: 'Option 4',
-                        key: 'setting:4',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        label: (
-            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-                Navigation Four - Link
-            </a>
-        ),
-        key: 'alipay',
-    },
+    getItem('Home Page', '1', <HomeOutlined />),
+    getItem('Inventory Management', '2', <MdOutlineInventory />),
+    getItem('Shelf Management', '3', <MdShelves />),
+    getItem('Inventory Audit', '4', <AiOutlineAudit />),
+    getItem('Inventory Statistics', '5', <PieChartOutlined />),
+    getItem('Supplier Management ', '6', <MdManageAccounts />),
 ];
 const SideBar = () => {
-    const [current, setCurrent] = useState('mail');
     const onClick = (e) => {
         console.log('click ', e);
-        setCurrent(e.key);
     };
-    return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+    return (
+        <Menu
+            onClick={onClick}
+            style={{
+                width: 256,
+            }}
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            mode="inline"
+            items={items}
+            className='sidebar'
+        />
+    );
 };
-
 export default SideBar;

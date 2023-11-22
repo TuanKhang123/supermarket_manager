@@ -1,12 +1,17 @@
 import React from 'react'
 import './style.scss'
 import { Button } from 'antd';
+import SideBar from '../../components/SideBar';
 
-const Home = () => { 
+const Home = () => {
     return (
-        <div className='home'>
-            <Button>Home</Button>
-        </div>
+        <>
+            <SideBar />
+            {/* <div className='home'>
+
+                <Button>Home</Button>
+            </div> */}
+        </>
     )
 }
 
