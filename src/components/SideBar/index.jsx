@@ -11,7 +11,7 @@ import { MdShelves } from "react-icons/md";
 import { Menu } from 'antd';
 import { AiOutlineAudit } from "react-icons/ai";
 import { MdManageAccounts } from "react-icons/md";
-
+import { MdAccountCircle } from "react-icons/md";
 function getItem(label, key, icon, children, type) {
     return {
         key,
@@ -23,11 +23,12 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
     getItem('Home Page', '1', <HomeOutlined />),
-    getItem('Inventory Management', '2', <MdOutlineInventory />),
-    getItem('Shelf Management', '3', <MdShelves />),
-    getItem('Inventory Audit', '4', <AiOutlineAudit />),
-    getItem('Inventory Statistics', '5', <PieChartOutlined />),
-    getItem('Supplier Management ', '6', <MdManageAccounts />),
+    getItem('Accounts Management', '2', <MdAccountCircle />),
+    getItem('Inventory Management', '3', <MdOutlineInventory />),
+    getItem('Shelf Management', '4', <MdShelves />),
+    getItem('Inventory Audit', '5', <AiOutlineAudit />),
+    getItem('Inventory Statistics', '6', <PieChartOutlined />),
+    getItem('Supplier Management ', '7', <MdManageAccounts />),
 ];
 const SideBar = () => {
     const onClick = (e) => {
