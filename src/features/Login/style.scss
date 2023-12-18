@@ -43,6 +43,10 @@
         .right__form {
             padding: 0px 40px;
 
+            :where(.css-dev-only-do-not-override-1ck3jst).ant-form-item {
+                margin-bottom: 20px;
+            }
+
             :where(.css-dev-only-do-not-override-1ck3jst).ant-form-horizontal .ant-form-item-control {
                 flex: none;
             }
