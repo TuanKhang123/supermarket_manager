@@ -5,6 +5,7 @@ import Login from "./features/Login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { ToastContainer } from "react-toastify";
+import Register from "./features/Register";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
+          <Route path="/register" element={<Register />}></Route>
         </Routes>
       </Router>
       <Footer></Footer>

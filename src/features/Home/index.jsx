@@ -7,10 +7,6 @@ const Home = () => {
     return (
         <>
             <SideBar />
-            {/* <div className='home'>
-
-                <Button>Home</Button>
-            </div> */}
         </>
     )
 }
