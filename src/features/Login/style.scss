@@ -1,4 +1,134 @@
+.login {
+    height: 500px;
+    display: flex;
+    background-color: #1677ff33;
+    margin: 0px 320px;
+    border-radius: 30px;
 
-.login { 
-    color: red;
+
+
+    .login__left {
+        width: 50%;
+        position: relative;
+        display: flex;
+        align-items: end;
+        background-color: rgba(22, 119, 255, 0.8);
+        border-radius: 30px 0px 0px 30px;
+
+        img {
+            width: 100%;
+            border-radius: 30px 0px 0px 30px;
+            height: 60%;
+        }
+
+        .left__text-img {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            text-align: center;
+            margin-top: 60px;
+        }
+    }
+
+    .login__right {
+        width: 50%;
+        text-align: center;
+
+        .right__title {
+            font-size: 32px;
+            margin-top: 60px;
+            margin-bottom: 25px;
+        }
+
+        .right__form {
+            padding: 0px 40px;
+
+            :where(.css-dev-only-do-not-override-1ck3jst).ant-form-horizontal .ant-form-item-control {
+                flex: none;
+            }
+
+            .ant-form-item-label {
+                text-align: start;
+                font-weight: 600;
+            }
+
+            .ant-form-item-label .ant-form-item-required {
+                font-size: 16px;
+            }
+
+            .ant-form-item-explain {
+                text-align: start;
+            }
+
+            .right__form-phonenumber {
+
+                .ant-form-item-row {
+                    flex-direction: column;
+                }
+
+                .ant-input {
+                    height: 40px;
+                }
+
+                .ant-form-item-control-input {
+
+                    border-radius: 7px;
+                }
+
+                :where(.css-dev-only-do-not-override-1ck3jst).ant-input {
+                    border-color: #1677ff;
+                }
+            }
+
+            .right__form-password {
+                .ant-form-item-row {
+                    flex-direction: column;
+                }
+
+                .ant-input {
+                    height: 31px;
+                }
+
+                .ant-form-item-control-input {
+                    border-radius: 7px;
+                }
+
+                :where(.css-dev-only-do-not-override-1ck3jst).ant-input-affix-wrapper {
+                    border-color: #1677ff;
+                }
+            }
+
+            .right__form-row3 {
+                display: flex;
+                justify-content: space-between;
+                align-items: start;
+
+                .right__form-saveLogin {
+
+                    :where(.css-dev-only-do-not-override-1ck3jst).ant-checkbox .ant-checkbox-inner {
+                        border: 2px solid #1677ff;
+                    }
+                }
+
+                .right__form-forgot {
+                    color: #1677ff;
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+
+                .right__form-forgot:hover {
+                    cursor: pointer;
+                    opacity: 0.7;
+                }
+
+            }
+
+            .right__form-submit {
+                .ant-btn-primary {
+                    width: 100%;
+                    height: 40px;
+                }
+            }
+        }
+    }
 }
