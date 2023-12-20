@@ -1,6 +1,6 @@
 import "./styles.scss";
 import Input from "./components/Input";
-import Uploader from "./components/Uploader";
+// import Uploader from "./components/Uploader";
 import InputArea from "./components/InputArea";
 import Button from "./components/Button";
 
@@ -27,7 +27,7 @@ export default function Import() {
                     <Input name="time" id="time4" label="Tầng số" placeholder="Chọn tầng" />
                     <Input name="time" id="time4" label="Ngăn số" placeholder="Chọn ngăn" />
                     <Input name="time" id="time4" label="Tên nhân viên giao hàng" placeholder="Nhập tên nhân viên giao hàng" />
-                    <Uploader
+                    {/* <Uploader
                         name="deliver"
                         id="deliver"
                         label="Chữ ký nhân viên giao hàng"
@@ -41,7 +41,7 @@ export default function Import() {
                         label="Chữ ký nhân viên nhận hàng"
                         description="Dạng file .jpg, .jpeg, .png, .heif dung lượng <= 20MB"
                         className="import__span-2"
-                    />  
+                    />   */}
                     <InputArea
                         name="text"
                         id="note"
@@ -62,6 +62,6 @@ export default function Import() {
                     </Button>
                 </div>
             </div>
-        </div>
+    </div>
     );
 }
