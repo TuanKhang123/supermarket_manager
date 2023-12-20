@@ -1,13 +1,10 @@
-.login {
-    height: 500px;
+.resetpassword {
+    height: 450px;
     display: flex;
     background-color: #1677ff33;
-    margin: 0px 320px;
+    margin: 0px 20rem;
     border-radius: 30px;
-
-
-
-    .login__left {
+    .resetpassword__left {
         width: 50%;
         position: relative;
         display: flex;
@@ -30,7 +27,7 @@
         }
     }
 
-    .login__right {
+    .resetpassword__right {
         width: 50%;
         text-align: center;
 
@@ -43,12 +40,12 @@
         .right__form {
             padding: 0px 40px;
 
-            :where(.css-dev-only-do-not-override-1ck3jst).ant-form-item {
-                margin-bottom: 20px;
+            .ant-form-item {
+                margin-bottom: 12px;
             }
 
-            :where(.css-dev-only-do-not-override-1ck3jst).ant-form-horizontal .ant-form-item-control {
-                flex: none;
+            .ant-form-item-control {
+                flex: 1;
             }
 
             .ant-form-item-label {
@@ -79,9 +76,7 @@
                     border-radius: 7px;
                 }
 
-                :where(.css-dev-only-do-not-override-1ck3jst).ant-input {
-                    border-color: #1677ff;
-                }
+                
             }
 
             .right__form-password {
@@ -97,7 +92,7 @@
                     border-radius: 7px;
                 }
 
-                :where(.css-dev-only-do-not-override-1ck3jst).ant-input-affix-wrapper {
+                .ant-input-password {
                     border-color: #1677ff;
                 }
             }
@@ -108,10 +103,6 @@
                 align-items: start;
 
                 .right__form-saveLogin {
-
-                    :where(.css-dev-only-do-not-override-1ck3jst).ant-checkbox .ant-checkbox-inner {
-                        border: 2px solid #1677ff;
-                    }
                 }
 
                 .right__form-forgot {
@@ -129,8 +120,21 @@
 
             .right__form-submit {
                 .ant-btn-primary {
+                    margin-top: 15px;
                     width: 100%;
                     height: 40px;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+            }
+
+            .right__form-cancel {
+                .ant-btn { 
+                    border-color: #1677ff;
+                        width: 100%;
+                        height: 40px;
+                        font-size: 16px;
+                        font-weight: 600;
                 }
             }
         }
