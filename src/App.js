@@ -24,12 +24,12 @@ function App() {
           <Route path="/inventory-audit-form" element={<InventoryAuditForm />}></Route>
           <Route path="/inventory-audit-detail/:id" element={<InventoryAuditDetail />}></Route>
           <Route path="/inventory-audit-info" element={<InventoryAuditInfo />}></Route>
-        
+
         </Routes>
       </Router>
       <Footer></Footer>
-      <ToastContainer />
 
+      <ToastContainer />
     </div>
 
   );
