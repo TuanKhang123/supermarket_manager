@@ -1,8 +1,9 @@
 import httpHandler from './axios';
-// import { API_DOMAIN } from '../constant/httpConstant.js';
+
 const API_DOMAIN = {
-  INTERNSHIP: 'http://localhost:8000'
+  INTERNSHIP: "https://supermarketbe-production.up.railway.app"
 }
+
 function get(domain, url, config = {}) {
   return httpHandler(domain).get(`${url}`, config);
 }

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { internshipTransport } from "../../config/http/transport";
 
-
 const product = {
     // For example
     // http://localhost:8000/product/getcategory

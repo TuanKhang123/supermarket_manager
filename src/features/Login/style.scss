@@ -1,20 +1,19 @@
+
+
 .login {
-    height: 500px;
     display: flex;
     background-color: #1677ff33;
-    margin: 0px 320px;
+    margin: 0px 19rem;
     border-radius: 30px;
 
-
-
     .login__left {
+        height: 470px;
         width: 50%;
         position: relative;
         display: flex;
         align-items: end;
         background-color: rgba(22, 119, 255, 0.8);
         border-radius: 30px 0px 0px 30px;
-
         img {
             width: 100%;
             border-radius: 30px 0px 0px 30px;
@@ -43,12 +42,12 @@
         .right__form {
             padding: 0px 40px;
 
-            :where(.css-dev-only-do-not-override-1ck3jst).ant-form-item {
-                margin-bottom: 20px;
-            }
+            // :where(.css-dev-only-do-not-override-1ck3jst).ant-form-item {
+            //     margin-bottom: 20px;
+            // }
 
             :where(.css-dev-only-do-not-override-1ck3jst).ant-form-horizontal .ant-form-item-control {
-                flex: none;
+                flex: 1;
             }
 
             .ant-form-item-label {
@@ -64,7 +63,7 @@
                 text-align: start;
             }
 
-            .right__form-phonenumber {
+            .right__form-email {
 
                 .ant-form-item-row {
                     flex-direction: column;
@@ -102,17 +101,12 @@
                 }
             }
 
-            .right__form-row3 {
+            .right__form-row4 {
                 display: flex;
-                justify-content: space-between;
+                justify-content: end;
                 align-items: start;
 
-                .right__form-saveLogin {
-
-                    :where(.css-dev-only-do-not-override-1ck3jst).ant-checkbox .ant-checkbox-inner {
-                        border: 2px solid #1677ff;
-                    }
-                }
+                
 
                 .right__form-forgot {
                     color: #1677ff;
@@ -129,6 +123,7 @@
 
             .right__form-submit {
                 .ant-btn-primary {
+                    margin-top: 10px;
                     width: 100%;
                     height: 40px;
                 }
