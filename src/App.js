@@ -5,7 +5,10 @@ import Login from "./features/Login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { ToastContainer } from "react-toastify";
-import Register from "./features/Register";
+import ResetPassword from "./features/ResetPassword";
+import InventoryAuditForm from "./features/InventoryAuditForm";
+import InventoryAuditDetail from "./features/InventoryAuditDetail";
+import InventoryAuditInfo from "./features/InventoryAuditInfo";
 
 
 function App() {
@@ -16,7 +19,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
-          <Route path="/register" element={<Register />}></Route>
+          <Route path="/resetpassword" element={<ResetPassword />}></Route>
+
+          <Route path="/inventory-audit-form" element={<InventoryAuditForm />}></Route>
+          <Route path="/inventory-audit-detail/:id" element={<InventoryAuditDetail />}></Route>
+          <Route path="/inventory-audit-info" element={<InventoryAuditInfo />}></Route>
+        
         </Routes>
       </Router>
       <Footer></Footer>
