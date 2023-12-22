@@ -3,21 +3,25 @@ import './style.scss'
 import logo from '../../images/Login.png'
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const ResetPassword = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
-    const onFinish = (values) => {
-        
+    const onFinish = (values) => {   
         console.log('Success:', values);
-
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+
+    const handleCancel = () => { 
+        navigate('/')
+    }
 
     const handleForgot = () => {
 
@@ -80,7 +84,7 @@ const ResetPassword = () => {
                         <Form.Item
                             className='right__form-cancel'
                         >
-                            <Button>
+                            <Button onClick={() => handleCancel()}>
                                 Cancel
                             </Button>
                         </Form.Item>

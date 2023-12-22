@@ -7,3 +7,22 @@
 body {
     font-family: sans-serif !important;
 }
+
+.ant-form-item-control {
+    flex: 1 !important;
+}
+
+.ant-form-item-label {
+    text-align: start !important;
+    font-weight: 600;
+}
+
+.ant-form-item-explain {
+    text-align: start;
+}
+
+.body-right-access {
+    flex: 1;
+    padding: 15px 30px;
+}
+
