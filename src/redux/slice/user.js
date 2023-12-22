@@ -5,7 +5,8 @@ import { getUserThunk } from "../aciton/user";
 const userSlice = createSlice({
     name: "userSlice",
     initialState: {
-        user: {},
+        userCurrent: {},
+        accessToken: ''
     },
     reducers: {
     },
@@ -14,9 +15,9 @@ const userSlice = createSlice({
             .addCase(
                 getUserThunk.fulfilled,
                 (state, { payload }) => {
-                    if (payload) {
-                        // console.log(payload);
-                        // state.productList = payload;
+                    if (payload.data) {
+                        state.userCurrent = payload?.data;
+                        state.accessToken = payload?.accessToken;
                     }
                 }
             )

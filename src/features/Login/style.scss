@@ -1,11 +1,11 @@
 .login {
     display: flex;
     background-color: #1677ff33;
-    margin: 0px 19rem;
+    margin: 7rem 19rem 0rem 19rem;
     border-radius: 30px;
 
     .login__left {
-        height: 470px;
+        height: 450px;
         width: 50%;
         position: relative;
         display: flex;
@@ -43,15 +43,6 @@
 
             .ant-form-item {
                 margin-bottom: 20px;
-            }
-
-            .ant-form-item-control {
-                flex: 1;
-            }
-
-            .ant-form-item-label {
-                text-align: start;
-                font-weight: 600;
             }
 
             .ant-form-item-label .ant-form-item-required {
@@ -105,8 +96,6 @@
                 justify-content: end;
                 align-items: start;
 
-
-
                 .right__form-forgot {
                     color: #1677ff;
                     font-size: 16px;
@@ -125,6 +114,7 @@
                     margin-top: 10px;
                     width: 100%;
                     height: 40px;
+                    font-weight: 600;
                 }
             }
         }

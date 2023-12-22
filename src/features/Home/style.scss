@@ -1,4 +1,74 @@
+.home {
 
-.home { 
-    color: green;
+    .row-one {
+        display: flex;
+        justify-content: space-between;
+
+        .container-total {
+            box-shadow: rgba(60, 64, 67, 0) -1px 1px 2px 1px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            width: 25%;
+            padding: 18px 20px;
+            display: flex;
+            gap: 15px;
+            border-radius: 7px;
+            align-items: center;
+
+            .total-icon {
+                padding: 8px;
+                background-color: #d7e8ff;
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                color: #1677ff;
+            }
+
+            .total-quantity {
+                width: 75%;
+
+                .total-quantity-number {
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+
+                .total-quantity-name {
+                    color: #1677ff;
+                    font-size: 17px;
+                }
+            }
+        }
+    }
+
+    .row-two {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+
+        .invent-statistics {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: rgba(60, 64, 67, -0.1) -1px 1px 2px 1px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+
+            .statistics-title {
+                align-items: center;
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                padding: 10px 30px;
+                font-size: 17px;
+                font-weight: 600;
+                border-bottom: 2px solid #1677ff;
+
+                .statistic-control {}
+            }
+        }
+
+        .suppliers-list {
+            width: 40%;
+        }
+    }
+
 }
