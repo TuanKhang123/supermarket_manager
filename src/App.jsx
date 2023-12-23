@@ -26,7 +26,7 @@ function App() {
           <Route path="/inventory-audit-detail/:id" element={<InventoryAuditDetail />}></Route>
           <Route path="/inventory-audit-info" element={<InventoryAuditInfo />}></Route>
 
-          <Route path="/register" element={<Register />}></Route>
+          {/* <Route path="/register" element={<Register />}></Route> */}
           <Route path="/import" element={<Import />}></Route>
         </Routes>
       </Router>
