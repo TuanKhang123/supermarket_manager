@@ -1,5 +1,5 @@
 import Home from "../../features/Home";
-import AdminLayout from "../../layout/Admin";
+import AdminLayout from "../../layout/Admin/index";
 
 
 
