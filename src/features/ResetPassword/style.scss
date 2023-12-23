@@ -1,8 +1,9 @@
 .resetpassword {
     height: 450px;
+    width: 60%;
     display: flex;
     background-color: #1677ff33;
-    margin: 0px 20rem;
+    margin: 7rem 19rem 0rem 19rem;
     border-radius: 30px;
     .resetpassword__left {
         width: 50%;
@@ -41,42 +42,11 @@
             padding: 0px 40px;
 
             .ant-form-item {
-                margin-bottom: 12px;
-            }
-
-            .ant-form-item-control {
-                flex: 1;
-            }
-
-            .ant-form-item-label {
-                text-align: start;
-                font-weight: 600;
+                margin-bottom: 16px;
             }
 
             .ant-form-item-label .ant-form-item-required {
                 font-size: 16px;
-            }
-
-            .ant-form-item-explain {
-                text-align: start;
-            }
-
-            .right__form-phonenumber {
-
-                .ant-form-item-row {
-                    flex-direction: column;
-                }
-
-                .ant-input {
-                    height: 40px;
-                }
-
-                .ant-form-item-control-input {
-
-                    border-radius: 7px;
-                }
-
-                
             }
 
             .right__form-password {
@@ -86,10 +56,6 @@
 
                 .ant-input {
                     height: 31px;
-                }
-
-                .ant-form-item-control-input {
-                    border-radius: 7px;
                 }
 
                 .ant-input-password {
