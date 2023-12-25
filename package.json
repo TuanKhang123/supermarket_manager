@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "supermarket_manager",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,12 +14,15 @@
     "@reduxjs/toolkit": "^2.0.1",
     "antd": "^5.12.5",
     "axios": "^1.6.2",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
+    "react-quill": "^2.0.0",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.1",
-    "react-toastify": "^9.1.3"
+    "react-toastify": "^9.1.3",
+    "use-debounce": "^10.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

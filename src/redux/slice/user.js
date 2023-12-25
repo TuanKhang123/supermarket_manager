@@ -16,6 +16,7 @@ const userSlice = createSlice({
                 getUserThunk.fulfilled,
                 (state, { payload }) => {
                     if (payload.data) {
+                        console.log(payload);
                         state.userCurrent = payload?.data;
                         state.accessToken = payload?.accessToken;
                     }

@@ -1,0 +1,35 @@
+.searchForm {
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    svg {
+      color: #1677ff;
+    }
+  }
+}
+.audit_infor_container {
+  .searchForm {
+    .search-container {
+      .searchForm-input {
+        flex-basis: 50%;
+      }
+      .searchForm-date {
+        flex-basis: 30%;
+        .ant-picker {
+          width: 100%;
+        }
+      }
+      .add-btn {
+        button {
+          color: #1677ff;
+          background-color: white;
+          border: 1px solid #1677ff;
+          &:hover {
+            color: white;
+            background-color: #1677ff;
+          }
+        }
+      }
+    }
+  }
+}
