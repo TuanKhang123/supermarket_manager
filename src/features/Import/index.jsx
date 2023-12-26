@@ -1,6 +1,6 @@
 import "./styles.scss";
-import { UploadOutlined } from "@ant-design/icons";
-import { Input, Select, Upload, Button, Table, Popconfirm, DatePicker } from "antd";
+import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Input, Select, Upload, Button, Table, Popconfirm, DatePicker, ConfigProvider } from "antd";
 import { EditableRow, EditableCell } from "./components/Edittable";
 import { useState } from "react";
 import dayjs from "dayjs";
@@ -94,7 +94,7 @@ export default function Import() {
             render: (_, record) =>
                 dataSource.length >= 1 ? (
                     <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-                        <a>Delete</a>
+                        <a><DeleteOutlined /></a>
                     </Popconfirm>
                 ) : null,
         },
@@ -134,7 +134,7 @@ export default function Import() {
                 <h4 className="import__field__title required">Receiving time</h4>
                 <h4 className="import__field__title required">Supplier code</h4>
                 <h4 className="import__field__title required">Provider</h4>
-                <DatePicker placeholder="dd/mm/yyyy" format="DD/MM/YYYY"/>
+                <DatePicker placeholder="dd/mm/yyyy" format="DD/MM/YYYY" />
                 <Input />
                 <Select
                     defaultValue="lucy"
@@ -162,16 +162,29 @@ export default function Import() {
             </div>
             <div className="import__card">
                 <Button style={{ marginBottom: "10px" }} type="primary" onClick={handleAdd}>Add Item</Button>
+                <ConfigProvider
+                    theme={{
 
-                <Table
-                    columns={cols} style={{ width: "100%" }}
-                    rowClassName={() => "editable-row"}
-                    components={components}
-                    dataSource={dataSource}
-                    pagination={{
-                        pageSize: 5,
+                        components: {
+                            Table: {
+                                headerBg: "#1677ff4d",
+                            },
+                        },
                     }}
-                />
+                >
+                    <Table
+                        title={() => <h3>Products List</h3>}
+                        columns={cols} style={{ width: "100%" }}
+                        rowClassName={() => "editable-row"}
+                        components={components}
+                        dataSource={dataSource}
+
+                        pagination={{
+                            pageSize: 5,
+                        }}
+                    />
+                </ConfigProvider>
+
             </div>
             <div className="import__card import__buttons_group">
                 <Button type="primary">Complete</Button>
