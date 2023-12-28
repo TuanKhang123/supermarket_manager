@@ -16,70 +16,73 @@ import InventoryAuditDetail from "./features/InventoryAuditDetail";
 // import { useEffect, useState } from "react";
 // import Title from "./components/Title";
 import { privateRouter, publicRouter } from "./config/routes";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserThunk } from "./redux/aciton/user";
+import { useEffect } from "react";
 
 function App() {
+  const auth = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  const accessToken = localStorage.getItem('accessToken');
-  const pathName = window.location.pathname
-  console.log(accessToken);
-  console.log(pathName);
+  if (auth.isLoading) {
+    dispatch(getUserThunk())
+    return <div></div>;
+  }
 
   return (
     <>
-
       <Router>
         <Routes>
-          {
-            publicRouter.map((routers) => {
-              return routers.map((route, index) => {
-
-                return (
-                  <Route path={route.path} element={route.element} key={index}>
-                    {
-                      route.children
-                        ? route.children.map(({ path, Component }, index) => {
-                          return (
-
-                            <Route
-                              path={path}
-                              element={<Component />}
-                              key={index}
-                            />
-                          );
-                        })
-                        : null
-                    }
-                  </Route>
-                );
-              });
-            })
-          }
 
           {
-            privateRouter.map((routers) => {
-              return routers.map((route, index) => {
-                console.log(route, index);
-                return route.role === "ADMIN" ? (
-                  // Admin Layout
-                  <Route path={route.path ? route?.path : null} element={route.element} key={index}>
+            !auth.accessToken
+              ? publicRouter.map((routers) => {
+                return routers.map((route, index) => {
 
-                    {
-                      route.children
-                        ? route.children.map(({ path, Component }, index) => {
-                          return (
-                            <Route
-                              path={path}
-                              element={<Component />}
-                              key={index}
-                            />
-                          );
-                        })
-                        : null
-                    }
-                  </Route>
-                ) : null;
-              });
-            })
+                  return (
+                    <Route path={route.path} element={route.element} key={index}>
+                      {
+                        route.children
+                          ? route.children.map(({ path, Component }, index) => {
+                            return (
+
+                              <Route
+                                path={path}
+                                element={<Component />}
+                                key={index}
+                              />
+                            );
+                          })
+                          : null
+                      }
+                    </Route>
+                  );
+                });
+              })
+
+              : privateRouter.map((routers) => {
+                return routers.map((route, index) => {
+                  return route.role === "ADMIN" ? (
+                    // Admin Layout
+                    <Route path={route.path ? route?.path : null} element={route.element} key={index}>
+
+                      {
+                        route.children
+                          ? route.children.map(({ path, Component }, index) => {
+                            return (
+                              <Route
+                                path={path}
+                                element={<Component />}
+                                key={index}
+                              />
+                            );
+                          })
+                          : null
+                      }
+                    </Route>
+                  ) : null;
+                });
+              })
           }
         </Routes>
       </Router>

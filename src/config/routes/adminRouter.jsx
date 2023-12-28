@@ -5,7 +5,12 @@ import InventoryAuditDetail from "../../features/InventoryAuditDetail";
 import InventoryAuditForm from "../../features/InventoryAuditForm";
 import InventoryAuditInfo from "../../features/InventoryAuditInfo";
 import AdminLayout from "../../layout/Admin/index";
-
+import Import from "../../features/Import";
+import ImportDetail from "../../features/ImportDetails/ImportDetail";
+import Inventory from "../../features/Inventory";
+import { AddProvider, ProviderHome } from "../../features/Provider";
+import ProductModifier from "../../features/ProductModifier";
+import { ShelveMap, TierList } from "../../features/ShelfManagement";
 
 
 const adminRouter = [
@@ -14,7 +19,7 @@ const adminRouter = [
         element: <AdminLayout></AdminLayout>,
         children: [
             {
-                path: '/home',
+                path: '/',
                 Component: Home
             },
             {
@@ -34,6 +39,36 @@ const adminRouter = [
                 Component: AccountInfo
             },
             {
+                path: "/import",
+                Component: Import
+            },
+            {
+                path: "/idetail",
+                Component: ImportDetail
+            },
+            {
+                path: "/inventory",
+                Component: Inventory
+            },
+            {
+                path: "/provider/add",
+                Component: AddProvider
+            },
+            {
+                path: "/provider",
+                Component: ProviderHome
+            },
+            {
+                path: "/product",
+                Component: ProductModifier
+            },
+            {
+                path: "/shelf",
+                Component: ShelveMap,
+            },
+            {
+                path: "/shelf/tier",
+                Component: TierList ,
                 path: '/account/form',  
                 Component: AccountForm
             },

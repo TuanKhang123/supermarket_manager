@@ -11,11 +11,58 @@
     overflow: visible;
 }
 
+.import__card+.import__card {
+    margin-top: 10px;
+}
+
+.import__buttons_group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
 .import__title {
     font-size: 20px;
     font-weight: 700;
     color: #1677FF;
 }
+
+.import__table__heading {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+}
+
+.import__table__heading.required {
+    &::after {
+        margin-left: 5px;
+        color: #FF0000;
+        content: "*";
+    }
+}
+
+.import__common {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 10px;
+    column-gap: 45px;
+}
+
+.import__field__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+}
+
+.import__field__title.required {
+    &::after {
+        margin-left: 5px;
+        color: #FF0000;
+        content: "*";
+    }
+}
+
+
 
 .import__card+.import__card {
     margin-top: 20px;
@@ -26,7 +73,7 @@
     font-weight: 700;
 }
 
-.import__field__title span{
+.import__field__title span {
     color: #FF0000;
     font-size: 15px;
     font-weight: 700;
