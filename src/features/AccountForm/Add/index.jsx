@@ -24,7 +24,7 @@ import {
   PlusOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import ReactQuill from "react-quill";z
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Option } from "antd/es/mentions";
 import ConfirmModalAntd from "../../../components/ConfirmModalAntd";

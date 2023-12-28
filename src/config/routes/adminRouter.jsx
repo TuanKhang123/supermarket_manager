@@ -1,3 +1,4 @@
+import AccountForm from "../../features/AccountForm/Add";
 import AccountInfo from "../../features/AccountInfo";
 import Home from "../../features/Home";
 import InventoryAuditDetail from "../../features/InventoryAuditDetail";
@@ -31,6 +32,10 @@ const adminRouter = [
             {
                 path: '/account',
                 Component: AccountInfo
+            },
+            {
+                path: '/account/form',  
+                Component: AccountForm
             },
 
         ]
