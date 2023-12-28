@@ -1,24 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getAllProductThunk } from "../aciton/product";
-import { getUserThunk } from "../aciton/user";
+import { getUserThunk, loginThunk, } from "../aciton/user";
 
 const userSlice = createSlice({
     name: "userSlice",
     initialState: {
         userCurrent: {},
-        accessToken: ''
+        accessToken: '',
+        isLoading: true,
     },
     reducers: {
     },
     extraReducers: (builder) => {
         builder
             .addCase(
-                getUserThunk.fulfilled,
+                loginThunk.fulfilled,
                 (state, { payload }) => {
                     if (payload.data) {
-                        console.log(payload);
                         state.userCurrent = payload?.data;
                         state.accessToken = payload?.accessToken;
+                    }
+                }
+            ).addCase(
+                getUserThunk.fulfilled,
+                (state, { payload }) => {
+                    state.isLoading = false;
+                    if (payload) {
+                        state.userCurrent = payload.data;
+                        state.accessToken = payload.token;
                     }
                 }
             )

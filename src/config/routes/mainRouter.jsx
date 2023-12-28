@@ -1,25 +1,16 @@
-import Import from "../../features/Import";
-import ImportDetail from "../../features/ImportDetails/ImportDetail";
-import Login from "../../features/Login";
 import ResetPassword from "../../features/ResetPassword";
+import Login from "../../features/Login";
+
 
 const mainRouter = [
     {
         path: "/",
-        element: <Login/>
+        element: <Login />
     },
     {
         path: "/resetpassword",
-        element: <ResetPassword/>
-    },
-    {
-        path: "/import",
-        element: <Import/>
-    },
-    {
-        path: "/idetail",
-        element: <ImportDetail/>
-    },
-] 
+        element: <ResetPassword />
+    }
+]
 
 export default mainRouter
