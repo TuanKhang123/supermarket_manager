@@ -36,11 +36,12 @@ const TableAntdCustom = ({
         columns={columns}
         dataSource={list}
         locale={{ emptyText }}
-        pagination={false}
+        pagination={true}
         bordered
         className={`table_content ${className ? className : ""}`}
       ></Table>
-      {list.length > 0 && pagination ? (
+
+      {/* {list.length > 0 && pagination ? (
         <div className={`table_pagination ${className ? className : ""}`}>
           <div className="table_pagination-totalText">{showTotal()}</div>
           <Pagination
@@ -53,7 +54,7 @@ const TableAntdCustom = ({
         </div>
       ) : (
         <></>
-      )}
+      )} */}
     </div>
   );
 };

@@ -13,6 +13,7 @@ import {
   Col,
   Row,
   Select,
+  Tag,
   DatePicker,
   Space,
   InputNumber,
@@ -24,11 +25,12 @@ import {
   PlusOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import ReactQuill from "react-quill";z
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Option } from "antd/es/mentions";
 import ConfirmModalAntd from "../../../components/ConfirmModalAntd";
 import registerPic from "../../../images/register.png";
+import { createAccountThunk } from "../../../redux/aciton/account";
 
 const AccountForm = () => {
   const dispatch = useDispatch();
@@ -36,9 +38,54 @@ const AccountForm = () => {
   const location = useLocation();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [sendData, setSendData] = useState();
   const stateData = location.state;
+
+  const tagRender = (props) => {
+    const { label, value, closable, onClose } = props;
+    const color = options.find(option => option.value === value)?.color;
+
+    return (
+      <Tag color={color} closable={closable} onClose={onClose} style={{ marginRight: 3 }}>
+        {label}
+      </Tag>
+    );
+  };
+
+  const options = [
+    {
+      color: 'gold',
+      value: 'hasWarehouse',
+      label: 'Warehouse'
+    },
+    {
+      color: 'lime',
+      value: 'hasShelf',
+      label: 'Shelf'
+
+    },
+    {
+      color: 'green',
+      value: 'hasSupply',
+      label: 'Supply'
+
+    },
+    {
+      color: 'pink',
+      value: 'hasAudit',
+      label: 'Audit'
+    },
+    {
+      color: 'red',
+      value: 'hasStatistic',
+      label: 'Statistic'
+    },
+    {
+      color: 'yellow',
+      value: 'hasCategory',
+      label: 'Category'
+    },
+   
+  ];
 
   const generatePassword = (length) => {
     const charset =
@@ -85,42 +132,49 @@ const AccountForm = () => {
       // Handle cancellation here or set state based on the cancellation flag
       // console.log("Modal was cancelled");
     }
-    setOpenModal(false);
   };
-  const handleOkModal = (value) => {
-    // value &&
-    //   dispatch(createProductThunk(value)).then((res) => {
-    //     if (res?.payload?.message === "successfully") {
-    //       toast.success("Thêm sân bóng thành công", {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         style: { color: "green", backgroundColor: "#D7F1FD" },
-    //       });
-    //       navigate("/manage/pitch");
-    //     } else {
-    //       toast.error("Thêm sân bóng thất bại", {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         style: { color: "red", backgroundColor: "#D7F1FD" },
-    //       });
-    //     }
-    //   });
-  };
+  
+
   const onFinish = (values) => {
-    setSendData({
+
+    const dataSend = {
       name: values.name.trim(),
       email: values.email.trim(),
       password: values.password,
       gender: values.gender,
       phone: values.phoneNumber,
-
-      position: values.position,
+    };
+    values?.permission.forEach(e => {
+      dataSend[e] = true;
     });
-    setOpenModal(true);
+    console.log(dataSend);
+    dispatch(createAccountThunk(dataSend))
+    .catch(err => console.log(err))  
+    .then(res => {
+      console.log(res);
+        if (res?.payload?.statusCode === "CREATED") {
+          toast.success('Register successfully', {
+            position: 'top-right',
+            autoClose: 3000,
+            style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+          });
+          navigate('/account')
+        }
+        else {
+          toast.error(res?.payload?.response?.data?.message, {
+            position: 'top-right',
+            autoClose: 3000,
+            style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+          });
+        }
+      })
+      
   };
+
+
   return (
     <div className="account-form_container">
-      <h4>Biểu mẫu tạo tài khoản</h4>
+      <h4>Register</h4>
 
       <Form
         name="dynamic_form_nest_item"
@@ -130,158 +184,37 @@ const AccountForm = () => {
           maxWidth: "100%",
         }}
         autoComplete="off"
-        onFieldsChange={(changeField, allFields) => {}}
+        onFieldsChange={(changeField, allFields) => { }}
       >
         <div className="form_content">
-          <Form.Item
-            className="staff_item name"
-            label="Họ và tên"
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập họ và tên",
-              },
-              {
-                pattern: new RegExp(
-                  /^[A-Za-zÀ-ỹẠ-ỹĂ-ắÂ-ẽÊ-ỷÔ-ỗƠ-ờƯ-ứĐđ]+( [A-Za-zÀ-ỹẠ-ỹĂ-ắÂ-ẽÊ-ỷÔ-ỗƠ-ờƯ-ứĐđ]+)*$/
-                ),
-                message: "Họ tên không hợp lệ",
-              },
-              {
-                validator: (_, value) => {
-                  if (value) {
-                    if (value.length < 2 || value.length > 64) {
-                      return Promise.reject(
-                        "Họ và tên phải có độ dài từ 2 đến 64 ký tự"
-                      );
-                    }
-                    if (value.trim() == "") {
-                      return Promise.reject("Vui lòng nhập họ và tên");
-                    }
-                    return Promise.resolve();
-                  } else if (!value || value == "") {
-                    return Promise.reject();
-                  }
-                },
-              },
-            ]}
-          >
-            <Input placeholder="Nhập họ và tên" />
-          </Form.Item>
-          <div className="position_email">
+          <div className="name_permiss">
             <Form.Item
-              className="staff_item type"
-              label="Vị trí"
-              name="position"
+              className="staff_item name"
+              label="Full name"
+              name="name"
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng chọn vị trí",
-                },
-              ]}
-            >
-              <Select
-                allowClear
-                placeholder="Lựa chọn vị trí"
-                options={[
-                  {
-                    value: "Intern",
-                    label: "Intern",
-                  },
-                  {
-                    value: "Fresher",
-                    label: "Fresher ",
-                  },
-                  {
-                    value: "Probation",
-                    label: "Probation",
-                  },
-                  {
-                    value: "Official",
-                    label: "Official",
-                  },
-                ]}
-              />
-            </Form.Item>
-            <Form.Item
-              className="staff_item email"
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập địa chỉ email",
+                  message: "Please enter your fullname",
                 },
                 {
-                  type: "email",
-                  message: "Địa chỉ email không hợp lệ",
-                },
-                {
-                  validator: (_, value) => {
-                    if (value && value.length <= 256 && value.trim() != "") {
-                      return Promise.resolve();
-                    } else {
-                      if (value && value.length > 256) {
-                        return Promise.reject("Vui lòng nhập tối đa 256 ký tự");
-                      }
-                      if (!value || value == "") {
-                        return Promise.reject();
-                      }
-                      if (value.trim() == "") {
-                        return Promise.reject("Vui lòng nhập họ và tên");
-                      }
-                    }
-                  },
-                },
-              ]}
-            >
-              <Input placeholder="Nhập email nhân viên" />
-            </Form.Item>
-          </div>
-          <div className="phone_pw">
-            <Form.Item
-              className="staff_item phone"
-              label="Số điện thoại"
-              name="phoneNumber"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập số điện thoại",
-                },
-                {
-                  pattern: new RegExp(/^[0-9]+$/),
-                  message: "Số điện thoại không hợp lệ",
+                  pattern: new RegExp(
+                    /^[A-Za-zÀ-ỹẠ-ỹĂ-ắÂ-ẽÊ-ỷÔ-ỗƠ-ờƯ-ứĐđ]+( [A-Za-zÀ-ỹẠ-ỹĂ-ắÂ-ẽÊ-ỷÔ-ỗƠ-ờƯ-ứĐđ]+)*$/
+                  ),
+                  message: "Fullname error",
                 },
                 {
                   validator: (_, value) => {
                     if (value) {
-                      if (value.trim() == "") {
-                        return Promise.reject("Vui lòng nhập họ và tên");
-                      }
-                      if (value.length < 9 || value.length > 10) {
+                      if (value.length < 2 || value.length > 64) {
                         return Promise.reject(
-                          "Số điện thoại phải có độ dài từ 9 đến 10 ký tự"
+                          "Full name must be between 2 and 64 characters long"
                         );
-                      } else {
-                        return value.length == 9
-                          ? value.charAt(0) == 1 ||
-                            value.charAt(0) == 0 ||
-                            value.charAt(0) == 2 ||
-                            value.charAt(0) == 4 ||
-                            value.charAt(0) == 6
-                            ? Promise.reject("Đầu số điện thoại không đúng")
-                            : Promise.resolve()
-                          : value.charAt(0) != 0
-                          ? Promise.reject("Đầu số điện thoại không đúng")
-                          : value.charAt(1) == 1 ||
-                            value.charAt(1) == 0 ||
-                            value.charAt(1) == 2 ||
-                            value.charAt(1) == 4 ||
-                            value.charAt(1) == 6
-                          ? Promise.reject("Đầu số điện thoại không đúng")
-                          : Promise.resolve();
                       }
+                      if (value.trim() == "") {
+                        return Promise.reject("Please enter your first and last name");
+                      }
+                      return Promise.resolve();
                     } else if (!value || value == "") {
                       return Promise.reject();
                     }
@@ -289,39 +222,97 @@ const AccountForm = () => {
                 },
               ]}
             >
-              <Input
-                placeholder="Số điện thoại bắt đầu với đầu số 03,05,07,09"
-                addonBefore="+84"
+              <Input placeholder="Enter full name" />
+            </Form.Item>
+
+            <Form.Item
+              className="staff_item gender"
+              label="Gender"
+              name="gender"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select gender",
+                },
+              ]}
+            >
+              <Select
+                allowClear
+                placeholder="Gender Selection"
+                options={[
+                  {
+                    value: 1,
+                    label: "Male",
+                  },
+                  {
+                    value: 0,
+                    label: "Female",
+                  },
+                ]}
               />
+            </Form.Item>
+
+          </div>
+
+          <div className="position_email">
+
+            <Form.Item
+              className="staff_item email"
+              label="Email address"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter email address",
+                },
+                {
+                  type: "email",
+                  message: "Email address is not valid",
+                },
+                {
+                  validator: (_, value) => {
+                    if (value && value.length <= 256 && value.trim() != "") {
+                      return Promise.resolve();
+                    } else {
+                      if (value && value.length > 256) {
+                        return Promise.reject("Please enter up to 256 characters");
+                      }
+                      if (!value || value == "") {
+                        return Promise.reject();
+                      }
+                      if (value.trim() == "") {
+                        return Promise.reject("Please enter your fullname");
+                      }
+                    }
+                  },
+                },
+              ]}
+            >
+              <Input placeholder="Enter email address" />
             </Form.Item>
 
             <Form.Item
               className="staff_item password"
               name="password"
-              label={
-                <>
-                  <p>Mật khẩu</p>{" "}
-                  <a onClick={() => handleGeneratePassword()}>Tạo mật khẩu</a>
-                </>
-              }
+              label='Password'
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập mật khẩu!",
+                  message: "Please enter a password!",
                 },
                 {
                   pattern: new RegExp(/^(?=.*[A-Z])(?=.*[0-9]).*$/),
-                  message: "Vui lòng nhập ít nhất 1 chữ in hoa và 1 chữ số",
+                  message: "Please enter at least 1 capital letter and 1 number",
                 },
                 {
                   validator: (_, value) => {
                     if (value) {
                       if (value.trim() === "") {
-                        return Promise.reject("Mật khẩu không được bỏ trống");
+                        return Promise.reject("Password cannot be left blank");
                       }
                       if (value.length < 6 || value.length > 32) {
                         return Promise.reject(
-                          "Mật khẩu phải có độ dài từ 6 đến 32 ký tự"
+                          "Password must be between 6 and 32 characters long"
                         );
                       }
                     }
@@ -331,45 +322,76 @@ const AccountForm = () => {
               ]}
               hasFeedback
             >
-              <Input.Password />
+              <Input.Password
+                placeholder="Enter password"
+              />
             </Form.Item>
           </div>
-          <div className="gender_confirmpw">
+
+          <div className="phone_pw">
             <Form.Item
-              className="staff_item gender"
-              label="Giới tính"
-              name="gender"
+              className="staff_item phone"
+              label="PhoneNumber"
+              name="phoneNumber"
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng chọn giới tính",
+                  message: "Please enter the phone number",
+                },
+                {
+                  pattern: new RegExp(/^[0-9]+$/),
+                  message: "Invalid phone number",
+                },
+                {
+                  validator: (_, value) => {
+                    if (value) {
+                      if (value.trim() == "") {
+                        return Promise.reject("Please enter your fullname");
+                      }
+                      if (value.length < 9 || value.length > 10) {
+                        return Promise.reject(
+                          "The phone number must be 9 to 10 characters long"
+                        );
+                      } else {
+                        return value.length == 9
+                          ? value.charAt(0) == 1 ||
+                            value.charAt(0) == 0 ||
+                            value.charAt(0) == 2 ||
+                            value.charAt(0) == 4 ||
+                            value.charAt(0) == 6
+                            ? Promise.reject("The phone number is incorrect")
+                            : Promise.resolve()
+                          : value.charAt(0) != 0
+                            ? Promise.reject("The phone number is incorrect")
+                            : value.charAt(1) == 1 ||
+                              value.charAt(1) == 0 ||
+                              value.charAt(1) == 2 ||
+                              value.charAt(1) == 4 ||
+                              value.charAt(1) == 6
+                              ? Promise.reject("The phone number is incorrect")
+                              : Promise.resolve();
+                      }
+                    } else if (!value || value == "") {
+                      return Promise.reject();
+                    }
+                  },
                 },
               ]}
             >
-              <Select
-                allowClear
-                placeholder="Lựa chọn giới tính"
-                options={[
-                  {
-                    value: 1,
-                    label: "Nam",
-                  },
-                  {
-                    value: 0,
-                    label: "Nữ",
-                  },
-                ]}
+              <Input
+                placeholder="Phone numbers start with 03,05,07,09"
+                addonBefore="+84"
               />
             </Form.Item>
             <Form.Item
               name="confirm"
-              label="Nhập lại mật khẩu"
+              label="Repeat Password"
               dependencies={["password"]}
               hasFeedback
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng xác nhận mật khẩu!",
+                  message: "Please confirm password!",
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
@@ -377,49 +399,68 @@ const AccountForm = () => {
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      new Error("Mật khẩu không trùng khớp!")
+                      new Error("Passwords do not match!")
                     );
                   },
                 }),
               ]}
             >
-              <Input.Password />
+              <Input.Password
+                placeholder="Enter password"
+              />
+            </Form.Item>
+
+          </div>
+
+          <div className="gender_confirmpw">
+
+            <Form.Item
+              className="staff_item permission"
+              label="Permission"
+              name="permission"
+              rules={[{ required: true, message: 'Please select an option!' }]}
+            >
+              <Select
+                mode="multiple"
+                tagRender={tagRender}
+                style={{
+                  width: '100%',
+                }}
+                placeholder="Select permission"
+                // defaultValue={['red']}
+                required
+                options={options}
+              />
             </Form.Item>
           </div>
         </div>
 
         <div className="buttonGroup">
-          <Form.Item className="checkBtn" name="continue">
-            <Checkbox
-              onChange={(e) => form.setFieldValue("continue", e.target.checked)}
-            >
-              Tiếp tục thêm ?
-            </Checkbox>
-          </Form.Item>
-          <Form.Item className="submitBtn finish">
+          <Form.Item>
             <Button
-              type="submit"
+              type="primary"
               htmlType="submit"
-              // onClick={() => !hadErrors && setOpenModal(true)}
+              style={{ width: '40%', fontSize: '17px' }}
             >
-              Hoàn thành
+              Create account
             </Button>
           </Form.Item>
 
           <Form.Item className="cancelBtn">
-            <Button type="button" onClick={() => navigate(`/account`)}>
-              Huỷ
+            <Button
+              style={{ width: '40%', fontSize: '17px' }}
+              type="default" onClick={() => navigate(`/account`)}>
+              Cancel
             </Button>
           </Form.Item>
         </div>
 
-        <ConfirmModalAntd
-          open={openModal}
+        {/* <ConfirmModalAntd
           onCancel={handleModalCancel}
           onOk={() => handleOkModal(sendData)}
-          header={`Hoàn thành thêm tài khoản`}
-          title={`Bạn có muốn thêm tài khoản ?`}
-        ></ConfirmModalAntd>
+          header={`Complete adding accounts`}
+          title={`Do you want to add an account?`}
+        ></ConfirmModalAntd> */}
       </Form>
 
       <div className="picture">

@@ -3,7 +3,7 @@ import './style.scss'
 import logo from '../../images/Login.png'
 import { Button, Checkbox, Form, Input, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
-import { getUserThunk } from '../../redux/aciton/user';
+import { loginThunk } from '../../redux/aciton/user';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const Login = () => {
         setIsModalOpen(true);
     };
 
-    
+
 
     const handleOk = () => {
         setIsModalOpen(false);
@@ -27,11 +27,10 @@ const Login = () => {
 
     const onFinish = (values) => {
         if (values) {
-            dispatch(getUserThunk({ email: values?.email, password: values?.password }))
+            dispatch(loginThunk({ email: values?.email, password: values?.password }))
                 .then((res) => {
                     if (res?.payload?.data) {
                         localStorage.setItem('accessToken', res?.payload?.accessToken);
-                        navigate('/home')
                         toast.success('Login successfully', {
                             position: 'top-right',
                             autoClose: 3000,
@@ -46,6 +45,7 @@ const Login = () => {
                         });
                     }
                 })
+                .catch(err => console.log(err))
         }
 
 

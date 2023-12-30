@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { HiUserGroup } from "react-icons/hi2";
 import { IoDocumentText } from "react-icons/io5";
 import { BsBuildingFillAdd } from "react-icons/bs";
+import { Pie } from '@ant-design/plots';
 const Home = () => {
 
     const { accessToken } = useSelector(state => state.user)
@@ -15,6 +16,38 @@ const Home = () => {
     const [chooseMonth, setChooseMonth] = useState()
     const [chooseYear, setChooseYear] = useState()
 
+    const config = {
+        data: [
+            { type: 'oppo', value: 27 },
+            { type: 'iphone', value: 25 },
+            { type: 'samsung', value: 18 },
+            { type: 'xiaomi', value: 15 },
+            { type: 'mac', value: 10 },
+            { type: 'laptop', value: 5 },
+        ],
+        angleField: 'value',
+        colorField: 'type',
+        paddingRight: 80,
+        innerRadius: 0.6,
+        label: {
+            text: 'value',
+            style: {
+                fontWeight: 'bold',
+            },
+        },
+        legend: {
+            color: {
+                title: true,
+                position: 'right',
+                rowPadding: 5,
+                text: {
+                    style: {
+                        fontSize: '20px',
+                    }
+                }
+            },
+        }
+    };
 
     const handleMonth = (value, option) => {
         setChooseMonth(option?.children);
@@ -86,68 +119,66 @@ const Home = () => {
                     </div>
                 </div>
 
+                <div className="statistic-control">
+                    <Select
+                        placeholder="Month"
+                        onChange={(value, option) => handleMonth(value, option)}
+                        allowClear
+                        className='control-month'
+                        value={chooseMonth}
+                    >
+                        {listMonth
+                            ? listMonth.map((item, i) => {
+                                return (
+                                    <Option
+                                        key={i}
+                                    >
+                                        {item}
+                                    </Option>
+                                )
+                            })
+                            : null}
+
+                    </Select>
+
+                    <Select
+                        placeholder="Year"
+                        onChange={(value, option) => handleYear(value, option)}
+                        allowClear
+                        className='control-year'
+                        value={chooseYear}
+                    >
+                        {listYear
+                            ? listYear.map((item, i) => {
+                                return (
+                                    <Option
+                                        key={i}
+                                    >
+                                        {item}
+                                    </Option>
+                                )
+                            })
+                            : null}
+
+                    </Select>
+                </div>
+
                 <div className="row-two">
                     <div className="invent-statistics">
 
-                        <div className="statistics-title">
+                        <div className="common_title">
                             <p className='statistics-text'>Inventory statistics</p>
-
-                            <div className="statistic-control">
-                                <Select
-                                    placeholder="Month"
-                                    onChange={(value, option) => handleMonth(value, option)}
-                                    allowClear
-                                    className='control-month'
-                                    value={chooseMonth}
-                                >
-                                    {listMonth
-                                        ? listMonth.map((item, i) => {
-                                            return (
-                                                <Option
-                                                    key={i}
-                                                >
-                                                    {item}
-                                                </Option>
-                                            )
-                                        })
-                                        : null}
-
-                                </Select>
-
-                                <Select
-                                    placeholder="Year"
-                                    onChange={(value, option) => handleYear(value, option)}
-                                    allowClear
-                                    className='control-year'
-                                    value={chooseYear}
-                                >
-                                    {listYear
-                                        ? listYear.map((item, i) => {
-                                            return (
-                                                <Option
-                                                    key={i}
-                                                >
-                                                    {item}
-                                                </Option>
-                                            )
-                                        })
-                                        : null}
-
-                                </Select>
-                            </div>
                         </div>
 
                         <div className="statistics-pie">
-                            {/* {
-                                cateRenevue?.length >= 1
-                                    ? <Pie {...configCate} />
-                                    : <Empty className='empty-month' />
-                            } */}
+                            {
+                                config ? <Pie {...config} /> : null
+                            }
                         </div>
                     </div>
 
                     <div className="suppliers-list">
-                        <div className="supplier-list__title">
+                        <div className="common_title">
                             Suppliers list
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import httpHandler from './axios';
 
 const API_DOMAIN = {
-  INTERNSHIP: "https://supermarketbe-production.up.railway.app"
+  INTERNSHIP: "https://wealthy-bite-production.up.railway.app"
 }
 
 function get(domain, url, config = {}) {

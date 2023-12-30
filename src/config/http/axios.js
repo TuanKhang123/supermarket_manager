@@ -7,9 +7,8 @@ const httpHandler = (baseURL) => {
 
   axiosHttp.interceptors.request.use(
     async function intercept(config) {
-      const sessionToken = sessionStorage.getItem('persist:root') && JSON.parse(JSON.parse(sessionStorage.getItem('persist:root'))?.auth)?.login?.currentUser?.token;
-      const localToken = localStorage.getItem('persist:root') && JSON.parse(JSON.parse(localStorage.getItem('persist:root'))?.auth).login?.currentUser?.token;
-      const token = sessionToken || localToken || null;
+      const localToken = localStorage.getItem("accessToken");
+      const token = localToken || null;
       const interceptedConfig = config;
       interceptedConfig.headers['Authorization'] = "Bearer " + token;
       return interceptedConfig;
@@ -24,7 +23,7 @@ const httpHandler = (baseURL) => {
       return response.data;
     },
     function interceptError(error) {
-      console.log(error)  
+      console.log(error)
       return (error)
     }
   );

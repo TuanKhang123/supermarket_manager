@@ -1,13 +1,12 @@
 import SideBar from "../../components/SideBar"
-import Title from "antd/es/skeleton/Title"
 import { Route, Router, Routes } from "react-router-dom"
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../components/Header";
+import Title from "../../components/Title";
 
 
 const AdminLayout = () => {
     const pathName = window.location.pathname // để chèn chữ vào trong title
-
     return (
         <div>
             <Header></Header>
@@ -18,27 +17,18 @@ const AdminLayout = () => {
                 </div>
 
                 <div className="body-right-access">
-                    <div className="right-title">
-                        < Title />
-                    </div>
+                    {
+                        (pathName === "/account/form" || pathName.includes('account-detail'))
+                            ? null
+                            : (
+                                <div className="right-title">
+                                    <Title />
+                                </div>
+                            )
+                    }
+
 
                     <div className="right-wrapper">
-                        {/* <Router >
-                            <div className="App">
-                                <Routes>
-
-                                    <Route path="/" element={<Home />} />
-                                    <Route path="/login" element={<Login />}></Route>
-                                    <Route path="/resetpassword" element={<ResetPassword />}></Route>
-
-                                    <Route path="/inventory-audit-form" element={<InventoryAuditForm />}></Route>
-                                    <Route path="/inventory-audit-detail/:id" element={<InventoryAuditDetail />}></Route>
-                                    <Route path="/inventory-audit-info" element={<InventoryAuditInfo />}></Route>
-                                    <Route path="/dashboard" element={<DashBoard />}></Route>
-
-                                </Routes>
-                            </div>
-                        </Router> */}
                         <Outlet />
                     </div>
                 </div>
