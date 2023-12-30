@@ -16,7 +16,7 @@ const Login = () => {
         setIsModalOpen(true);
     };
 
-    
+
 
     const handleOk = () => {
         setIsModalOpen(false);
@@ -45,6 +45,7 @@ const Login = () => {
                         });
                     }
                 })
+                .catch(err => console.log(err))
         }
 
 

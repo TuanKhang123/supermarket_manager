@@ -1,77 +1,114 @@
 .account-form_container {
-  margin: 80px;
+  position: relative;
+  margin: 0px 100px;
   border-radius: 10px;
-  border-left: 10px solid #1677ff;
-  border-top: 5px solid #1677ff;
+  border-left: 30px solid #1677ff;
+
   h4 {
-    background-color: #1677ff;
+    background-color: #1677ff;  
     text-align: right;
-    font-size: 25px;
-    padding: 0px 20px;
+    font-size: 22px;
+    color: white;
+    padding: 9px 40px;
+    border-radius: 0px 10px 10px 0px;
   }
-  > form {
-    padding: 15px;
+
+  >form {
+    padding: 15px 30px;
+
     .form_content {
       display: flex;
       justify-content: space-between;
       flex-direction: column;
     }
-    .staff_item .name {
-    }
+
     .position_email,
     .phone_pw,
-    .gender_confirmpw {
+    .name_permiss {
       display: flex;
       justify-content: space-between;
+
       .ant-form-item {
         flex-basis: 45%;
       }
     }
+
+    .gender_confirmpw {
+      .ant-select-selector {
+        padding: 5px 10px
+      }
+    }
+
+
+    .name_permiss {
+      .ant-select-selector {
+        // border: 1px solid #1677ff;
+        padding: 3px 10px;
+      }
+      
+    }
+
     .password {
       label {
         width: 100%;
         justify-content: space-between;
+
         &::before {
           left: 65px;
         }
+
         &::after {
           position: absolute;
           left: 68px;
         }
+
         a {
           z-index: 20;
         }
       }
     }
+
     .buttonGroup {
+      margin-top: 20px;
       display: flex;
-      justify-content: end;
+      flex-direction: column;
+      text-align: center;
       margin-bottom: 10px;
-      gap: 20px;
+
+      .ant-form-item {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
       button {
         font-size: 18px;
         height: auto;
       }
+
       .cancelBtn {
         button {
           // border: 1px solid #7d7d7d;
           color: #7d7d7d;
+
           &:hover {
             color: white !important;
             background-color: #1677ff;
           }
         }
       }
+
       .submitBtn {
         button {
           // border: 1px solid #1677FF;
           color: #1677ff;
+
           &:hover {
             color: white !important;
             background-color: #1677ff;
           }
         }
       }
+
       .checkBtn {
         span {
           font-style: italic;
@@ -83,10 +120,12 @@
       }
     }
   }
+
   .picture {
     position: absolute;
-    bottom: -30px;
-    left: 0px;
+    left: -100px;
+    bottom: -60px;
+
     img {
       width: 200px;
       height: 200px;
@@ -97,16 +136,20 @@
 .ant-form-item-row {
   display: flex;
   flex-direction: column;
+
   .ant-form-item-label {
     text-align: left;
+
     label {
       font-weight: 700;
     }
   }
 }
+
 .ant-form-horizontal .ant-form-item-control {
   flex: 1;
 }
+
 .ant-form-item-required {
   &::before {
     right: 1px;
@@ -114,6 +157,7 @@
     font-size: 11px !important;
     position: absolute;
   }
+
   &::after {
     right: -8px;
   }

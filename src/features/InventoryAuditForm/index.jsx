@@ -66,6 +66,15 @@ const InventoryAuditForm = () => {
     return false; // Allow file upload
   };
 
+  const onChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const onSearch = (value) => {
+    console.log('search:', value);
+  };
+  const filterOption = (input, option) =>
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
   const handleUploadChange = async (info) => {
     if (info.file.status === "done") {
       // File upload was successful
@@ -142,7 +151,6 @@ const InventoryAuditForm = () => {
   };
   return (
     <div className="audit-form_container">
-      <h4>Biểu mẫu kiểm kê hàng hoá</h4>
 
       <Form
         name="dynamic_form_nest_item"
@@ -158,65 +166,66 @@ const InventoryAuditForm = () => {
           <div className="checker_infor">
             <div className="audit_infor">
               <Form.Item
-                label={"Thời gian kiểm kê"}
+                label={"Audit time"}
                 className=""
                 name={"date"}
                 rules={[
                   {
-                    required: false,
-                    message: "Vui lòng chọn thời gian kiểm hàng",
+                    required: true,
+                    message: "Please choose a audit time",
                   },
                 ]}
               >
                 <DatePicker
                   // disabledDate={(d) => !d || d.isBefore(new Date())}
-                  placeholder="Chọn thời gian kiểm hàng"
+                  placeholder="Select audit time"
                   onChange={(value) => { }}
                 />
               </Form.Item>
+              
               <Form.Item
                 className="product_id"
-                label="Mã kiểm kê"
-                name="name"
+                label="Audit code"
+                name="audit_code"
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng nhập mã kiểm kê",
+                    message: "Please enter audit code",
                   },
                 ]}
               >
-                <Input placeholder="Nhập tên mã kiểm kê" />
+                <Input placeholder="Enter audit code" />
               </Form.Item>
               <Form.Item
                 className="product_id"
-                label="Nhân viên kiểm kê"
+                label="Audit staff"
                 name="name"
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng nhập tên nhân viên kiểm kê",
+                    message: "Please enter the audit staff's name",
                   },
                 ]}
               >
-                <Input placeholder="Nhập tên nhân viên kiểm kê" />
+                <Input placeholder="Enter the audit staff's name" />
               </Form.Item>
             </div>
             <div className="audit_description">
               <Form.Item
                 className="picture"
-                label="Chữ ký nhân viên kiểm kê"
+                label="Signature of audit clerk"
                 name={"upload"}
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng chọn chữ ký xác nhận",
+                    message: "Please select signature confirmation",
                   },
                   {
                     validator: (_, value) => {
                       if (value) {
                         if (value.fileList.length === 0) {
                           return Promise.reject(
-                            "Vui lòng chọn chữ ký xác nhận"
+                            "Please select signature confirmation"
                           );
                         } else {
                           return Promise.resolve();
@@ -236,34 +245,30 @@ const InventoryAuditForm = () => {
                   onChange={handleUploadChange} // Handle file addition to fileList
                 >
                   <Button icon={<CloudUploadOutlined />}>
-                    Tải hình lên{" "}
-                    <span className="img_allowText">{`Dạng file .jpg, .jpeg, .png, .heif dung lượng <= 25MB`}</span>
+                    Upload image{" "}
+                    <span className="img_allowText">{`Format file .jpg, .jpeg, .png, .heif capacity <= 25MB`}</span>
                   </Button>
                 </Upload>
               </Form.Item>
               <Form.Item
                 className="product_description"
-                label="Ghi chú"
+                label="Note"
                 name={"description"}
                 rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng nhập ghi chú",
-                  },
                   {
                     validator: (_, value) => {
                       if (value && value.trim()) {
                         if (value.trim() == "<p><br></p>") {
-                          return Promise.reject("Vui lòng nhập ghi chú");
+                          return Promise.reject("Please enter note");
                         }
                         if (value.trim().length > 500) {
                           return Promise.reject(
-                            "Vui lòng nhập tối đa 500 kí tự"
+                            "Please enter a maximum of 500 characters"
                           );
                         }
                         if (value.trim().length < 10) {
                           return Promise.reject(
-                            "Vui lòng nhập tối thiểu 10 kí tự"
+                            "Please enter a minimum of 10 characters"
                           );
                         }
                         return Promise.resolve();
@@ -274,9 +279,9 @@ const InventoryAuditForm = () => {
                   },
                 ]}
               >
-                <ReactQuill
+                <Input
                   rows={3}
-                  placeholder="Nhập thông tin mô tả dịch vụ"
+                  placeholder="Enter note"
                 />
               </Form.Item>
             </div>
@@ -317,7 +322,28 @@ const InventoryAuditForm = () => {
                               },
                             ]}
                           >
-                            <Select allowClear options={null}></Select>
+                            <Select
+                              showSearch
+                              placeholder="Select a person"
+                              optionFilterProp="children"
+                              onChange={onChange}
+                              onSearch={onSearch}
+                              filterOption={filterOption}
+                              options={[
+                                {
+                                  value: 'jack',
+                                  label: 'Jack',
+                                },
+                                {
+                                  value: 'lucy',
+                                  label: 'Lucy',
+                                },
+                                {
+                                  value: 'tom',
+                                  label: 'Tom',
+                                },
+                              ]}
+                            />
                           </Form.Item>
                           <Form.Item
                             {...field}
@@ -347,6 +373,7 @@ const InventoryAuditForm = () => {
                             ]}
                           >
                             <InputNumber
+                              min={1}
                               onKeyDown={(event) => {
                                 if (
                                   !(

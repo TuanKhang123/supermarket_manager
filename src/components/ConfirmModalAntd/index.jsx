@@ -36,14 +36,14 @@ const ConfirmModalAntd = ({
               className="custom-ok-button"
               onClick={handleOk}
             >
-              Hoàn thành
+              Complete
             </Button>,
             <Button
               key="cancel"
               className="custom-cancel-button"
               onClick={handleCancel}
             >
-              Hủy
+              Cancel
             </Button>,
           ]
         }

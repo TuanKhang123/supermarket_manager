@@ -11,6 +11,7 @@ import Inventory from "../../features/Inventory";
 import { AddProvider, ProviderHome } from "../../features/Provider";
 import ProductModifier from "../../features/ProductModifier";
 import { ShelveMap, TierList } from "../../features/ShelfManagement";
+import AccountDetail from "../../features/AccountForm/Update";
 
 
 const adminRouter = [
@@ -37,6 +38,14 @@ const adminRouter = [
             {
                 path: '/account',
                 Component: AccountInfo
+            },
+            {
+                path: '/account/form',
+                Component: AccountForm
+            },
+            {
+                path: '/account-detail/:id',
+                Component: AccountDetail
             },
             {
                 path: "/import",
@@ -68,10 +77,9 @@ const adminRouter = [
             },
             {
                 path: "/shelf/tier",
-                Component: TierList ,
-                path: '/account/form',  
-                Component: AccountForm
+                Component: TierList,
             },
+            
 
         ]
     },
