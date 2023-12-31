@@ -1,57 +1,48 @@
-.tier__wrapper {
+.compartment__wrapper {
     width: 100%;
     height: 100vh;
     padding-left: 25px;
     padding-right: 25px;
 }
 
-.tier__card {
+.compartment__card {
     box-shadow: #00000040 0px 4px 4px 0px;
     padding: 15px 28px;
     overflow: visible;
     border-radius: 4px;
 }
 
-.tier__title {
+.compartment__title {
     font-size: 20px;
     font-weight: 700;
     color: #1677FF;
 }
 
-.tier__card+.tier__card {
+.compartment__list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 40px;
+    row-gap: 52px;
+    margin-top: 36px;
+}
+
+.compartment__card+.compartment__card {
     margin-top: 20px;
 }
 
-.tier__node {
+.compartment__node {
     color: #7D7D7D;
     font-size: 20px;
     font-weight: 700;
-    cursor: pointer;
-    border-radius: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    &:hover {
-        background-color: #99999933;
-    }
 }
 
-.tier__leaf {
+.compartment__leaf {
     color: #1677FF;
     font-size: 20px;
     font-weight: 700;
-    cursor: default;
 }
 
-.tier__list {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    margin-top: 32px;
-    column-gap: 50px;
-    row-gap: 15px;
-}
-
-.tier__item {
+.compartment__item {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -62,20 +53,20 @@
     border: 3px solid #1677FF;
     position: relative;
 
-    & .tier__item__name {
+    & .compartment__item__name {
         color: #272626;
         text-align: center;
         font-size: 20px;
         font-weight: 700;
     }
 
-    & .tier__item__capacity {
+    & .compartment__item__capacity {
         color: #272626;
         font-size: 18px;
         font-weight: 400;
     }
 
-    & .tier__item__delete {
+    & .compartment__item__delete {
         color: red;
         position: absolute;
         right: 5px;
@@ -83,7 +74,7 @@
         cursor: pointer;
     }
 
-    & .tier__item__nav {
+    & .compartment__item__nav {
         position: absolute;
         right: 5px;
         bottom: 5px;

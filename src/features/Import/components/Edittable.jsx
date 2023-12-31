@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { DatePicker, Form, Input, Select } from "antd";
-import NumericInput from "./NumericInput";
+import { DatePicker, Form, Input, InputNumber, Select } from "antd";
 
 const EditableContext = React.createContext(null);
 
-const EditableRow = ({ index, ...props }) => {
+const EditableRow = ({ index, categories, ...props }) => {
     const [form] = Form.useForm();
     return (
         <Form form={form} component={false}>
-            <EditableContext.Provider value={form}>
+            <EditableContext.Provider value={{form, categories}}>
                 <tr {...props} />
             </EditableContext.Provider>
         </Form>
@@ -28,7 +27,7 @@ const EditableCell = ({
 }) => {
     const [editing, setEditing] = useState(false);
     const inputRef = useRef(null);
-    const form = useContext(EditableContext);
+    const {form, categories} = useContext(EditableContext);
     useEffect(() => {
         if (editing) {
             inputRef.current.focus();
@@ -48,7 +47,6 @@ const EditableCell = ({
                 ...record,
                 ...values,
             });
-            console.log(values);
         } catch (errInfo) {
             console.log("Save failed:", errInfo);
         }
@@ -70,7 +68,7 @@ const EditableCell = ({
             >
                 {
                     type === "num"
-                        ? <NumericInput ref={inputRef} onPressEnter={save} onBlur={save} />
+                        ? <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
                         : type === "date"
                             ? <DatePicker ref={inputRef} onBlur={save} onChange={save} format="DD/MM/YYYY" />
                             : type === "select"
@@ -82,20 +80,10 @@ const EditableCell = ({
                                     onChange={save}
                                     filterOption={(input, option) =>
                                         (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
-                                    options={[
-                                        {
-                                            value: "Jack",
-                                            label: "Jack",
-                                        },
-                                        {
-                                            value: "Lucy",
-                                            label: "Lucy",
-                                        },
-                                        {
-                                            value: "Tom",
-                                            label: "Tom",
-                                        },
-                                    ]}
+                                    options={categories.map((v, i) => ({
+                                        value: v.id,
+                                        label: v.name,
+                                    }))}
                                 />
                                 : <Input ref={inputRef} onPressEnter={save} onBlur={save} />
                 }

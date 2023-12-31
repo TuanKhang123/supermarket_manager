@@ -1,8 +1,29 @@
 import "./styles.scss";
 
 import { Breadcrumb } from "antd";
+import { UnorderedListOutlined } from "@ant-design/icons"
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { internshipTransport } from "../../../config/http/transport";
+import { toast } from "react-toastify";
 
 const TierList = () => {
+    const { shelfId } = useParams();
+    const [tiers, setTiers] = useState([]);
+    const navigate = useNavigate();
+
+    useState(_ => {
+        internshipTransport.get(`api/tiers/${shelfId}`)
+            .then((resp) => {
+                console.log(resp);
+                if (resp.statusCode === "OK") {
+                    setTiers(_=> resp.data);
+                } else {
+                    
+                }
+            });
+    });
+
     return (
         <div className="tier__wrapper">
             <div className="tier__card">
@@ -15,22 +36,38 @@ const TierList = () => {
                     separator={<h3 className="tier__node">{`>`}</h3>}
                     items={[
                         {
-                            title: "Shelf A1",
+                            title: "Shelf",
                             href: "/shelf",
                         },
                         {
-                            title: "Tier 1",
+                            title: `Shelf ${shelfId}`,
                         },
                     ]}
                     itemRender={
                         (route, params, routes, paths) => {
                             if (route.href) {
-                                return <a href={route.href} className="tier__node">{route.title}</a>
+                                return <div onClick={_ => navigate(route.href)} href={route.href} className="tier__node">{route.title}</div>
                             }
                             return <h3 className="tier__leaf">{route.title}</h3>
                         }
                     }
                 />
+                <div className="tier__list">
+                    {
+                        tiers.map((v, i) =>
+                            <div className="tier__item">
+                                <h3 className="tier__item__name">
+                                    {v.tierCode}
+                                </h3>
+                                <p className="tier__item__capacity">
+                                    {`In use: ${v.inUse * 100}%`}
+                                </p>
+                                <UnorderedListOutlined className="tier__item__nav" onClick={_=> navigate(`/shelf/${shelfId}/${v.tierCode}`)} />
+                            </div>
+                        )
+                    }
+                </div>
+
             </div>
         </div>
     );

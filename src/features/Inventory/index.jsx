@@ -2,9 +2,24 @@ import { Button, DatePicker, Input, Table, ConfigProvider } from "antd";
 import { SearchOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./styles.scss";
 import dayjs from "dayjs";
-
+import { useCallback, useEffect, useState } from "react";
+import { internshipTransport } from "../../config/http/transport";
+import { useNavigate } from "react-router-dom";
 
 const Inventory = () => {
+    const [input, setInput] = useState("");
+    const [data, setData] = useState([]);
+    const [range, setRange] = useState(null);
+    const navigate = useNavigate();
+
+    const onDelete = async (id) => {
+
+    }
+
+    const onChange = async (id) => {
+        
+    }
+
     const columns = [
         {
             title: "No.",
@@ -14,34 +29,34 @@ const Inventory = () => {
         },
         {
             title: "Category",
-            key: "category",
-            dataIndex: "category",
+            key: "categoryName",
+            dataIndex: "categoryName",
         },
         {
             title: "Supplier code",
-            key: "scode",
-            dataIndex: "scode",
+            key: "supplyCode",
+            dataIndex: "supplyCode",
         },
         {
             title: "Product code",
-            key: "pcode",
-            dataIndex: "pcode",
+            key: "productId",
+            dataIndex: "productId",
         },
         {
             title: "Batch code",
-            key: "bcode",
-            dataIndex: "bcode",
+            key: "batchCode",
+            dataIndex: "batchCode",
         },
         {
             title: "Quantity",
-            key: "qty",
-            dataIndex: "qty",
+            key: "inputQuantity",
+            dataIndex: "inputQuantity",
         },
         {
             title: "Receiving time",
-            key: "rtime",
-            dataIndex: "rtime",
-            render: (_, record) => record["rtime"].format("DD/MM/YYYY"),
+            key: "receivingTime",
+            dataIndex: "receivingTime",
+            render: (_, record) => dayjs(Date.parse(record["receivingTime"])).format("DD/MM/YYYY"),
         },
         {
             title: "Action",
@@ -68,72 +83,17 @@ const Inventory = () => {
         },
     ];
 
-    const data = [
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-        {
-            category: "Lmao",
-            scode: "Lmu",
-            pcode: "CC",
-            bcode: "Lmaooo",
-            qty: 10,
-            rtime: dayjs(),
-        },
-    ];
+    const search = useCallback(async () => {
+        const start = (range ? range[0] : dayjs(new Date(1975, 1, 1))).format("DD-MM-YYYY");
+        const end = (range ? range[1] : dayjs()).format("DD-MM-YYYY");
+        const searchStr = `api/products/all?search=${input}&page-number=1&limit=1&from=${start}&to=${end}`;
+        const reps = await internshipTransport.get(searchStr);
+        setData(_ => reps.data);
+    }, [input, range]);
+
+    useEffect(() => {
+        search();
+    }, [input, range]);
 
     return (
         <div className="inventory__wrapper">
@@ -142,9 +102,9 @@ const Inventory = () => {
             </div>
             <div className="inventory__card">
                 <div className="inventory__panel">
-                    <Input prefix={<SearchOutlined style={{ color: "#1677ff" }} />} placeholder="Search follow the supplier code" />
-                    <DatePicker format="DD/MM/YYYY" defaultValue={dayjs()} />
-                    <Button type="primary">
+                    <Input onChange={e => setInput(e.target.value)} value={input} prefix={<SearchOutlined style={{ color: "#1677ff" }} />} style={{ width: "50%" }} placeholder="Search follow the supplier code" />
+                    <DatePicker.RangePicker picker="date" format="DD/MM/YYYY" defaultValue={dayjs()} onChange={(v) => setRange(_=> v)} />
+                    <Button type="primary" onClick={_ => navigate("/import")}>
                         Add products
                     </Button>
                 </div>
@@ -158,8 +118,9 @@ const Inventory = () => {
                     }}
                 >
                     <Table
+
                         columns={columns}
-                        dataSource={data}
+                        dataSource={data || []}
                         bordered
                     />
                 </ConfigProvider>
