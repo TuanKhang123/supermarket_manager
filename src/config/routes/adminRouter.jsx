@@ -12,6 +12,7 @@ import { AddProvider, ProviderHome } from "../../features/Provider";
 import ProductModifier from "../../features/ProductModifier";
 import { ShelveMap, TierList } from "../../features/ShelfManagement";
 import AccountDetail from "../../features/AccountForm/Update";
+import Category from "../../features/Category";
 
 
 const adminRouter = [
@@ -79,7 +80,11 @@ const adminRouter = [
                 path: "/shelf/tier",
                 Component: TierList,
             },
-            
+            {
+                path: '/category',
+                Component: Category
+            },
+
 
         ]
     },

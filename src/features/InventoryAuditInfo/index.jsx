@@ -4,6 +4,7 @@ import SearchInventory from "./Search/search";
 import TableAntdCustom from "../../components/TableAntd";
 import AuditTableAction from "./Action";
 import moment from "moment";
+import { ConfigProvider, Table } from "antd";
 
 const InventoryAuditInfo = () => {
   const limit = 100;
@@ -85,7 +86,7 @@ const InventoryAuditInfo = () => {
       render: (_, __, index) => index + 1,
     },
     {
-      title: "Inventory code",
+      title: "Audit code",
       key: "inven_code",
       width: "10%",
       align: "center",
@@ -99,21 +100,21 @@ const InventoryAuditInfo = () => {
       render: (text) => text.proName,
     },
     {
-      title: "Name of inventory clerk",
+      title: "Name of audit clerk",
       key: "duration",
       width: "10%",
       align: "center",
       render: (text) => text.checkerDTO.fullName,
     },
     {
-      title: "Number of inventory items",
+      title: "Number of audit items",
       key: "duration",
       width: "10%",
       align: "center",
       render: (text) => text.numberChecked,
     },
     {
-      title: "Inventory time",
+      title: "Audit time",
       key: "typeId",
       width: "10%",
       align: "center",
@@ -139,7 +140,7 @@ const InventoryAuditInfo = () => {
         handleSubmit={handleSubmitSearch}
       ></SearchInventory>
 
-      <TableAntdCustom
+      {/* <TableAntdCustom
         list={listData}
         totalItems={listData?.totalItems}
         totalPages={listData?.totalPages}
@@ -149,7 +150,30 @@ const InventoryAuditInfo = () => {
         columns={columnsAudit}
         // className={"course"}
         emptyText="There is currently no inventory information"
-      ></TableAntdCustom>
+      ></TableAntdCustom> */}
+
+      <ConfigProvider
+        theme={{
+          components: {
+            Table: {
+              headerBg: "#1677ff4d",
+              borderColor: "#cccccc"
+            },
+          },
+        }}
+      >
+        <Table
+          columns={columnsAudit}
+          // dataSource={listData}
+          dataSource={listData}
+          bordered
+          className="table_content"
+          onChange={handlePageChange}
+          pagination={{
+            pageSize: limit,
+          }}
+        ></Table>
+      </ConfigProvider>
     </div>
   );
 };

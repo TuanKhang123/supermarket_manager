@@ -1,0 +1,43 @@
+.filter-category {
+    .search-container {
+        .ant-form-item-has-success {
+            min-width: 20% !important;
+        }
+
+    }
+
+
+}
+
+.modal-addcate {
+    
+    .ant-modal-header .ant-modal-title {
+        font-size: 20px;
+    }
+
+    .ant-modal-body .ant-form .ant-space-gap-row-small {
+        gap: 20px;
+
+    }
+
+    .ant-space-item:first-child {
+        width: 90%;
+    }
+    .ant-space-item:last-child {
+        margin-top: 10px;
+    }
+
+    .ant-form-item-control-input-content {
+        display: flex;
+        gap: 10px;
+    }
+
+    .detele-addcate svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .detele-addcate svg:hover {
+        color: #1677ff;
+    }
+}
