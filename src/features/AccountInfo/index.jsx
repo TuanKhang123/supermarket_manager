@@ -16,12 +16,9 @@ const AccountInfo = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [flagDelete, setFlagDelete] = useState(false);
   const { accountList } = useSelector(state => state.account)
-
   const handlePageChange = (page) => {
-    console.log(page);
     if (page != currentPage)
       setCurrentPage(page?.current);
-
   };
   const handleChangeSearch = (values) => {
     console.log(values);
@@ -128,7 +125,7 @@ const AccountInfo = () => {
         <Table
           columns={columnsAccount}
           // dataSource={listData}
-          dataSource={accountList?.accounts}
+          dataSource={accountList}
           bordered
           className="table_content"
           onChange={handlePageChange}

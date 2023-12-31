@@ -37,7 +37,6 @@ const AccountDetail = () => {
     const navigate = useNavigate();
     const { accountById } = useSelector(state => state.account)
     const { id } = useParams();
-    console.log(accountById);
     const [form] = Form.useForm();
 
     const [fileList, setFileList] = useState([]);
@@ -133,22 +132,24 @@ const AccountDetail = () => {
     };
 
     const onFinish = (values) => {
-        console.log(values);
+
         const dataSend = {
             status: flagBlock,
-            name: values.name.trim(),
-            gender: values.gender,
-            phone: values.phoneNumber,
-            // has_audit: accountById.hasAudit, // Gán trực tiếp từ accountById
-            // has_category: accountById.hasCategory,
-            // has_shelf: accountById.hasShelf,
-            // has_statistic: accountById.hasStatistic,
-            // has_supply: accountById.hasSupply,
-            // has_warehouse: accountById.hasWarehouse
+            name: values?.name.trim(),
+            gender: values?.gender,
+            phone: values?.phoneNumber,
+            hasAudit: values?.permission.includes('hasAudit'), // Gán trực tiếp từ accountById
+            hasCategory: values?.permission.includes('hasCategory'),
+            hasShelf: values?.permission.includes('hasShelf'),
+            hasStatistic: values?.permission.includes('hasStatistic'),
+            hasSupply: values?.permission.includes('hasSupply'),
+            hasWarehouse: values?.permission.includes('hasWarehouse'),
         };
-        
-        // dispatch(updateAccountThunk({ dataSend }))
-        console.log(dataSend);
+
+        dispatch(updateAccountThunk({ id: id, dataSend }))
+            .then(res => {
+                console.log(res);
+            })
     };
 
 

@@ -24,9 +24,13 @@ const Title = () => {
             case pathName === '/inventory-audit-form':
                 setTitlePage("Goods audit form")
                 break;
+            case pathName === '/category':
+                setTitlePage("Goods audit form")
+                break;
             case pathName.includes("inventory-audit-detail"):
                 setTitlePage("Update details audit")
                 break;
+
 
 
             default:

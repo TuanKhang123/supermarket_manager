@@ -4,7 +4,8 @@ const {
     getAllAccount,
     createAccount,
     getAccountById,
-    updateAccount
+    updateAccount,
+    deleteAccount
 } = account;
 
 
@@ -37,6 +38,15 @@ export const updateAccountThunk = createAsyncThunk(
     'account/updateAccount',
     async (data) => {
         const res = await updateAccount(data);
+        return res;
+    }
+);
+
+
+export const deleteAccountThunk = createAsyncThunk(
+    'account/deleteAccount',
+    async (data) => {
+        const res = await deleteAccount(data);
         return res;
     }
 );

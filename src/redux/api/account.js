@@ -3,7 +3,7 @@ import { internshipTransport } from "../../config/http/transport";
 
 const account = {
     getAllAccount: async (data) => {
-        let url = `/api/accounts?page-number=0&limit=10${data?.search ? `&search=${data?.search}` : ''}${data?.status ? `&status=${data?.status - 1}` : ''}`;
+        let url = `/api/accounts?${data?.search ? `&search=${data?.search}` : ''}${data?.status ? `&status=${data?.status - 1}` : ''}`;
         return internshipTransport.get(url);
     },
 
@@ -19,8 +19,15 @@ const account = {
     },
 
     updateAccount: async (data) => {
-        let url = `/api/accounts/${data?.id}`;
-        // return internshipTransport.post(url)
+        let url = `/api/accounts/update/${data?.id}`;
+        console.log(data?.dataSend);
+        return internshipTransport.put(url, data?.dataSend)
+    },
+
+    deleteAccount: async (data) => {
+        // let url = `/api/accounts/update/${data?.id}`;
+        // console.log(data?.dataSend);
+        // return internshipTransport.put(url, data?.dataSend)
     },
 
 

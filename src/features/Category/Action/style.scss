@@ -1,7 +1,6 @@
 .action_cover {
   width: 75%;
-  margin: 0px 200px;
-
+  margin: 0px auto;
   .action_item {
     box-sizing: border-box;
     display: flex;
@@ -26,13 +25,13 @@
     &:hover {
       // box-shadow: 0px 1px 0px #F3BD50;
       svg {
-        color: #f3bd50;
+        color: #1677ff;
       }
       p {
-        color: #f3bd50;
+        color: #1677ff;
       }
       a {
-        color: #f3bd50;
+        color: #1677ff;
       }
     }
   }
