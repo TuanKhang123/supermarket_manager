@@ -25,6 +25,8 @@ import moment from "moment";
 import { useDebounce } from "use-debounce";
 import { useDebouncedCallback } from "use-debounce";
 import { useThrottledCallback } from "use-debounce";
+const { RangePicker } = DatePicker;
+
 const SearchInventory = ({ handleSubmit, handleChange }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -35,7 +37,7 @@ const SearchInventory = ({ handleSubmit, handleChange }) => {
   const [debouncedSearchTerm] = useDebounce(filterData, 300);
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   useEffect(() => {
     let sendData = filterData;
     let keyWord = form.getFieldValue("name");
@@ -62,58 +64,49 @@ const SearchInventory = ({ handleSubmit, handleChange }) => {
         form={form}
       >
         <div className="search-container">
-          <Form.Item name="name" className="searchForm-input">
-            <Input
-              prefix={<SearchOutlined className="site-form-item-icon" />}
-              placeholder="Tìm kiếm "
-              allowClear
-              onChange={(e) =>
-                setFilterData((preData) => {
-                  return {
-                    ...preData,
-                    keyWord: e?.target?.value?.trim(),
-                  };
-                })
-              }
-            />
-          </Form.Item>
-          <Form.Item
-            className="searchForm-date"
-            name={"date"}
-            rules={[
-              {
-                required: false,
-                message: "Vui lòng chọn thời gian kiểm hàng",
-              },
-            ]}
-          >
-            <DatePicker
-              // disabledDate={(d) => !d || d.isBefore(new Date())}
-              placeholder="Chọn thời gian kiểm hàng"
-              onChange={(value) => {
-                setFilterData((prevData) => {
-                  return {
-                    ...prevData,
-                    date: value
-                      ? moment(new Date(value)).format("YYYY-MM-DD")
-                      : null,
-                  };
-                });
-              }}
-            />
-          </Form.Item>
+          <div style={{ display: 'flex', width: '70%', gap: '15px' }}>
+            <Form.Item name="name" className="searchForm-input">
+              <Input
+                prefix={<SearchOutlined className="site-form-item-icon" />}
+                placeholder="Search by inventory code, product name, ..."
+                allowClear
+                onChange={(e) =>
+                  setFilterData((preData) => {
+                    return {
+                      ...preData,
+                      keyWord: e?.target?.value?.trim(),
+                    };
+                  })
+                }
+              />
+            </Form.Item>
+
+            <Form.Item
+              className="searchForm-date"
+              name={"date"}
+              rules={[
+                {
+                  required: false,
+                  message: "Please choose a check-in time",
+                },
+              ]}
+            >
+              <RangePicker placeholder={["Import date start", "Import date end"]} />
+            </Form.Item>
+          </div>
+
           {/* <Form.Item className="employee-searchForm-btn">
             <Button type="primary" htmlType="submit">
               Tìm kiếm
             </Button>
           </Form.Item> */}
-          <Form.Item className="add-btn">
+          <Form.Item>
             <Button
               type="primary"
               htmlType="button"
               onClick={() => navigate("/inventory-audit-form")}
             >
-              Kiểm kê thêm
+              Add Audit
             </Button>
           </Form.Item>
         </div>

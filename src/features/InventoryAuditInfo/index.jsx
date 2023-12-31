@@ -17,6 +17,8 @@ const InventoryAuditInfo = () => {
         id: 1,
         fullName: "Nguyen Van A",
       },
+      invenCode: 'A123',
+      proName: 'CoCa 150ml',
       numberChecked: 10,
     },
     {
@@ -26,6 +28,8 @@ const InventoryAuditInfo = () => {
         id: 1,
         fullName: "Nguyen Van A",
       },
+      invenCode: 'A123',
+      proName: 'CoCa 150ml',
       numberChecked: 8,
     },
     {
@@ -35,6 +39,8 @@ const InventoryAuditInfo = () => {
         id: 1,
         fullName: "Nguyen Van A",
       },
+      invenCode: 'A123',
+      proName: 'CoCa 150ml',
       numberChecked: 4,
     },
     {
@@ -44,6 +50,8 @@ const InventoryAuditInfo = () => {
         id: 1,
         fullName: "Nguyen Van A",
       },
+      invenCode: 'A123',
+      proName: 'CoCa 150ml',
       numberChecked: 2,
     },
   ]);
@@ -70,34 +78,51 @@ const InventoryAuditInfo = () => {
   };
   const columnsAudit = [
     {
-      title: "Thông tin kiểm kê",
-      key: "typeId",
-      width: "10%",
+      title: "Num",
+      key: "number",
+      width: "5%",
       align: "center",
-      render: (text) =>
-        "#" +
-        text.id +
-        " - Ngày: " +
-        moment(new Date(text.date)).format("DD-MM-YYYY"),
+      render: (_, __, index) => index + 1,
     },
     {
-      title: "Tên nhân viên kiểm kê",
+      title: "Inventory code",
+      key: "inven_code",
+      width: "10%",
+      align: "center",
+      render: (text) => text.invenCode,
+    },
+    {
+      title: "Product name",
+      key: "product_name",
+      width: "15%",
+      align: "center",
+      render: (text) => text.proName,
+    },
+    {
+      title: "Name of inventory clerk",
       key: "duration",
       width: "10%",
       align: "center",
       render: (text) => text.checkerDTO.fullName,
     },
     {
-      title: "Số loại mặt hàng kiểm kê",
+      title: "Number of inventory items",
       key: "duration",
       width: "10%",
       align: "center",
       render: (text) => text.numberChecked,
     },
-
     {
-      title: "Hành động",
-      width: "12%",
+      title: "Inventory time",
+      key: "typeId",
+      width: "10%",
+      align: "center",
+      render: (text) =>
+        moment(new Date(text.date)).format("DD-MM-YYYY"),
+    },
+    {
+      title: "Action",
+      width: "10%",
       align: "center",
       render: (_, record) => (
         <AuditTableAction
@@ -109,11 +134,11 @@ const InventoryAuditInfo = () => {
   ];
   return (
     <div className="audit_infor_container">
-      Bảng quản lí kiểm kê hàng hóa
       <SearchInventory
         handleChange={handleChangeSearch}
         handleSubmit={handleSubmitSearch}
       ></SearchInventory>
+
       <TableAntdCustom
         list={listData}
         totalItems={listData?.totalItems}
@@ -123,7 +148,7 @@ const InventoryAuditInfo = () => {
         pageSize={limit}
         columns={columnsAudit}
         // className={"course"}
-        emptyText="Hiện chưa có thông tin kiểm kê"
+        emptyText="There is currently no inventory information"
       ></TableAntdCustom>
     </div>
   );

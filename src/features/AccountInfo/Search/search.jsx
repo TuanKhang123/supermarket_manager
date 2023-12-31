@@ -25,6 +25,8 @@ import moment from "moment";
 import { useDebounce } from "use-debounce";
 import { useDebouncedCallback } from "use-debounce";
 import { useThrottledCallback } from "use-debounce";
+import "./style.scss";
+
 const SearchAccount = ({ handleSubmit, handleChange }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -35,15 +37,22 @@ const SearchAccount = ({ handleSubmit, handleChange }) => {
   });
   const [debouncedSearchTerm] = useDebounce(filterData, 300);
   const dispatch = useDispatch();
-
-  useEffect(() => {}, []);
+  const options = [
+    {
+      value: 1,
+      label: 'Block',
+    },
+    {
+      value: 2,
+      label: 'Active',
+    }
+    
+  ]
+  useEffect(() => { }, []);
   useEffect(() => {
     let sendData = filterData;
     sendData.keyWord = form.getFieldValue("name")
       ? form.getFieldValue("name")
-      : null;
-    sendData.position = form.getFieldValue("position")
-      ? form.getFieldValue("position")
       : null;
     sendData.status = form.getFieldValue("status")
       ? form.getFieldValue("status")
@@ -68,83 +77,60 @@ const SearchAccount = ({ handleSubmit, handleChange }) => {
         form={form}
       >
         <div className="search-container">
-          <Form.Item name="name" className="searchForm-input">
-            <Input
-              prefix={<SearchOutlined className="site-form-item-icon" />}
-              placeholder="Tìm kiếm "
-              allowClear
-              onChange={(e) =>
-                setFilterData((preData) => {
-                  return {
-                    ...preData,
-                    keyWord: e?.target?.value?.trim(),
-                  };
-                })
-              }
-            />
-          </Form.Item>
-          <Form.Item
-            className="searchForm-select"
-            // label="Sản phẩm"
-            name={"status"}
-            rules={[
-              {
-                required: false,
-              },
-            ]}
-          >
-            <Select
-              allowClear
-              options={null}
-              placeholder={"Lọc trạng thái"}
-              onChange={(e) =>
-                setFilterData((preData) => {
-                  return {
-                    ...preData,
-                    status: e?.target?.value,
-                  };
-                })
-              }
-            ></Select>
-          </Form.Item>
-          <Form.Item
-            className="searchForm-select"
-            // label="Sản phẩm"
-            name={"position"}
-            rules={[
-              {
-                required: false,
-              },
-            ]}
-          >
-            <Select
-              allowClear
-              options={null}
-              placeholder={"Lọc vị trí"}
-              onChange={(e) =>
-                setFilterData((preData) => {
-                  return {
-                    ...preData,
-                    position: e?.target?.value,
-                  };
-                })
-              }
-            ></Select>
-          </Form.Item>
-          <Form.Item className="search-btn">
-            <Button type="primary" htmlType="submit">
-              Tìm kiếm
-            </Button>
-          </Form.Item>
+          <div style={{ display: 'flex', gap: '15px', width: '50%' }}>
+            <Form.Item name="name" className="searchForm-input">
+              <Input
+                prefix={<SearchOutlined className="site-form-item-icon" />}
+                placeholder="Search by username"
+                allowClear
+                onChange={(e) =>
+                  setFilterData((preData) => {
+                    return {
+                      ...preData,
+                      keyWord: e?.target?.value?.trim(),
+                    };
+                  })
+                }
+              />
+            </Form.Item>
+
+            <Form.Item
+              className="searchForm-select"
+              // label="Sản phẩm"
+              name={"status"}
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Select
+                allowClear
+                options={options}
+                placeholder={"Filter status"}
+                onChange={(e) =>
+                  setFilterData((preData) => {
+                    return {
+                      ...preData,
+                      status: e?.target?.value,
+                    };
+                  })
+                }
+              ></Select>
+
+            </Form.Item>
+          </div>
+
           <Form.Item className="add-btn">
             <Button
               type="primary"
               htmlType="button"
               onClick={() => navigate("/account/form")}
             >
-              Tạo tài khoản
+              Create account
             </Button>
           </Form.Item>
+
         </div>
       </Form>
     </>

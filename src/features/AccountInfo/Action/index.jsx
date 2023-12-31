@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./style.scss";
-import { EyeOutlined, DeleteFilled } from "@ant-design/icons";
+import { DeleteFilled, EditOutlined } from "@ant-design/icons";
 import ConfirmModalAntd from "../../../components/ConfirmModalAntd";
 import { toast } from "react-toastify";
 
@@ -42,17 +42,17 @@ const AccountTableAction = ({ data, flagDelete }) => {
   return (
     <div className="action_cover">
       <div className="action_item">
-        <EyeOutlined />
+      <EditOutlined />
         <Link
-          to={`/inventory-audit-detail/${data.id}`}
+          to={`/account-detail/${data.id}`}
           onClick={handleEditClick}
         >
-          Chỉnh sửa
+          Edit detail
         </Link>
       </div>
       <div className="action_item" onClick={() => handleOpenModal()}>
         <DeleteFilled />
-        <a>Xoá</a>
+        <a>Delete</a>
       </div>
       {/* {data?.statusDTO?.id === 1 && (
       )} */}
@@ -60,8 +60,8 @@ const AccountTableAction = ({ data, flagDelete }) => {
         open={openModal}
         onCancel={handleModalCancel}
         onOk={handleOk}
-        header={"Xoá thông tin tài khoản"}
-        title={"Bạn có muốn xoá tài khoản này"}
+        header={"Delete account information"}
+        title={"Do you want to delete this account?"}
         content={""}
       ></ConfirmModalAntd>
     </div>
