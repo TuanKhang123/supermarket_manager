@@ -1,6 +1,6 @@
-import { Button, DatePicker, Input, Table, ConfigProvider } from "antd";
-import { SearchOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./styles.scss";
+import { Button, DatePicker, Input, Table, ConfigProvider } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import { internshipTransport } from "../../config/http/transport";
@@ -58,29 +58,6 @@ const Inventory = () => {
             dataIndex: "receivingTime",
             render: (_, record) => dayjs(Date.parse(record["receivingTime"])).format("DD/MM/YYYY"),
         },
-        {
-            title: "Action",
-            key: "act",
-            dataIndex: "act",
-            render: () => <div className="inventory__actionsgroup">
-                <Button
-                    type="text"
-                    icon={<EditOutlined style={{ color: "#1677FF" }} />}
-                    onClick={onclick}
-                >
-                    Edit detail
-                </Button>
-                <Button
-                    danger
-                    type="text"
-                    icon={<DeleteOutlined style={{ color: "#FF0000" }} />}
-                    onClick={onclick}
-                >
-                    Delete
-                </Button>
-
-            </div>,
-        },
     ];
 
     const search = useCallback(async () => {
@@ -97,9 +74,6 @@ const Inventory = () => {
 
     return (
         <div className="inventory__wrapper">
-            <div className="inventory__card">
-                <h2 className="inventory__title">Inventory receiving table</h2>
-            </div>
             <div className="inventory__card">
                 <div className="inventory__panel">
                     <Input onChange={e => setInput(e.target.value)} value={input} prefix={<SearchOutlined style={{ color: "#1677ff" }} />} style={{ width: "50%" }} placeholder="Search follow the supplier code" />

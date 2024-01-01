@@ -41,11 +41,6 @@ const ShelveMap = () => {
     return (
         <div className="smap__wrapper">
             <div className="smap__card">
-                <h2 className="smap__title">
-                    Shelf arrangement
-                </h2>
-            </div>
-            <div className="smap__card">
                 <Input
                     prefix={<SearchOutlined style={{ color: "#1677FF" }} />}
                     placeholder="Search follow the shelf code"
@@ -71,7 +66,7 @@ const ShelveMap = () => {
                 </div>
             </div>
             <div className="smap__card">
-                <Button type="default" style={{ paddingLeft: "100px", paddingRight: "100px", height: "40px" }}>
+                <Button type="default" style={{ paddingLeft: "100px", paddingRight: "100px", height: "40px" }} onClick={_=> navigate("/shelf/add")}>
                     <h2 className="smap__buttonadd__content">
                         + More shelf
                     </h2>

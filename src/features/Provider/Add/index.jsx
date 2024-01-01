@@ -32,11 +32,6 @@ const AddProvider = () => {
     return (
         <div className="aprovider__wrapper">
             <div className="aprovider__card">
-                <h2 className="aprovider__title">
-                    Provider Form
-                </h2>
-            </div>
-            <div className="aprovider__card">
                 <Form onFinish={onFinish}>
                     <div className="aprovider__form">
                         <h3 className="aprovider__field__title required">

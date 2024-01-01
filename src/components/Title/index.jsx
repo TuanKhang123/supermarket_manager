@@ -30,9 +30,15 @@ const Title = () => {
             case pathName.includes("inventory-audit-detail"):
                 setTitlePage("Update details audit")
                 break;
-
-
-
+            case pathName.includes("/shelf/add"):
+                setTitlePage("Add shelf");
+                break;
+            case pathName.includes("/shelf"):
+                setTitlePage("Shelf arrangement");
+                break;
+            case pathName.includes("/inventory"):
+                setTitlePage("Inventory management");
+                break;
             default:
                 setTitlePage("")
                 break;

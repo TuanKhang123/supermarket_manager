@@ -195,7 +195,7 @@ const Compartment = () => {
             if (selected.length === 0 || selected[0].productId === item.productId) {
                 setSelected(prev => [...prev, item]);
             } else {
-                toast.info("Product must be the same!");
+                toast.info("Products must be the same!");
             }
         }
     }

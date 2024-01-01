@@ -126,9 +126,6 @@ const ProviderHome = () => {
             }}
         >
             <div className="provider__wrapper">
-                <div className="provider__card" style={{ marginBottom: "30px" }}>
-                    <h2 className="provider__title">Supplier Management</h2>
-                </div>
                 <div className="provider__splitter">
                     <div className="provider__card">
                         <div className="provider__section__heading">

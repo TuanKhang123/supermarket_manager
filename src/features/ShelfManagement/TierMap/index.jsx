@@ -5,7 +5,6 @@ import { UnorderedListOutlined } from "@ant-design/icons"
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { internshipTransport } from "../../../config/http/transport";
-import { toast } from "react-toastify";
 
 const TierList = () => {
     const { shelfId } = useParams();
@@ -26,11 +25,6 @@ const TierList = () => {
 
     return (
         <div className="tier__wrapper">
-            <div className="tier__card">
-                <h2 className="tier__title">
-                    Shelf arrangement
-                </h2>
-            </div>
             <div className="tier__card">
                 <Breadcrumb
                     separator={<h3 className="tier__node">{`>`}</h3>}
