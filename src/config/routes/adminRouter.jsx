@@ -95,7 +95,8 @@ const adminRouter = [
             {
                 path: "/shelf/:shelfId/:tierId",
                 Component: Compartment,
-            }
+            },
+            {
                 path: '/category',
                 Component: Category
             },
