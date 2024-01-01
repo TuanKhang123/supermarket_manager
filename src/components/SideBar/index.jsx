@@ -54,7 +54,7 @@ const SideBar = () => {
                 navigate('/inventory-audit-info')
                 break;
             case '6':
-                navigate()
+                navigate('/category')
                 break;
             case '7':
                 navigate('/provider')

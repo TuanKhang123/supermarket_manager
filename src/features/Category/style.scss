@@ -10,7 +10,15 @@
   }
 }
 
-.audit_infor_container {
+
+
+.category_infor_container {
+  .table_content {
+    .action_cover {
+      margin:  0px -85px 0px 55px
+    }
+  }
+
   .searchForm {
     .search-container {
       .searchForm-input {
@@ -19,6 +27,7 @@
 
       .searchForm-date {
         flex-basis: 35%;
+
         .ant-picker {
           border: 1px solid #1677ff;
 
@@ -43,4 +52,6 @@
       }
     }
   }
+
+
 }

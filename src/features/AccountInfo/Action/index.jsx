@@ -19,30 +19,13 @@ const AccountTableAction = ({ data, flagDelete }) => {
     }
     setOpenModal(false);
   };
-  const handleEditClick = () => {};
+  const handleEditClick = () => { };
   const handleOk = () => {
-    // dispatch(deleteBookingThunk(data.id)).then((res) => {
-    //   console.log(res);
-    //   if (res?.payload?.message === "successfully") {
-    //     toast.success("Xoá lịch đặt sân thành công", {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       style: { color: "$color-default", backgroundColor: "#DEF2ED" },
-    //     });
-    //     flagDelete(true);
-    //   } else {
-    //     toast.error("Xoá lịch đặt sân thất bại", {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       style: { color: "$color-default", backgroundColor: "#DEF2ED" },
-    //     });
-    //   }
-    // });
   };
   return (
     <div className="action_cover">
       <div className="action_item">
-      <EditOutlined />
+        <EditOutlined />
         <Link
           to={`/account-detail/${data.id}`}
           onClick={handleEditClick}
@@ -50,10 +33,10 @@ const AccountTableAction = ({ data, flagDelete }) => {
           Edit detail
         </Link>
       </div>
-      <div className="action_item" onClick={() => handleOpenModal()}>
+      {/* <div className="action_item" onClick={() => handleOpenModal()}>
         <DeleteFilled />
         <a>Delete</a>
-      </div>
+      </div> */}
       {/* {data?.statusDTO?.id === 1 && (
       )} */}
       <ConfirmModalAntd
