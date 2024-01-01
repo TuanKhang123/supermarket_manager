@@ -1,10 +1,14 @@
 import "./styles.scss";
 
 import { Breadcrumb, Button, ConfigProvider, Input, Modal, Table } from "antd";
-import { CloseOutlined, ArrowDownOutlined, SearchOutlined, DeleteOutlined } from "@ant-design/icons";
+import { CloseOutlined, UnorderedListOutlined, SearchOutlined, DeleteOutlined, FolderAddOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { internshipTransport } from "../../../config/http/transport";
+import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
-const CompartmentDetail = () => {
+const CompartmentDetail = ({data, shelfId, tierId, onClear}) => {
 
     const entries = [
         {
@@ -13,7 +17,7 @@ const CompartmentDetail = () => {
         },
         {
             name: "Category",
-            key: "category",
+            key: "categoryName",
         },
         {
             name: "Product code",
@@ -51,15 +55,13 @@ const CompartmentDetail = () => {
                 separator={<h3 className="tier__node">{`>`}</h3>}
                 items={[
                     {
-                        title: "Shelf A1",
-                        href: "/shelf",
+                        title: `Shelf (${shelfId})`,
                     },
                     {
-                        title: "Tier 1",
-                        href: "/shelf/tier",
+                        title: `Tier (${tierId})`,
                     },
                     {
-                        title: "Compartment 1",
+                        title: data.compartmentCode,
                     },
                 ]}
                 itemRender={
@@ -77,46 +79,79 @@ const CompartmentDetail = () => {
                         entries.map((value, index) => (
                             <tr key={value.key} >
                                 <td>{value.name}</td>
-                                <td>{value.name}</td>
+                                <td>{data[value.key] || "Undefined"}</td>
                             </tr>
                         ))
                     }
                 </tbody>
             </table>
-            <Button icon={<DeleteOutlined />}>Clear Compartment</Button>
+            <Button onClick={onClear} icon={<DeleteOutlined />}>Clear Compartment</Button>
         </div>
     );
 }
 
 const Compartment = () => {
-    const {shelfId, tierId} = useParams();
+    const { shelfId, tierId } = useParams();
+    const [compartment, setCompartment] = useState([]);
+    const [selected, setSelected] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [input, setInput] = useState("");
+    const [data, setData]= useState(null);
+
+    const addProduct = (productId, compartments) => {
+        internshipTransport.post("api/products/add-to-shelf", {
+            compartmentIds: compartments,
+            tierId: tierId,
+            productId: productId,
+        })
+        .then(resp => {
+            if (resp.statusCode === "OK") {
+                toast.success("Successfully");
+            } else {
+                toast.error("Failed!");
+            }
+        });
+    }
+
+    const onClearCompartment = (compartmentId) => {
+        if (compartmentId) {
+            internshipTransport.put(`api/compartments/clear/${compartmentId}`)
+            .then(resp => {
+                if (resp.statusCode === "OK") {
+                    toast.success("Successfully");
+                } else {
+                    toast.error("Failed!");
+                }
+            });
+        }
+    }
 
     const columns = [
         {
             key: "no",
             title: "No.",
             dataIndex: "no",
-            render: (text, record, index) => "1",
+            render: (text, record, index) => 1,
         },
         {
-            key: "category",
+            key: "categoryName",
             title: "Category",
-            dataIndex: "category",
+            dataIndex: "categoryName",
         },
         {
-            key: "name",
+            key: "productName",
             title: "Product name",
-            dataIndex: "name",
+            dataIndex: "productName",
         },
         {
-            key: "code",
+            key: "productCode",
             title: "Product code",
-            dataIndex: "code",
+            dataIndex: "productCode",
         },
         {
-            key: "qty",
+            key: "inputQuantity",
             title: "Quantity",
-            dataIndex: "qty",
+            dataIndex: "inputQuantity",
         },
         {
             key: "sqty",
@@ -124,25 +159,62 @@ const Compartment = () => {
             dataIndex: "sqty",
         },
         {
-            key: "exp",
+            key: "receivingTime",
             title: "Expire day",
-            dataIndex: "exp",
+            dataIndex: "receivingTime",
+            render: (text, record, index) => dayjs(Date.parse(record["receivingTime"]))
         },
         {
             key: "action",
             title: "Action",
             dataIndex: "action",
+            render: (text, record, index) => <Button type="text" icon={<FolderAddOutlined style={{color: "#1677ff"}} />} onClick={_=> addProduct(record["productId"], selected)}>Add</Button>
         },
     ];
+
+    useState(_ => {
+        Promise.all([
+            internshipTransport.get(`api/compartments/${tierId}`),
+            internshipTransport.get(`http://localhost:8080/api/products/all?search=&page-number=1&limit=1&from=11-11-2023&to=${dayjs().format("DD-MM-YYYY")}`)
+        ])
+            .then((resp) => {
+                if (resp[0].statusCode === "OK") {
+                    setCompartment(_ => resp[0].data);
+                }
+                if (resp[1].statusCode === "OK") {
+                    setProducts(_ => resp[1].data);
+                }
+            });
+    }, []);
+
+    const onSelected = (item) => {
+        if (selected.includes(item)) {
+            setSelected(prev => prev.filter((v, i) => v.compartmentId !== item.compartmentId));
+
+        } else {
+            if (selected.length === 0 || selected[0].productId === item.productId) {
+                setSelected(prev => [...prev, item]);
+            } else {
+                toast.info("Product must be the same!");
+            }
+        }
+    }
+
+    const onViewDetail = (item, e) => {
+        e.stopPropagation();
+        setData(_=> item);
+    }
+
+    const onFilter = (product, input) => {
+        const idMatched = product.productId == input;
+        const cateMatched = product.categoryName ? product.categoryName.includes(input) : false;
+        const nameMatched = product.productName ? product.productName.includes(input) : false;
+        return idMatched || cateMatched || nameMatched;
+    }
 
     return (
         <>
             <div className="compartment__warpper">
-                <div className="compartment__card">
-                    <h2 className="compartment__title">
-                        Shelf arrangement
-                    </h2>
-                </div>
                 <div className="compartment__card">
                     <Breadcrumb
                         separator={<h3 className="tier__node">{`>`}</h3>}
@@ -153,7 +225,7 @@ const Compartment = () => {
                             },
                             {
                                 title: `Shelf (${shelfId})`,
-                                href: `/shelf/${shelfId}}`,
+                                href: `/shelf/${shelfId}`,
                             },
                             {
                                 title: `Tier (${tierId})`,
@@ -169,36 +241,50 @@ const Compartment = () => {
                         }
                     />
                     <div className="compartment__list">
-                        <div className="compartment__item">
-                            <h3 className="compartment__item__name">
-                                Shelf 2
-                            </h3>
-                            <p className="compartment__item__capacity">
-                                In use: 100%
-                            </p>
-                            <CloseOutlined className="compartment__item__delete" />
-                            <ArrowDownOutlined className="compartment__item__nav" rotate={-45} />
-                        </div>
+                        {
+                            compartment.map((v, i) =>
+                                <div className={`compartment__item${selected.includes(v) ? " selected" : ""}`} onClick={e => onSelected(v)}>
+                                    <h3 className="compartment__item__name">
+                                        {
+                                            v.compartmentCode
+                                        }
+                                    </h3>
+                                    <p className="compartment__item__capacity">
+                                        {
+                                            `${v.productName || "Unknown"}: ${v.currentQuantity}`
+                                        }
+                                    </p>
+                                    <UnorderedListOutlined className="compartment__item__nav" onClick={e => onViewDetail(v, e)} />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="compartment__card">
-                    <Input prefix={<SearchOutlined style={{ color: "#1677FF" }} />} />
-                    <ConfigProvider>
-                        <Table
-                            theme={{
-                                components: {
-                                    Table: {
-                                        headerBg: "#1677ff4d",
-                                    },
+
+                    <ConfigProvider
+                        theme={{
+                            components: {
+                                Table: {
+                                    headerBg: "#1677ff4d",
                                 },
-                            }}
-                            columns={columns}
-                        />
+                            },
+                        }}
+                    >
+                        <>
+                            <div style={{ width: "50%", marginBottom: "16px" }}>
+                                <Input prefix={<SearchOutlined style={{ color: "#1677FF" }} />} value={input} onChange={e => setInput(_=> e.target.value)} placeholder="Search Product name" />
+                            </div>
+                            <Table
+                                dataSource={products.filter((v) => onFilter(v, input))}
+                                columns={columns}
+                            />
+                        </>
                     </ConfigProvider>
                 </div>
             </div>
-            <Modal open={true} footer={null} closeIcon={<CloseOutlined style={{color: "red"}}/>}>
-                <CompartmentDetail />   
+            <Modal open={data != null} footer={null} closeIcon={<CloseOutlined style={{ color: "red" }} onClick={() => setData(_=> null)} />}>
+                <CompartmentDetail data={data} shelfId={shelfId} tierId={tierId} onClear={_=> onClearCompartment(data.compartmentId)} />
             </Modal>
         </>
     );

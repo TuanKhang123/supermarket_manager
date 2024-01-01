@@ -66,6 +66,10 @@
         font-weight: 400;
     }
 
+    &.selected {
+        background-color: #1677ff4d;
+    }
+
     & .compartment__item__delete {
         color: red;
         position: absolute;
