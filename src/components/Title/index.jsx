@@ -12,7 +12,6 @@ const Title = () => {
                 setTitlePage("Dashboard")
                 break;
             // account
-
             case pathName === '/account':
                 setTitlePage("Accounts Management")
                 break;
