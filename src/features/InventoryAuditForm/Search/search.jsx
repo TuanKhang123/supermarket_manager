@@ -34,7 +34,7 @@ import { useThrottledCallback } from "use-debounce";
 import "./style.scss";
 import { createCategoryThunk, getAllCategoryThunk } from "../../../redux/aciton/category";
 
-const SearchCategory = ({ handleSubmit, handleChange }) => {
+const SearchAuditForm = ({ handleSubmit, handleChange }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [addCategoryForm] = Form.useForm();
@@ -134,11 +134,11 @@ const SearchCategory = ({ handleSubmit, handleChange }) => {
         form={form}
       >
         <div className="search-container">
-          <div style={{ display: 'flex', gap: '15px', width: '100%' }}>
+          <div style={{ gap: '15px', width: '30%' }}>
             <Form.Item name="name" className="searchForm-input">
               <Input
                 prefix={<SearchOutlined className="site-form-item-icon" />}
-                placeholder="Search by name category"
+                placeholder="Search Product by name, category,..."
                 allowClear
                 onChange={(e) =>
                   setFilterData((preData) => {
@@ -151,16 +151,6 @@ const SearchCategory = ({ handleSubmit, handleChange }) => {
               />
             </Form.Item>
           </div>
-
-          <Form.Item >
-            <Button
-              type="primary"
-              htmlType="button"
-              onClick={() => handleAddCate()}
-            >
-              Add category
-            </Button>
-          </Form.Item>
 
         </div>
       </Form>
@@ -242,4 +232,4 @@ const SearchCategory = ({ handleSubmit, handleChange }) => {
   );
 };
 
-export default SearchCategory;
+export default SearchAuditForm;

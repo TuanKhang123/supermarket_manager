@@ -134,7 +134,7 @@ const SearchCategory = ({ handleSubmit, handleChange }) => {
         form={form}
       >
         <div className="search-container">
-          <div style={{ display: 'flex', gap: '15px', width: '100%' }}>
+          <div style={{ display: 'flex', gap: '15px', width: '50%' }}>
             <Form.Item name="name" className="searchForm-input">
               <Input
                 prefix={<SearchOutlined className="site-form-item-icon" />}

@@ -9,8 +9,8 @@ const {
 
 export const getAllCategoryThunk = createAsyncThunk(
     'category/getAllCategory',
-    async () => {
-        const res = await getAllCategory();
+    async (data) => {
+        const res = await getAllCategory(data);
         return res;
     }
 );

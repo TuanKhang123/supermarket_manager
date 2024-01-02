@@ -3,6 +3,7 @@ import productSlice from './slice/product';
 import userSlice from './slice/user';
 import accountSlice from './slice/account';
 import categorySlice from './slice/category';
+import auditSlice from './slice/audit';
 
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
     product: productSlice.reducer,
     account: accountSlice.reducer,
     category: categorySlice.reducer,
+    audit: auditSlice.reducer,
   },
 });
 

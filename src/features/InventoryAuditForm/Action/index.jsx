@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./style.scss";
-import { EditOutlined, DeleteFilled } from "@ant-design/icons";
+import { FolderAddOutlined } from "@ant-design/icons";
 import ConfirmModalAntd from "../../../components/ConfirmModalAntd";
 import { toast } from "react-toastify";
 
-const AuditTableAction = ({ data, flagDelete }) => {
+const AuditTableAction = ({ data, flagDelete, handleAdd }) => {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => {
@@ -19,8 +19,7 @@ const AuditTableAction = ({ data, flagDelete }) => {
     }
     setOpenModal(false);
   };
-  const handleEditClick = (data) => {
-    // console.log(data?.inventoryId);
+  const handleEditClick = () => {
 
   };
   const handleOk = () => {
@@ -29,26 +28,22 @@ const AuditTableAction = ({ data, flagDelete }) => {
   return (
     <div className="action_cover">
       <div className="action_item">
-        <EditOutlined />
-        <Link
-          to={`/inventory-audit-detail/${data.inventoryId}`}
-          onClick={handleEditClick}
+        <FolderAddOutlined />
+        <a
+          onClick={() => handleAdd(data)}
         >
-          Edit detail
-        </Link>
+          Add
+        </a>
       </div>
-      <div className="action_item" onClick={() => handleOpenModal()}>
-        <DeleteFilled />
-        <a>Delete</a>
-      </div>
+
       {/* {data?.statusDTO?.id === 1 && (
       )} */}
       <ConfirmModalAntd
         open={openModal}
         onCancel={handleModalCancel}
         onOk={handleOk}
-        header={"Delete audit information"}
-        title={"Do you want to delete this information?"}
+        header={"Xoá thông tin kiểm kê"}
+        title={"Bạn có muốn xoá thông tin này"}
         content={""}
       ></ConfirmModalAntd>
     </div>

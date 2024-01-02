@@ -31,13 +31,12 @@ const Title = () => {
                 setTitlePage("Update details audit")
                 break;
 
-
-
             default:
                 setTitlePage("")
                 break;
         }
     }, [pathName])
+
     return (
         <div className='title'>
             {titlePage}

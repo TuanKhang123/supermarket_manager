@@ -1,7 +1,7 @@
 import "./styles.scss";
 import { UploadOutlined, DeleteOutlined, CalendarOutlined } from "@ant-design/icons";
 import { Input, Select, Upload, Button, Table, Popconfirm, DatePicker, ConfigProvider } from "antd";
-import { EditableRow, EditableCell} from "./components/Edittable";
+import { EditableRow, EditableCell } from "./components/Edittable";
 import { useState } from "react";
 import dayjs from "dayjs";
 
@@ -140,7 +140,7 @@ export default function Import() {
                 <h4 className="import__field__title required">Receiving time</h4>
                 <h4 className="import__field__title required">Supplier code</h4>
                 <h4 className="import__field__title required">Provider</h4>
-                <DatePicker placeholder="dd/mm/yyyy" format="DD/MM/YYYY" suffixIcon={<CalendarOutlined style={{color: "red"}}/>} />
+                <DatePicker placeholder="dd/mm/yyyy" format="DD/MM/YYYY" suffixIcon={<CalendarOutlined style={{ color: "red" }} />} />
                 <Input />
                 <Select
                     defaultValue="lucy"
