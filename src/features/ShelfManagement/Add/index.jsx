@@ -3,6 +3,7 @@ import { Button, InputNumber, Select, Input, Space, Form, ConfigProvider } from 
 import { DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { internshipTransport } from "../../../config/http/transport";
+import { toast } from "react-toastify";
 
 const AddShelf = () => {
     const [tiers, setTiers] = useState([10]);
@@ -17,14 +18,28 @@ const AddShelf = () => {
         internshipTransport.get("/api/categories/all")
             .then(resp => {
                 if (resp.statusCode === "OK") {
-                    console.log(resp.data);
                     setCategories(_ => resp.data);
                 }
             });
     }, []);
 
     const onSubmit = (values) => {
-        
+        const body = {
+            shelfCode: values.shelfCode,
+            categoryId: values.categoryId,
+            tiers: tiers.map((v, i) => ({
+                NumberOfCompartment: values[`tier0${i}`],
+            }))
+        }
+
+        internshipTransport.post("/api/shelves/create", body)
+            .then(resp => {
+                if (resp.statusCode === "OK") {
+                    toast.success("Successfully!");
+                } else {
+                    toast.error("Error!");
+                }
+            });
     }
 
     return (
@@ -86,6 +101,7 @@ const AddShelf = () => {
                                         <Space.Compact >
                                             <Form.Item
                                                 name={`tier0${index}`}
+                                                initialValue={10}
                                                 rules={[
                                                     {
                                                         required: true,

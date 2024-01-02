@@ -56,7 +56,7 @@ const ShelveMap = () => {
                                     {v.shelfCode}
                                 </h3>
                                 <p className="shelf__item__capacity">
-                                    {`In use: ${(v.inUse * 100).toFixed()}%`}
+                                    {`In use: ${v.inUse}%`}
                                 </p>
                                 <CloseOutlined className="shelf__item__delete" onClick={_ => onDelete(v.shelfId)} />
                                 <ArrowDownOutlined className="shelf__item__nav" rotate={-45} onClick={_=> onNavigate(v.shelfId)}/>

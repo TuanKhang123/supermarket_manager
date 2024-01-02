@@ -154,15 +154,15 @@ const Compartment = () => {
             dataIndex: "inputQuantity",
         },
         {
-            key: "sqty",
+            key: "shelfArrangeQnt",
             title: "Shelf arrange quantity",
-            dataIndex: "sqty",
+            dataIndex: "shelfArrangeQnt",
         },
         {
             key: "receivingTime",
             title: "Expire day",
             dataIndex: "receivingTime",
-            render: (text, record, index) => dayjs(Date.parse(record["receivingTime"]))
+            render: (text, record, index) => dayjs(Date.parse(record["receivingTime"])).format("DD-MM-YYYY")    
         },
         {
             key: "action",
@@ -182,7 +182,8 @@ const Compartment = () => {
                     setCompartment(_ => resp[0].data);
                 }
                 if (resp[1].statusCode === "OK") {
-                    setProducts(_ => resp[1].data);
+                    console.log(resp[1]);
+                    setProducts(_ => resp[1].data.filter((v, i) => !v.isDisable));
                 }
             });
     }, []);
