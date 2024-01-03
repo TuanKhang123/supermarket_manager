@@ -2,7 +2,7 @@ import { Input } from "antd";
 import { forwardRef } from "react";
 
 const NumericInput = forwardRef((props, ref) => {
-    const { value, onChange, onBlur} = props;
+    const { value, onChange, onBlur } = props;
     const handleChange = (e) => {
         const { value: inputValue } = e.target;
         const reg = /^-?\d*(\.\d*)?$/;

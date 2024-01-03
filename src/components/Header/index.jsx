@@ -10,15 +10,15 @@ const Header = () => {
     const { userCurrent } = useSelector(state => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+
     const onConfirm = () => {
         dispatch(logout());
-        navigate("/");
+        navigate("/login");
     }
 
     return (
         <div className='header'>
-            <div className="header__username">{userCurrent.name}</div>
+            <div className="header__username">{userCurrent?.name}</div>
 
             <Popconfirm
                 title="Logout"
@@ -26,7 +26,7 @@ const Header = () => {
                 onConfirm={onConfirm}
                 okText="Yes"
                 cancelText="No">
-                <Avatar size="large" icon={<UserOutlined />} style={{ backgroundColor: "#87d068", border: "1px solid #999" }} />
+                <Avatar size="large" icon={<UserOutlined />} style={{ backgroundColor: "#87d068", border: "1px solid #999", zIndex: '2' }} />
             </Popconfirm>
         </div>
     )

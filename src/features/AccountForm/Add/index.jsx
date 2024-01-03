@@ -84,7 +84,7 @@ const AccountForm = () => {
       value: 'hasCategory',
       label: 'Category'
     },
-   
+
   ];
 
   const generatePassword = (length) => {
@@ -130,10 +130,9 @@ const AccountForm = () => {
   const handleModalCancel = (cancelled) => {
     if (cancelled) {
       // Handle cancellation here or set state based on the cancellation flag
-      // console.log("Modal was cancelled");
     }
   };
-  
+
 
   const onFinish = (values) => {
 
@@ -147,11 +146,9 @@ const AccountForm = () => {
     values?.permission.forEach(e => {
       dataSend[e] = true;
     });
-    console.log(dataSend);
     dispatch(createAccountThunk(dataSend))
-    .catch(err => console.log(err))  
-    .then(res => {
-      console.log(res);
+      .catch(err => console.log(err))
+      .then(res => {
         if (res?.payload?.statusCode === "CREATED") {
           toast.success('Register successfully', {
             position: 'top-right',
@@ -168,7 +165,7 @@ const AccountForm = () => {
           });
         }
       })
-      
+
   };
 
 

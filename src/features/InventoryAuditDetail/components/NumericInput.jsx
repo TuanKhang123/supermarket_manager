@@ -2,7 +2,7 @@ import { Input } from "antd";
 import { forwardRef } from "react";
 
 const NumericInput = forwardRef((props, ref) => {
-    const { value, onChange, onBlur} = props;
+    const { value, onChange, onBlur } = props;
     const handleChange = (e) => {
         const { value: inputValue } = e.target;
         const reg = /^-?\d*(\.\d*)?$/;
@@ -12,6 +12,7 @@ const NumericInput = forwardRef((props, ref) => {
     };
 
     // "." at the end or only "-" in the input box.
+    console.log("num");
     const handleBlur = () => {
         let valueTemp = value;
         if (value.charAt(value.length - 1) === "." || value === "-") {

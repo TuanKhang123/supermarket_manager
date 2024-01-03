@@ -30,7 +30,7 @@ import "react-quill/dist/quill.snow.css";
 import { Option } from "antd/es/mentions";
 import ConfirmModalAntd from "../../../components/ConfirmModalAntd";
 import registerPic from "../../../images/register.png";
-import { getAccountByIdThunk, updateAccountThunk } from "../../../redux/aciton/account";
+import { blockAccountThunk, getAccountByIdThunk, unblockAccountThunk, updateAccountThunk } from "../../../redux/aciton/account";
 
 const AccountDetail = () => {
     const dispatch = useDispatch();
@@ -126,18 +126,18 @@ const AccountDetail = () => {
     const handleModalCancel = (cancelled) => {
         if (cancelled) {
             // Handle cancellation here or set state based on the cancellation flag
-            // console.log("Modal was cancelled");
         }
         setOpenModal(false);
     };
 
+
     const onFinish = (values) => {
 
         const dataSend = {
-            status: flagBlock,
             name: values?.name.trim(),
             gender: values?.gender,
             phone: values?.phoneNumber,
+            password: '',
             hasAudit: values?.permission.includes('hasAudit'), // Gán trực tiếp từ accountById
             hasCategory: values?.permission.includes('hasCategory'),
             hasShelf: values?.permission.includes('hasShelf'),
@@ -146,9 +146,30 @@ const AccountDetail = () => {
             hasWarehouse: values?.permission.includes('hasWarehouse'),
         };
 
-        dispatch(updateAccountThunk({ id: id, dataSend }))
+        dispatch(updateAccountThunk({ id: parseInt(id), dataSend }))
             .then(res => {
-                console.log(res);
+                if (res?.payload?.statusCode === "OK") {
+                    toast.success('Update successfully', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                        style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+                    });
+                    if (flagBlock !== accountById.status) {
+                        flagBlock === 0
+                            ? dispatch(blockAccountThunk({ id: id })).then((res) => navigate('/account'))
+                            : dispatch(unblockAccountThunk({ id: id })).then((res) => navigate('/account'))
+                    }
+                    else {
+                        navigate('/account')
+                    }
+                }
+                else {
+                    toast.error(res?.payload?.response?.data?.message, {
+                        position: 'top-right',
+                        autoClose: 3000,
+                        style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+                    });
+                }
             })
     };
 

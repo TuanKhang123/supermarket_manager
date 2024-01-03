@@ -24,7 +24,6 @@ const AccountInfo = () => {
     console.log(values);
     dispatch(getAllAccountThunk({ status: values?.status, search: values?.keyWord }))
 
-
   };
   const handleSubmitSearch = (values) => {
     console.log(values);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../SideBar/style.scss'
 import {
     PieChartOutlined,
@@ -12,27 +12,69 @@ import { Menu } from 'antd';
 import { AiOutlineAudit } from "react-icons/ai";
 import { MdManageAccounts } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
-function getItem(label, key, icon, children, type) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    };
-}
-const items = [
-    getItem('Home Page', '1', <HomeOutlined />),
-    getItem('Accounts Management', '2', <MdAccountCircle />),
-    getItem('Inventory Management', '3', <MdOutlineInventory />),
-    getItem('Shelf Management', '4', <MdShelves />),
-    getItem('Inventory Audit', '5', <AiOutlineAudit />),
-    getItem('Category Management', '6', <PieChartOutlined />),
-    getItem('Supplier Management ', '7', <MdManageAccounts />),
-];
-const SideBar = () => {
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserThunk } from '../../redux/aciton/user';
 
+const SideBar = () => {
+    const { userCurrent } = useSelector(state => state.user)
+    console.log(userCurrent);
+    const location = useLocation();
+    const pathName = location.pathname;
+    const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     // dispatch(getUserThunk())
+    // }, [])
+    function getItem(label, key, icon, children, type) {
+        return {
+            key,
+            icon,
+            children,
+            label,
+            type,
+        };
+    }
+    function getFirstAvailableItemKey(userCurrent) {
+        // if (userCurrent?.hasStatistic)
+            return '1';
+        return '2'; // Mục 'Accounts Management' luôn có sẵn
+        // Nếu có thêm logic cho các mục khác, bạn có thể thêm vào đây
+    }
+
+
+    useEffect(() => {
+        if (pathName) {
+            // if ()
+        }
+    }, [pathName])
+    const defaultKey = getFirstAvailableItemKey(userCurrent);
+    console.log(userCurrent);
+    const items = [
+        // userCurrent?.hasStatistic && 
+        // userCurrent?.hasStatistic && 
+        getItem('Home Page', '1', <HomeOutlined />),
+        userCurrent?.role === "ADMIN" && getItem('Accounts Management', '2', <MdAccountCircle />),
+        userCurrent?.hasWarehouse && getItem('Inventory Management', '3', <MdOutlineInventory />),
+        userCurrent?.hasShelf && getItem('Shelf Management', '4', <MdShelves />),
+        userCurrent?.hasAudit && getItem('Inventory Audit', '5', <AiOutlineAudit />),
+        userCurrent?.hasCategory && getItem('Category Management', '6', <PieChartOutlined />),
+        userCurrent?.hasSupply && getItem('Supplier Management ', '7', <MdManageAccounts />),
+    ];
+
+    // const [items, setItems] = useState([])
+
+    // useEffect(() => {
+    //     setItems(
+    //         userCurrent?.hasStatistic && getItem('Home Page', '1', <HomeOutlined />),
+    //         userCurrent?.role === "ADMIN" && getItem('Accounts Management', '2', <MdAccountCircle />),
+    //         userCurrent?.hasWarehouse && getItem('Inventory Management', '3', <MdOutlineInventory />),
+    //         userCurrent?.hasShelf && getItem('Shelf Management', '4', <MdShelves />),
+    //         userCurrent?.hasAudit && getItem('Inventory Audit', '5', <AiOutlineAudit />),
+    //         userCurrent?.hasCategory && getItem('Category Management', '6', <PieChartOutlined />),
+    //         userCurrent?.hasSupply && getItem('Supplier Management ', '7', <MdManageAccounts />),
+    //     )
+    // }, [userCurrent])
     const navigate = useNavigate()
 
     const onClick = (e) => {
@@ -71,7 +113,7 @@ const SideBar = () => {
             style={{
                 width: 256,
             }}
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={[defaultKey]}
             defaultOpenKeys={['sub1']}
             mode="inline"
             items={items}

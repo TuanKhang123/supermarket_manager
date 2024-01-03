@@ -13,28 +13,24 @@ const account = {
     },
 
     createAccount: async (data) => {
-        console.log(data);
         let url = `/api/accounts/create-staff-account`;
         return internshipTransport.post(url, data)
     },
 
     updateAccount: async (data) => {
         let url = `/api/accounts/update/${data?.id}`;
-        console.log(data?.dataSend);
-        return internshipTransport.put(url, data?.dataSend)
+        return internshipTransport.put(url, data?.dataSend);
     },
 
-    deleteAccount: async (data) => {
-        // let url = `/api/accounts/update/${data?.id}`;
-        // console.log(data?.dataSend);
-        // return internshipTransport.put(url, data?.dataSend)
+    blockAccount: async (data) => {
+        let url = `/api/accounts/block/${data?.id}`;
+        return internshipTransport.post(url);
     },
 
-
-
-
-
-
+    unblockAccount: async (data) => {
+        let url = `/api/accounts/unblock/${data?.id}`;
+        return internshipTransport.post(url);
+    },
 
 }
 export default account

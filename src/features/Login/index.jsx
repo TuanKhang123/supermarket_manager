@@ -30,13 +30,13 @@ const Login = () => {
             dispatch(loginThunk({ email: values?.email, password: values?.password }))
                 .then((res) => {
                     if (res?.payload?.data) {
-                        console.log(res?.payload?.data);
                         localStorage.setItem('accessToken', res?.payload?.accessToken);
                         toast.success('Login successfully', {
                             position: 'top-right',
                             autoClose: 3000,
                             style: { color: '#32a852', backgroundColor: '#D7F1FD' },
                         });
+                        navigate('/')
                     }
                     else {
                         toast.error('Login fail', {
@@ -53,8 +53,6 @@ const Login = () => {
     };
 
     const onFinishModal = (values) => {
-        // console.log(values);
-        // setIsModalOpen(false);
 
     }
 

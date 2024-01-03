@@ -1,33 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAccountByIdThunk, getAllAccountThunk } from "../aciton/account";
+import { getAllAuditThunk, getAuditByIdThunk } from "../aciton/audit";
 
-const accountSlice = createSlice({
-    name: "accountSlice",
+const auditSlice = createSlice({
+    name: "auditSlice",
     initialState: {
-        accountList: [],
-        accountById: {},
+        auditList: [],
+        auditById: {},
     },
     reducers: {
     },
     extraReducers: (builder) => {
         builder
             .addCase(
-                getAllAccountThunk.fulfilled,
+                getAllAuditThunk.fulfilled,
                 (state, { payload }) => {
                     if (payload) {
-                        state.accountList = payload?.data
+                        state.auditList = payload?.data
                     }
                 }
             )
             .addCase(
-                getAccountByIdThunk.fulfilled,
+                getAuditByIdThunk.fulfilled,
                 (state, { payload }) => {
                     if (payload) {
-                        state.accountById = payload?.data
+                        state.auditById = payload?.data
                     }
                 }
             )
     },
 });
 
-export default accountSlice;
+export default auditSlice;

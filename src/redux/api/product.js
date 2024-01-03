@@ -26,15 +26,15 @@ const product = {
     //     const url = `/api/carts?product_id=${id}`;
     //     return internshipTransport.delete(url);
     // },
-    
+
     // PUT
     // updateQuantity: (data) => {
     //     const url = `/api/carts`;
     //     return internshipTransport.put(url, data);
     // },
 
-    getAllProduct: async () => {
-        let url = '/product/getcategory';
+    getAllProduct: async (data) => {
+        let url = `/api/products/all?${data?.search ? `search=${data?.search}` : ''}`;
         return internshipTransport.get(url);
     },
 

@@ -18,7 +18,8 @@ const getUserThunk = createAsyncThunk(
     async (data) => {
         const token = localStorage.getItem("accessToken");
         const res = await getUser();
-        return {data: res.data, token};
+        
+        return { data: res.data, token };
     }
 );
 
