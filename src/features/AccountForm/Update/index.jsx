@@ -126,7 +126,6 @@ const AccountDetail = () => {
     const handleModalCancel = (cancelled) => {
         if (cancelled) {
             // Handle cancellation here or set state based on the cancellation flag
-            // console.log("Modal was cancelled");
         }
         setOpenModal(false);
     };
@@ -163,7 +162,6 @@ const AccountDetail = () => {
                     else {
                         navigate('/account')
                     }
-
                 }
                 else {
                     toast.error(res?.payload?.response?.data?.message, {

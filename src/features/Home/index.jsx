@@ -52,9 +52,9 @@ const Home = () => {
 
     const configStatistics = {
         data: [
-            { type: 'in shelf', value: 25 }, 
-            { type: 'on stock   ', value: 25 },
-            { type: 'Sold', value: 18 }, 
+            { type: 'in shelf', value: 41.667 },
+            { type: 'on stock   ', value: 50 },
+            { type: 'Sold', value: 8.333 },
         ],
         angleField: 'value',
         colorField: 'type',

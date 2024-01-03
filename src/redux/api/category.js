@@ -18,7 +18,6 @@ const Category = {
     },
 
     updateCategory: async (data) => {
-        console.log(data);
         let url = `/api/categories/update/${data?.id}`;
         return internshipTransport.put(url, data)
     },

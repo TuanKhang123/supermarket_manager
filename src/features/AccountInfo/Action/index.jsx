@@ -15,7 +15,6 @@ const AccountTableAction = ({ data, flagDelete }) => {
   const handleModalCancel = (cancelled) => {
     if (cancelled) {
       // Handle cancellation here or set state based on the cancellation flag
-      // console.log("Modal was cancelled");
     }
     setOpenModal(false);
   };

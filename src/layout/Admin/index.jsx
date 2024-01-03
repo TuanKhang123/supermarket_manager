@@ -3,10 +3,15 @@ import { Route, Router, Routes } from "react-router-dom"
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
+import { useEffect, useState } from "react";
 
 
 const AdminLayout = () => {
-    const pathName = window.location.pathname // để chèn chữ vào trong title
+    const location = useLocation();
+    const pathName = location.pathname; // để chèn chữ vào trong title
+    const [name, setName] = useState('')
+
+
     return (
         <div>
             <Header></Header>
@@ -26,8 +31,6 @@ const AdminLayout = () => {
                                 </div>
                             )
                     }
-
-
                     <div className="right-wrapper">
                         <Outlet />
                     </div>

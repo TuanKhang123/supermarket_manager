@@ -23,7 +23,6 @@ const Category = () => {
             setCurrentPage(page?.current);
     };
     const handleChangeSearch = (values) => {
-        console.log(values?.keyWord);
         values?.keyWord !== null
             ? setCateFilter(categoryList.filter(cate => cate?.name.includes(values?.keyWord)))
             : setCateFilter(categoryList)

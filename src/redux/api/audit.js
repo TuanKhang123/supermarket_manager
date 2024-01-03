@@ -13,19 +13,16 @@ const audit = {
     },
 
     createAudit: async (data) => {
-        console.log(data);
         let url = `/api/inventories/create`;
         return internshipTransport.post(url, data);
     },
 
     updateAudit: async (data) => {
-        console.log(data);
         let url = `/api/inventories/create`;
-        // return internshipTransport.post(url, data);
+        return internshipTransport.post(url, data);
     },
 
     deleteAudit: async (data) => {
-        console.log(data);
         let url = `/api/inventories/delete/${data?.id}`;
         return internshipTransport.delete(url);
     },
@@ -36,7 +33,6 @@ const audit = {
     // },
 
     // createAccount: async (data) => {
-    //     console.log(data);
     //     let url = `/api/accounts/create-staff-account`;
     //     return internshipTransport.post(url, data)
     // },

@@ -14,7 +14,6 @@ const accountSlice = createSlice({
             .addCase(
                 getAllAccountThunk.fulfilled,
                 (state, { payload }) => {
-                    console.log(payload);
                     if (payload) {
                         state.accountList = payload?.data
                     }
