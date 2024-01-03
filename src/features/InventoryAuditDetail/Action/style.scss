@@ -1,0 +1,38 @@
+.action_cover {
+  width: 75%;
+  margin: 0px auto;
+  .action_item {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    // justify-content: space-between;
+    svg {
+      width: 1.2em;
+      height: 1.2em;
+      margin-right: 15px;
+      color: #7d7d7d;
+      transition: 0.3s;
+    }
+    p {
+      transition: 0.3s;
+    }
+    a {
+      color: black;
+      transition: 0.3s;
+    }
+    &:hover {
+      // box-shadow: 0px 1px 0px #F3BD50;
+      svg {
+        color: #1677ff;
+      }
+      p {
+        color: #1677ff;
+      }
+      a {
+        color: #1677ff;
+      }
+    }
+  }
+}

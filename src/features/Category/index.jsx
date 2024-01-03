@@ -4,7 +4,7 @@ import TableAntdCustom from "../../components/TableAntd";
 import AuditTableAction from "./Action";
 import moment from "moment";
 import SearchCategory from "./Search/search";
-import { ConfigProvider, Table } from "antd";
+import { ConfigProvider, Form, Table } from "antd";
 import { getAllCategoryThunk } from "../../redux/aciton/category";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,20 +13,28 @@ const Category = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [flagDelete, setFlagDelete] = useState(false);
     const dispatch = useDispatch()
+
+
     const { categoryList } = useSelector(state => state.category)
+    const [cateFilter, setCateFilter] = useState([])
 
     const handlePageChange = (page) => {
         if (page != currentPage)
             setCurrentPage(page?.current);
     };
     const handleChangeSearch = (values) => {
-        console.log(values);
+        console.log(values?.keyWord);
+        values?.keyWord !== null
+            ? setCateFilter(categoryList.filter(cate => cate?.name.includes(values?.keyWord)))
+            : setCateFilter(categoryList)
     };
     const handleSubmitSearch = (values) => {
-        console.log(values);
+
     };
     const handleDelete = (value) => {
         // value && setFlagDelete(true);
+        handleSubmitSearch()
+
     };
     const columnsCate = [
         {
@@ -66,6 +74,11 @@ const Category = () => {
     useEffect(() => {
         dispatch(getAllCategoryThunk())
     }, [])
+
+    useEffect(() => {
+        setCateFilter(categoryList)
+    }, [categoryList])
+
     return (
         <div className="category_infor_container">
             <SearchCategory
@@ -86,7 +99,7 @@ const Category = () => {
                 <Table
                     columns={columnsCate}
                     // dataSource={listData}
-                    dataSource={categoryList}
+                    dataSource={cateFilter}
                     bordered
                     className="table_content"
                     onChange={handlePageChange}

@@ -1,77 +1,105 @@
 .audit-form_container {
-  > form {
+  .audit-form {
+    box-shadow: rgba(0, 0, 0, 0.2509803922) 0px 4px 4px 0px;
+    padding: 10px 30px;
     .form_content {
-      display: flex;
-      justify-content: space-between;
       .checker_infor {
-        flex-basis: 40%;
-        .audit_infor {
+        display: flex;
+        width: 100%;
+        gap: 20px;
+
+        .col-1 {
+          width: calc(100%/3);
+
           .ant-picker {
             width: 100%;
           }
         }
-        .audit_description {
+
+        .col-2 {
+          width: calc(100%/3);
+
           .picture {
             .ant-upload {
               width: 100%;
             }
+
             button {
               width: 100%;
+
               .img_allowText {
                 margin-left: 15px;
               }
             }
           }
         }
+
+        .col-3 {
+          width: calc(100%/3);
+
+        }
       }
+
       .audit_item_check {
         flex-basis: 55%;
+
         .audit_item_container {
           justify-content: space-between;
+
           .ant-space-item:nth-child(1) {
             flex-basis: 35%;
           }
+
           .ant-space-item:nth-child(2) {
             flex-basis: 25%;
+
             .ant-input-number {
               width: 100%;
             }
           }
+
           .ant-space-item:nth-child(3) {
             flex-basis: 30%;
           }
         }
       }
     }
+
     .buttonGroup {
       display: flex;
       justify-content: end;
       margin-bottom: 10px;
       gap: 20px;
+
       button {
-        font-size: 18px;
+        font-size: 16px;
         height: auto;
       }
+
       .cancelBtn {
         button {
           // border: 1px solid #7d7d7d;
           color: #7d7d7d;
+
           &:hover {
             color: white !important;
             background-color: #1677ff;
           }
         }
       }
+
       .submitBtn {
         button {
           // border: 1px solid #1677FF;
           color: #1677ff;
+
           &:hover {
             color: white !important;
             background-color: #1677ff;
           }
         }
       }
+
       .checkBtn {
         span {
           font-style: italic;
@@ -83,21 +111,29 @@
       }
     }
   }
+
+  .audit-table {
+    margin-top: 20px;
+  }
 }
 
 .ant-form-item-row {
   display: flex;
   flex-direction: column;
+
   .ant-form-item-label {
     text-align: left;
+
     label {
       font-weight: 700;
     }
   }
 }
+
 .ant-form-horizontal .ant-form-item-control {
   flex: 1;
 }
+
 .ant-form-item-required {
   &::before {
     right: 1px;
@@ -105,6 +141,7 @@
     font-size: 11px !important;
     position: absolute;
   }
+
   &::after {
     right: -8px;
   }

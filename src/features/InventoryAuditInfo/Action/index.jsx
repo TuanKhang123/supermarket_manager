@@ -5,6 +5,7 @@ import "./style.scss";
 import { EditOutlined, DeleteFilled } from "@ant-design/icons";
 import ConfirmModalAntd from "../../../components/ConfirmModalAntd";
 import { toast } from "react-toastify";
+import { deleteAuditThunk, getAllAuditThunk } from "../../../redux/aciton/audit";
 
 const AuditTableAction = ({ data, flagDelete }) => {
   const dispatch = useDispatch();
@@ -14,37 +15,40 @@ const AuditTableAction = ({ data, flagDelete }) => {
   };
   const handleModalCancel = (cancelled) => {
     if (cancelled) {
-      // Handle cancellation here or set state based on the cancellation flag
-      // console.log("Modal was cancelled");
     }
     setOpenModal(false);
   };
-  const handleEditClick = () => {};
-  const handleOk = () => {
-    // dispatch(deleteBookingThunk(data.id)).then((res) => {
-    //   console.log(res);
-    //   if (res?.payload?.message === "successfully") {
-    //     toast.success("Xoá lịch đặt sân thành công", {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       style: { color: "$color-default", backgroundColor: "#DEF2ED" },
-    //     });
-    //     flagDelete(true);
-    //   } else {
-    //     toast.error("Xoá lịch đặt sân thất bại", {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       style: { color: "$color-default", backgroundColor: "#DEF2ED" },
-    //     });
-    //   }
-    // });
+  const handleEditClick = (data) => {
+
+  };
+  const handleOk = (data) => {
+
+    dispatch(deleteAuditThunk({ id: data?.inventoryId }))
+      .then((res) => {
+        if (res?.payload?.statusCode === "OK") {
+          toast.success('Delete successfully', {
+            position: 'top-right',
+            autoClose: 3000,
+            style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+          });
+          dispatch(getAllAuditThunk())
+        }
+        else {
+          toast.error('Delete fail', {
+            position: 'top-right',
+            autoClose: 3000,
+            style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+          });
+        }
+      })
+
   };
   return (
     <div className="action_cover">
       <div className="action_item">
         <EditOutlined />
         <Link
-          to={`/inventory-audit-detail/${data.id}`}
+          to={`/inventory-audit-detail/${data.inventoryId}`}
           onClick={handleEditClick}
         >
           Edit detail
@@ -59,9 +63,9 @@ const AuditTableAction = ({ data, flagDelete }) => {
       <ConfirmModalAntd
         open={openModal}
         onCancel={handleModalCancel}
-        onOk={handleOk}
-        header={"Xoá thông tin kiểm kê"}
-        title={"Bạn có muốn xoá thông tin này"}
+        onOk={() => handleOk(data)}
+        header={"Delete audit information"}
+        title={"Do you want to delete this information?"}
         content={""}
       ></ConfirmModalAntd>
     </div>

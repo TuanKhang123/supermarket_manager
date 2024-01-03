@@ -53,8 +53,6 @@ const Login = () => {
     };
 
     const onFinishModal = (values) => {
-        // console.log(values);
-        // setIsModalOpen(false);
 
     }
 

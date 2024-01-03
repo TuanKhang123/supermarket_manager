@@ -151,7 +151,6 @@ const AccountForm = () => {
     dispatch(createAccountThunk(dataSend))
     .catch(err => console.log(err))  
     .then(res => {
-      console.log(res);
         if (res?.payload?.statusCode === "CREATED") {
           toast.success('Register successfully', {
             position: 'top-right',

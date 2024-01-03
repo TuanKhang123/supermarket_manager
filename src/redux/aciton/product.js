@@ -6,8 +6,8 @@ const {
 
 export const getAllProductThunk = createAsyncThunk(
     'product/getAllProduct',
-    async () => {
-        const res = await getAllProduct();
+    async (data) => {
+        const res = await getAllProduct(data);
         return res;
     }
 );

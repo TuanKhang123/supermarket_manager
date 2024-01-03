@@ -37,7 +37,6 @@ const SearchInventory = ({ handleSubmit, handleChange }) => {
   const [debouncedSearchTerm] = useDebounce(filterData, 300);
   const dispatch = useDispatch();
 
-  useEffect(() => { }, []);
   useEffect(() => {
     let sendData = filterData;
     let keyWord = form.getFieldValue("name");
@@ -49,7 +48,17 @@ const SearchInventory = ({ handleSubmit, handleChange }) => {
     handleChange(sendData);
   }, [debouncedSearchTerm]);
 
+  const onDateChange = (dates, dateStrings) => {
+    setFilterData((prevData) => {
+      return {
+        ...prevData,
+        date: dates ? [dateStrings[0], dateStrings[1]] : null,
+      };
+    });
+  };
+
   const onFinish = (values) => {
+    console.log(values);
     // handleSubmit({
     //   keyWord: values?.name?.trim().length > 0 ? values.name : null,
     //   position: values.position,
@@ -91,7 +100,10 @@ const SearchInventory = ({ handleSubmit, handleChange }) => {
                 },
               ]}
             >
-              <RangePicker placeholder={["Import date start", "Import date end"]} />
+              <RangePicker
+                placeholder={["Import date start", "Import date end"]}
+                onChange={onDateChange}
+              />
             </Form.Item>
           </div>
 

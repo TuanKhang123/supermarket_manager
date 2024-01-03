@@ -14,7 +14,7 @@ const productSlice = createSlice({
                 getAllProductThunk.fulfilled,
                 (state, { payload }) => {
                     if (payload) {
-                        state.productList = payload;
+                        state.productList = payload?.data;
                     }
                 }
             )

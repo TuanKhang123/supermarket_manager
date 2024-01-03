@@ -17,10 +17,10 @@ const CategoryTableAction = ({ data, flagDelete }) => {
   const handleOpenModal = () => {
 
     if (data?.productQnt > 0)
-      toast.info("Cann't delete category", {
+      toast.warn("Cann't delete category", {
         position: 'top-right',
         autoClose: 3000,
-        style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+        style: { backgroundColor: '#D7F1FD' },
       });
     else {
       setOpenModal(!openModal);
@@ -50,7 +50,7 @@ const CategoryTableAction = ({ data, flagDelete }) => {
             style: { color: '#32a852', backgroundColor: '#D7F1FD' },
           });
           dispatch(getAllCategoryThunk())
-
+          flagDelete()
         } else {
           toast.error('Delete category fail', {
             position: 'top-right',
