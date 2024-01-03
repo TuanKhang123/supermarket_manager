@@ -63,7 +63,7 @@ export default function Import() {
         {
             title: <h3 className="import__table__heading required">Batch code</h3>,
             dataIndex: "batchCode",
-            type: "text",
+            type: "text",   
         },
         {
             title: <h3 className="import__table__heading required">Product name</h3>,
