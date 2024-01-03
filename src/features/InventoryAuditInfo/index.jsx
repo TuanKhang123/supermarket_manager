@@ -23,9 +23,7 @@ const InventoryAuditInfo = () => {
     dispatch(getAllAuditThunk({ search: values?.keyWord, date: values?.date }))
 
   };
-  const handleSubmitSearch = (values) => {
-    console.log(values);
-  };
+
   const handleDelete = (value) => {
     // value && setFlagDelete(true);
   };
@@ -55,9 +53,7 @@ const InventoryAuditInfo = () => {
       width: "10%",
       align: "center",
       render: (text) =>
-        // text.checkerDTO.fullName
-        'chưa có'
-      ,
+        text.staffName,
     },
     {
       title: "Audit time",
@@ -85,7 +81,6 @@ const InventoryAuditInfo = () => {
     <div className="audit_infor_container">
       <SearchInventory
         handleChange={handleChangeSearch}
-        handleSubmit={handleSubmitSearch}
       ></SearchInventory>
 
       <ConfigProvider

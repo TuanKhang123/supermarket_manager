@@ -50,7 +50,6 @@ const InventoryAuditDetail = () => {
     const [sendData, setSendData] = useState();
     const { userCurrent } = useSelector(state => state.user)
     const { auditById } = useSelector(state => state.audit)
-    console.log(auditById);
 
     const stateData = location.state;
     const { id } = useParams();
@@ -225,15 +224,6 @@ const InventoryAuditDetail = () => {
         });
     };
 
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
-    };
-    const onSearch = (value) => {
-        console.log('search:', value);
-    };
-    const filterOption = (input, option) =>
-        (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-
     const handleUploadChange = async (info) => {
         if (info.file.status === "done") {
             message.success(`${info.file.name} file uploaded successfully.`);
@@ -270,8 +260,6 @@ const InventoryAuditDetail = () => {
 
     };
     const onFinish = (values) => {
-        console.log(values);
-
         let dataSend = []
         values?.tableData.map((item) => {
             const table = {
@@ -282,7 +270,6 @@ const InventoryAuditDetail = () => {
             dataSend.push(table)
         })
 
-        console.log(dataSend);
         dispatch(updateAuditThunk({ id: id, data: dataSend }))
             .then(res => {
                 if (res?.payload?.statusCode === "OK") {
@@ -300,13 +287,6 @@ const InventoryAuditDetail = () => {
                     });
                 }
             })
-    };
-
-    const handleChangeSearch = (values) => {
-        console.log(values);
-    };
-    const handleSubmitSearch = (values) => {
-        console.log(values);
     };
 
     return (

@@ -30,7 +30,6 @@ const CategoryTableAction = ({ data, flagDelete }) => {
     setOpenModal(false);
   };
   const handleEditClick = () => {
-    console.log(data);
     updateCategoryForm.setFieldsValue({
       category: data.name, // Giả sử 'categoryName' là trường dữ liệu bạn muốn hiển thị
     });
@@ -39,8 +38,6 @@ const CategoryTableAction = ({ data, flagDelete }) => {
 
 
   const handleOk = () => {
-    console.log(data);
-
     dispatch(deleteCategoryThunk({ id: data?.categoryId }))
       .then((res) => {
         if (res?.payload?.statusCode === "OK") {
@@ -90,7 +87,6 @@ const CategoryTableAction = ({ data, flagDelete }) => {
         setModalUpdateCate(!modalUpdateCate)
       })
 
-    // console.log(values);
     // setIsModalOpen(false);
 
   }

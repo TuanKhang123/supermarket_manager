@@ -1,43 +1,65 @@
 import React, { useEffect, useState } from 'react'
 import '../Title/style.scss'
+import { useLocation } from 'react-router-dom';
 
 const Title = () => {
-    const pathName = window.location.pathname // để chèn chữ vào trong title
-    console.log(pathName);
-    const [titlePage, setTitlePage] = useState('')
+    const location = useLocation();
+    const pathName = location.pathname;
 
+    const [titlePage, setTitlePage] = useState('')
+    console.log(pathName);
     useEffect(() => {
         switch (true) {
             case pathName === '/':
                 setTitlePage("Dashboard")
                 break;
-            // account
             case pathName === '/account':
                 setTitlePage("Accounts Management")
                 break;
 
-            // audit
+            // Inventory management
+            case pathName === "/inventory":
+                setTitlePage("Inventory receiving table");
+                break;
+
+            case pathName.includes("/import"):
+                setTitlePage("Inventory receiving form ");
+                break;
+
+            // shelf
+            case pathName === '/shelf':
+                setTitlePage("Shelf arrangement");
+                break;
+
+            case pathName === '/shelf/add':
+                setTitlePage("Add shelf");
+                break;
+            // Audit
             case pathName === '/inventory-audit-info':
                 setTitlePage("Audit list of goods")
                 break;
-            case pathName === '/inventory-audit-form':
+            case pathName.includes('/inventory-audit-form'):
                 setTitlePage("Goods audit form")
                 break;
             case pathName === '/category':
-                setTitlePage("Goods audit form")
+                setTitlePage("Category table")
                 break;
-            case pathName.includes("inventory-audit-detail"):
+            case pathName === '/inventory-audit-detail':
                 setTitlePage("Update details audit")
                 break;
-            case pathName.includes("/shelf/add"):
-                setTitlePage("Add shelf");
+            // category
+
+            case pathName.includes("/category"):
+                setTitlePage("Category table")
                 break;
-            case pathName.includes("/shelf"):
-                setTitlePage("Shelf arrangement");
+            // provider
+            case pathName === '/provider':
+                setTitlePage("Supplier management")
                 break;
-            case pathName.includes("/inventory"):
-                setTitlePage("Inventory management");
+            case pathName === '/provider/add':
+                setTitlePage("Supplier form")
                 break;
+
             default:
                 setTitlePage("")
                 break;

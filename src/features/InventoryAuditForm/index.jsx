@@ -214,7 +214,6 @@ const InventoryAuditForm = () => {
   };
 
   const handleDelete = (key) => {
-    console.log(key);
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
@@ -265,7 +264,6 @@ const InventoryAuditForm = () => {
       }
       products.push(itemPro)
     })
-    console.log(values);
     const dataSend = {
       inventoryTime: values?.date.toDate(),
       inventoryCode: values?.audit_code,
@@ -274,7 +272,6 @@ const InventoryAuditForm = () => {
       // nameStaff: values?.name_clerk,
       products: products
     }
-    // console.log(dataSend);
     dispatch(createAuditThunk(dataSend))
       .then(res => {
         if (res?.payload?.data === "create successfully") {
@@ -303,7 +300,6 @@ const InventoryAuditForm = () => {
     }))
   };
   const handleSubmitSearch = (values) => {
-    console.log(values);
   };
 
   const columnsPro = [

@@ -34,7 +34,6 @@ const product = {
     // },
 
     getAllProduct: async (data) => {
-        console.log(data);
         let url = `/api/products/all?${data?.search ? `search=${data?.search}` : ''}`;
         return internshipTransport.get(url);
     },
