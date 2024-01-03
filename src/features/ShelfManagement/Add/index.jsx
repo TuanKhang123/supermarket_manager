@@ -32,14 +32,16 @@ const AddShelf = () => {
             }))
         }
 
-        internshipTransport.post("/api/shelves/create", body)
-            .then(resp => {
-                if (resp.statusCode === "OK") {
-                    toast.success("Successfully!");
-                } else {
-                    toast.error("Error!");
-                }
-            });
+        console.log(body);
+
+        // internshipTransport.post("/api/shelves/create", body)
+        //     .then(resp => {
+        //         if (resp.statusCode === "OK") {
+        //             toast.success("Successfully!");
+        //         } else {
+        //             toast.error("Error!");
+        //         }
+        //     });
     }
 
     return (

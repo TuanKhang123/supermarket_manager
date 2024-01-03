@@ -24,10 +24,11 @@ const ShelveMap = () => {
     }, []);
 
     const onDelete = (id) => {
-        internshipTransport.delete(`api/shelfs/delete/${id}`)
-        then((resp) => {
+        internshipTransport.delete(`api/shelves/delete/${id}`)
+        .then((resp) => {
             if (resp.statusCode === "OK") {
                 toast.success("Successfully!");
+                setShelve(prev => prev.filter((v, i) => v.shelfId != id));
             } else {
                 toast.error("Error!");
             }
@@ -50,7 +51,7 @@ const ShelveMap = () => {
                 />
                 <div className="smap__shelve">
                     {
-                        shelve.map((v, i) => (
+                        shelve.filter((v, i) => v.shelfCode.toLowerCase().includes(input)).map((v, i) => (
                             <div className="shelf__item" key={i}>
                                 <h3 className="shelf__item__name">
                                     {v.shelfCode}
