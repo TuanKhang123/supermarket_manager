@@ -3,7 +3,6 @@ import '../Title/style.scss'
 
 const Title = () => {
     const pathName = window.location.pathname // để chèn chữ vào trong title
-    console.log(pathName);
     const [titlePage, setTitlePage] = useState('')
 
     useEffect(() => {

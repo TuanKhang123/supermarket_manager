@@ -13,7 +13,7 @@ const CompartmentDetail = ({data, shelfId, tierId, onClear}) => {
     const entries = [
         {
             name: "Product name",
-            key: "name",
+            key: "productName",
         },
         {
             name: "Category",
@@ -21,7 +21,7 @@ const CompartmentDetail = ({data, shelfId, tierId, onClear}) => {
         },
         {
             name: "Product code",
-            key: "code",
+            key: "productId",
         },
         {
             name: "Batch code",
@@ -29,7 +29,7 @@ const CompartmentDetail = ({data, shelfId, tierId, onClear}) => {
         },
         {
             name: "Quantity",
-            key: "qty",
+            key: "currentQuantity",
         },
         {
             name: "Shelf quantity",
@@ -79,7 +79,7 @@ const CompartmentDetail = ({data, shelfId, tierId, onClear}) => {
                         entries.map((value, index) => (
                             <tr key={value.key} >
                                 <td>{value.name}</td>
-                                <td>{data[value.key] || "Undefined"}</td>
+                                <td>{data[value.key] }</td>
                             </tr>
                         ))
                     }
@@ -99,12 +99,16 @@ const Compartment = () => {
     const [data, setData]= useState(null);
 
     const addProduct = (productId, compartments) => {
+        if (compartments.length == 0) {
+            toast.error("Please select at least 1 compartment!");
+        }
         internshipTransport.post("api/products/add-to-shelf", {
             compartmentIds: compartments,
             tierId: tierId,
             productId: productId,
         })
         .then(resp => {
+            console.log(resp.data);
             if (resp.statusCode === "OK") {
                 toast.success("Successfully");
             } else {
@@ -182,7 +186,6 @@ const Compartment = () => {
                     setCompartment(_ => resp[0].data);
                 }
                 if (resp[1].statusCode === "OK") {
-                    console.log(resp[1]);
                     setProducts(_ => resp[1].data.filter((v, i) => !v.isDisable));
                 }
             });

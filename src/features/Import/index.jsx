@@ -42,7 +42,7 @@ export default function Import() {
             key: count,
             productCode: `Product code`,
             batchCode: `Batch code`,
-            name: `Product name`,
+            productName: `Product name`,
             inputQuantity: 10,
             shelfArrangeQnt: 10,
             inputPrice: 10000,
@@ -67,7 +67,7 @@ export default function Import() {
         },
         {
             title: <h3 className="import__table__heading required">Product name</h3>,
-            dataIndex: "name",
+            dataIndex: "productName",
             type: "text",
         },
         {
@@ -174,22 +174,23 @@ export default function Import() {
                         expiredDate: v.expiredDate.toDate(),
                     }))
                 };
-                setLoading(_=> true);
-                internshipTransport.post("/api/stocks-invoice/create", data)
-                .then((res) => {
-                    if (res.statusCode === 200) {
-                        toast.success(
-                            "Successfully!",
-                        );
-                    } else {
-                        toast.error(
-                            "Failed",
-                        );
-                        console.log(res.data);
-                    }
+                console.log(data);
+                // setLoading(_=> true);
+                // internshipTransport.post("/api/stocks-invoice/create", data)
+                // .then((res) => {
+                //     if (res.statusCode === "CREATED") {
+                //         toast.success(
+                //             "Successfully!",
+                //         );
+                //     } else {
+                //         toast.error(
+                //             "Failed",
+                //         );
+                //         console.log(res.data);
+                //     }
 
-                    setLoading(_=> false);
-                });
+                //     setLoading(_=> false);
+                // });
 
             });
             
