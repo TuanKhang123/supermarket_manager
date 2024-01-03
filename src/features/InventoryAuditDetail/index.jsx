@@ -36,7 +36,8 @@ import dayjs from "dayjs";
 
 import SearchCategory from "../Category/Search/search";
 import AuditTableAction from "./Action";
-import { getAllAuditThunk } from "../../redux/aciton/audit";
+import { getAllAuditThunk, getAuditByIdThunk, updateAuditThunk } from "../../redux/aciton/audit";
+import moment from "moment";
 
 
 const InventoryAuditDetail = () => {
@@ -47,9 +48,13 @@ const InventoryAuditDetail = () => {
     const [fileList, setFileList] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [sendData, setSendData] = useState();
+    const { userCurrent } = useSelector(state => state.user)
+    const { auditById } = useSelector(state => state.audit)
+    console.log(auditById);
+
     const stateData = location.state;
     const { id } = useParams();
-    
+
     const maxSize = 25 * 1024 * 1024; // 25MB in bytes
     const { TextArea } = Input;
     const limit = 3;
@@ -57,28 +62,37 @@ const InventoryAuditDetail = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [dataSource, setDataSource] = useState([]);
     const [count, setCount] = useState(0);
-    const { auditList } = useSelector(state => state.audit)
-    console.log(auditList[0]);
-    const { categoryList } = useSelector(state => state.category)
 
     const handlePageChange = (page) => {
         if (page != currentPage)
             setCurrentPage(page?.current);
     };
 
-    // useEffect(() => {
-    //     dispatch(getAllProductThunk())
-    //     if (userCurrent) {
-    //       form.setFieldsValue({
-    //         date: moment(),
-    //         name_clerk: userCurrent?.name
-    //       });
-    //     }
-    //   }, [])
+    useEffect(() => {
+        if (auditById) {
+            form.setFieldsValue({
+                date: moment(auditById.timeInventory, "DD-MM-YYYY"),
+                upload: {
+                    uid: '-1', // Cần có uid cho mỗi file
+                    name: 'signature.png', // Tên file
+                    status: 'done',
+                    url: `${auditById.signatureOfClerk}`, // URL của hình ảnh
+                },
+                audit_code: auditById?.tnventoryCode,
+                name: auditById?.nameOfClerk,
+                description: auditById?.note,
+                tableData: auditById?.products,
+            });
+            setDataSource(auditById?.products)
+        }
+    }, [])
 
     useEffect(() => {
-        dispatch(getAllAuditThunk({ search: 'autest' }))
+        setFileList([form.getFieldValue('upload')]);
+    }, [form]);
 
+    useEffect(() => {
+        dispatch(getAuditByIdThunk({ id: id }))
     }, [])
 
     const beforeUpload = async (file) => {
@@ -104,51 +118,36 @@ const InventoryAuditDetail = () => {
         return false; // Allow file upload
     };
 
-    const handleAdd = (data) => {
-        const newData = {
-            key: count,
-            cate: `code ${count}`,
-            pro_name: `Edward King ${count}`,
-            pro_code: `Name ${count}`,
-            qty: "32",
-            status: "Normal",
-            expire_date: '13/03/2003',
-        };
-        setDataSource([...dataSource, newData]);
-        setCount(count + 1);
-    };
-
     const defColumns = [
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading required">Num</h3>,
-            dataIndex: "key",
+            dataIndex: "productId",
             type: "text",
             disabled: true,
         },
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading required">Category</h3>,
-            dataIndex: "cate",
+            dataIndex: "categoryName",
             type: "text",
             disabled: true,
         },
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading required">Product name</h3>,
-            dataIndex: "pro_name",
+            dataIndex: "productName",
             type: "text",
             disabled: true,
         },
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading required">Product Code</h3>,
-            dataIndex: "pro_code",
+            dataIndex: "productCode",
             type: "text",
             disabled: true,
         },
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading required">Check Quantity</h3>,
-            dataIndex: "qty",
+            dataIndex: "quantity",
             type: "num",
             editable: true,
-
         },
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading">Status</h3>,
@@ -159,19 +158,23 @@ const InventoryAuditDetail = () => {
         },
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading required">Expire date</h3>,
-            dataIndex: "expire_date",
+            dataIndex: "expiredDate",
             type: "date",
             disabled: true,
         },
         {
             title: <h3 style={{ textAlign: 'center' }} className="import__table__heading">Action</h3>,
             dataIndex: "delete",
-            render: (_, record) =>
-                dataSource.length >= 1 ? (
-                    <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-                        <a><DeleteOutlined /></a>
-                    </Popconfirm>
-                ) : null,
+            render: (_, record) => {
+                return (
+
+                    dataSource.length >= 1 ? (
+                        <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.productId)}>
+                            <a><DeleteOutlined /></a>
+                        </Popconfirm>
+                    ) : null
+                )
+            }
         },
     ];
 
@@ -200,21 +203,27 @@ const InventoryAuditDetail = () => {
         });
     });
     const handleSave = (row) => {
+        // const rowConfig = {...row, quantity: row?.quantity}
         const newData = [...dataSource];
-        const index = newData.findIndex((item) => row.key === item.key);
+        const index = newData.findIndex((item) => row.productId === item.productId);
         const item = newData[index];
         newData.splice(index, 1, {
             ...item,
             ...row,
         });
+        form.setFieldsValue({
+            tableData: newData,
+        });
         setDataSource(newData);
     };
 
-    const handleDelete = (key) => {
-        const newData = dataSource.filter((item) => item.key !== key);
+    const handleDelete = (productId) => {
+        const newData = dataSource.filter((item) => item.productId !== productId);
         setDataSource(newData);
+        form.setFieldsValue({
+            tableData: newData,
+        });
     };
-
 
     const onChange = (value) => {
         console.log(`selected ${value}`);
@@ -261,7 +270,36 @@ const InventoryAuditDetail = () => {
 
     };
     const onFinish = (values) => {
+        console.log(values);
 
+        let dataSend = []
+        values?.tableData.map((item) => {
+            const table = {
+                productInventoryId: item?.productId,
+                quantity: item?.quantity,
+                status: item?.status,
+            }
+            dataSend.push(table)
+        })
+
+        console.log(dataSend);
+        dispatch(updateAuditThunk({ id: id, data: dataSend }))
+            .then(res => {
+                if (res?.payload?.statusCode === "OK") {
+                    toast.success('Update successfully', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                        style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+                    });
+                }
+                else {
+                    toast.error('Update fail', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                        style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+                    });
+                }
+            })
     };
 
     const handleChangeSearch = (values) => {
@@ -270,71 +308,6 @@ const InventoryAuditDetail = () => {
     const handleSubmitSearch = (values) => {
         console.log(values);
     };
-
-    const columnsCate = [
-        {
-            title: "Num",
-            key: "number",
-            width: "3%",
-            align: "center",
-            render: (_, __, index) => ((currentPage - 1) * limit) + index + 1,
-        },
-        {
-            title: "Category",
-            key: "inven_code",
-            width: "10%",
-            align: "center",
-            render: (text) => text.name,
-        },
-        {
-            title: "Product name",
-            key: "product_shelf",
-            width: "10%",
-            align: "center",
-            render: (text) => text.productQnt,
-        },
-        {
-            title: "Product Code",
-            key: "product_shelf",
-            width: "10%",
-            align: "center",
-            render: (text) => text.productQnt,
-        },
-        {
-            title: "Quantity",
-            key: "product_shelf",
-            width: "10%",
-            align: "center",
-            render: (text) => text.productQnt,
-        },
-        {
-            title: "Shelf arrange quantity",
-            key: "product_shelf",
-            width: "7%",
-            align: "center",
-            render: (text) => text.productQnt,
-        },
-        {
-            title: "Expire date",
-            key: "product_shelf",
-            width: "8%",
-            align: "center",
-            render: (text) => text.productQnt,
-        },
-        {
-            title: "Action",
-            width: "10%",
-            align: "center",
-            render: (_, record) => (
-                <AuditTableAction
-                    data={record}
-                    flagDelete={handleDelete}
-                    handleAdd={handleAdd}
-                ></AuditTableAction>
-            )
-        },
-    ];
-
 
     return (
         <div className="audit-form_container">
@@ -365,6 +338,7 @@ const InventoryAuditDetail = () => {
                                     ]}
                                 >
                                     <DatePicker
+                                        disabled
                                         // disabledDate={(d) => !d || d.isBefore(new Date())}
                                         placeholder="Select audit time"
                                         onChange={(value) => { }}
@@ -372,21 +346,22 @@ const InventoryAuditDetail = () => {
                                 </Form.Item>
 
                                 <Form.Item
+
                                     className="picture"
                                     label="Signature of audit clerk"
                                     name={"upload"}
                                     rules={[
-                                        {
-                                            required: true,
-                                            message: "Please select signature confirmation",
-                                        },
+                                        // {
+                                        //     required: true,
+                                        //     message: "Please select signature confirmation",
+                                        // },
                                         {
                                             validator: (_, value) => {
                                                 if (value) {
-                                                    if (value.fileList.length === 0) {
-                                                        return Promise.reject(
-                                                            "Please select signature confirmation"
-                                                        );
+                                                    if (value?.fileList?.length === 0) {
+                                                        // return Promise.reject(
+                                                        //     "Please select signature confirmation"
+                                                        // );
                                                     } else {
                                                         return Promise.resolve();
                                                     }
@@ -398,13 +373,16 @@ const InventoryAuditDetail = () => {
                                     ]}
                                 >
                                     <Upload
+
                                         listType="picture"
                                         beforeUpload={beforeUpload}
                                         fileList={fileList ? fileList : null}
-                                        onRemove={handleRemove} // Handle file removal
+                                        // onRemove={handleRemove} // Handle file removal
                                         onChange={handleUploadChange} // Handle file addition to fileList
                                     >
-                                        <Button icon={<CloudUploadOutlined />}>
+                                        <Button
+                                            disabled
+                                            icon={<CloudUploadOutlined />}>
                                             Upload image{" "}
                                             <span className="img_allowText">{`.jpg, .jpeg, .png, .heif capacity <= 30MB`}</span>
                                         </Button>
@@ -426,7 +404,7 @@ const InventoryAuditDetail = () => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter audit code" />
+                                    <Input disabled placeholder="Enter audit code" />
                                 </Form.Item>
 
                                 <Form.Item
@@ -440,7 +418,7 @@ const InventoryAuditDetail = () => {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder="Enter the audit staff's name" />
+                                    <Input disabled placeholder="Enter the audit staff's name" />
                                 </Form.Item>
                             </div>
 
@@ -475,6 +453,7 @@ const InventoryAuditDetail = () => {
                                     ]}
                                 >
                                     <TextArea
+                                        disabled
                                         rows={5}
                                         placeholder="Enter note"
                                         changeField={false}
@@ -487,28 +466,39 @@ const InventoryAuditDetail = () => {
 
                         <div className="import__card">
                             {/* <Button style={{ marginBottom: "10px" }} type="primary" onClick={handleAdd}>Add Item</Button> */}
-
-                            <ConfigProvider
-                                theme={{
-                                    components: {
-                                        Table: {
-                                            headerBg: "#1677ff4d",
-                                        },
-
+                            <Form.Item
+                                name={"tableData"}
+                                initialValue={dataSource}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please choose product to audit",
                                     },
-                                }}
+                                ]}
                             >
-                                <Table
-                                    title={() => <h3>Audit product list</h3>}
-                                    columns={cols} style={{ width: "100%" }}
-                                    rowClassName={() => "editable-row"}
-                                    components={components}
-                                    dataSource={dataSource}
-                                    pagination={{
-                                        pageSize: 3,
+                                <ConfigProvider
+                                    theme={{
+                                        components: {
+                                            Table: {
+                                                headerBg: "#1677ff4d",
+                                            },
+
+                                        },
                                     }}
-                                />
-                            </ConfigProvider>
+                                >
+                                    <Table
+                                        title={() => <h3>Audit product list</h3>}
+                                        columns={cols} style={{ width: "100%" }}
+                                        rowClassName={() => "editable-row"}
+                                        components={components}
+                                        dataSource={dataSource}
+                                        pagination={{
+                                            pageSize: 3,
+                                        }}
+                                    />
+                                </ConfigProvider>
+                            </Form.Item>
+
 
                         </div>
 

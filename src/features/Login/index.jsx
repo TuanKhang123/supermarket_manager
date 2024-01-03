@@ -30,6 +30,7 @@ const Login = () => {
             dispatch(loginThunk({ email: values?.email, password: values?.password }))
                 .then((res) => {
                     if (res?.payload?.data) {
+                        console.log(res?.payload?.data);
                         localStorage.setItem('accessToken', res?.payload?.accessToken);
                         toast.success('Login successfully', {
                             position: 'top-right',

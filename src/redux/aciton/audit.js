@@ -3,7 +3,9 @@ import audit from '../api/audit';
 const {
     getAllAudit,
     getAuditById,
-    createAudit
+    createAudit,
+    updateAudit,
+    deleteAudit
 } = audit;
 
 export const getAllAuditThunk = createAsyncThunk(
@@ -16,8 +18,8 @@ export const getAllAuditThunk = createAsyncThunk(
 
 export const getAuditByIdThunk = createAsyncThunk(
     'audit/getAuditById',
-    async () => {
-        const res = await getAuditById();
+    async (data) => {
+        const res = await getAuditById(data);
         return res;
     }
 );
@@ -26,6 +28,22 @@ export const createAuditThunk = createAsyncThunk(
     'audit/createAudit',
     async (data) => {
         const res = await createAudit(data);
+        return res;
+    }
+);
+
+export const updateAuditThunk = createAsyncThunk(
+    'audit/updateAudit',
+    async (data) => {
+        const res = await updateAudit(data);
+        return res;
+    }
+);
+
+export const deleteAuditThunk = createAsyncThunk(
+    'audit/deleteAudit',
+    async (data) => {
+        const res = await deleteAudit(data);
         return res;
     }
 );

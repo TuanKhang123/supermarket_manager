@@ -69,7 +69,6 @@ const InventoryAuditForm = () => {
 
     if (userCurrent) {
       form.setFieldsValue({
-        date: moment(),
         name_clerk: userCurrent?.name
       });
     }
@@ -105,7 +104,6 @@ const InventoryAuditForm = () => {
   };
 
   const handleAdd = (data) => {
-    console.log(data);
     const newData = {
       key: count,
       pro_id: data?.productId,
@@ -279,7 +277,6 @@ const InventoryAuditForm = () => {
     // console.log(dataSend);
     dispatch(createAuditThunk(dataSend))
       .then(res => {
-        console.log(res);
         if (res?.payload?.data === "create successfully") {
           toast.success('Create successfully', {
             position: 'top-right',

@@ -47,11 +47,17 @@ const EditableCell = ({
         try {
             const values = await form.validateFields();
             toggleEdit();
-            handleSave({
-                ...record,
-                ...values,
-            });
-            console.log(values);
+            values?.quantity ?
+                handleSave({
+                    ...record,
+                    quantity: Number(values?.quantity)
+                })
+                : handleSave({
+                    ...record,
+                    ...values,
+                })
+
+
         } catch (errInfo) {
             console.log("Save failed:", errInfo);
         }

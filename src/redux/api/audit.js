@@ -8,8 +8,8 @@ const audit = {
     },
 
     getAuditById: async (data) => {
-        // let url = `/api/accounts?${data?.search ? `&search=${data?.search}` : ''}${data?.status ? `&status=${data?.status - 1}` : ''}`;
-        // return internshipTransport.get(url);
+        let url = `/api/inventories/${data?.id}`;
+        return internshipTransport.get(url);
     },
 
     createAudit: async (data) => {
@@ -18,6 +18,17 @@ const audit = {
         return internshipTransport.post(url, data);
     },
 
+    updateAudit: async (data) => {
+        console.log(data);
+        let url = `/api/inventories/create`;
+        // return internshipTransport.post(url, data);
+    },
+
+    deleteAudit: async (data) => {
+        console.log(data);
+        let url = `/api/inventories/delete/${data?.id}`;
+        return internshipTransport.delete(url);
+    },
 
     // getAccountById: async (data) => {
     //     let url = `/api/accounts/${data?.id}`;
@@ -29,10 +40,6 @@ const audit = {
     //     let url = `/api/accounts/create-staff-account`;
     //     return internshipTransport.post(url, data)
     // },
-
-
-
-
 
 }
 export default audit

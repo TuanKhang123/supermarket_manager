@@ -79,7 +79,44 @@
             border-radius: 8px;
             box-shadow: rgba(60, 64, 67, -0.1) -1px 1px 2px 1px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 
+            .common-quantity {
+                display: flex;
+                width: 100%;
+                justify-content: space-around;
+                margin-top: 10px;
+                .container-total {
+                    box-shadow: rgba(60, 64, 67, 0) -1px 1px 2px 1px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+                    width: 25%;
+                    padding: 18px 20px;
+                    display: flex;
+                    gap: 15px;
+                    border-radius: 7px;
+                    align-items: center;
 
+                    .total-icon {
+                        padding: 8px;
+                        background-color: #d7e8ff;
+                        height: 50px;
+                        width: 50px;
+                        border-radius: 50%;
+                        color: #1677ff;
+                    }
+
+                    .total-quantity {
+                        text-align: center;
+                        width: 100%;
+
+                        .total-quantity-number {
+                            font-size: 18px;
+                            font-weight: 600;
+                        }
+
+                        .total-quantity-name {
+                            font-size: 17px;
+                        }
+                    }
+                }
+            }
 
             .statistics-pie {
                 width: 100%;
@@ -94,7 +131,94 @@
             align-items: center;
             border-radius: 8px;
             box-shadow: rgba(60, 64, 67, -0.1) -1px 1px 2px 1px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+            .supplier-list {
+                margin-top: 20px;
+                width: 90%;
+                height: 90%;
+
+                .ant-pagination {}
+
+                .list-title {
+                    font-weight: 600;
+                    margin: auto;
+                    display: flex;
+                    padding: 40px 0px 10px 0px;
+                    border-bottom: 1px solid #d9d9d9;
+                    text-align: center;
+
+                    .first-num {
+                        width: 10%;
+                    }
+
+                    .first-company {
+                        width: 40%;
+                    }
+
+                    .first-total {
+                        width: 50%;
+                    }
+                }
+
+                .list-item {
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    padding: 4px 0px;
+                }
+
+                .item-num {
+                    width: 10%;
+                }
+
+                .item-company_name {
+                    width: 40%;
+                }
+
+                .item-total_inward {
+                    width: 50%;
+                }
+
+            }
+
+
+
         }
+    }
+
+    .row-three {
+        margin-top: 20px;
+
+        .income-title {
+            box-shadow: rgba(60, 64, 67, 0) -1px 1px 2px 1px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding-bottom: 30px;
+            align-items: center;
+            .revenuestatistic__head {
+                width: 100%;
+                padding: 20px 20px 20px 20px;
+                border-bottom: 2px solid #1677ff;
+                align-items: center;
+
+                .head-title {
+                    text-align: center;
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+
+
+            }
+
+            .revenuestatistic-graph {
+                height: 350px;
+                width: 90%;
+            }
+        }
+
+
     }
 
 }

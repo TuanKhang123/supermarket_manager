@@ -10,6 +10,12 @@ const userSlice = createSlice({
         isLoading: true,
     },
     reducers: {
+        logout: (state) => {
+            state.accessToken = "";
+            localStorage.removeItem("accessToken");
+            state.userCurrent = {};
+            
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -35,3 +41,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice;
+export const { logout } = userSlice.actions;

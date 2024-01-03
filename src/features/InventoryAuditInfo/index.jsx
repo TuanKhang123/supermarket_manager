@@ -22,8 +22,6 @@ const InventoryAuditInfo = () => {
   const handleChangeSearch = (values) => {
     dispatch(getAllAuditThunk({ search: values?.keyWord, date: values?.date }))
 
-
-
   };
   const handleSubmitSearch = (values) => {
     console.log(values);

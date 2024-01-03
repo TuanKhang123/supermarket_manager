@@ -5,6 +5,7 @@ import "./style.scss";
 import { EditOutlined, DeleteFilled } from "@ant-design/icons";
 import ConfirmModalAntd from "../../../components/ConfirmModalAntd";
 import { toast } from "react-toastify";
+import { deleteAuditThunk, getAllAuditThunk } from "../../../redux/aciton/audit";
 
 const AuditTableAction = ({ data, flagDelete }) => {
   const dispatch = useDispatch();
@@ -14,16 +15,32 @@ const AuditTableAction = ({ data, flagDelete }) => {
   };
   const handleModalCancel = (cancelled) => {
     if (cancelled) {
-      // Handle cancellation here or set state based on the cancellation flag
-      // console.log("Modal was cancelled");
     }
     setOpenModal(false);
   };
   const handleEditClick = (data) => {
-    // console.log(data?.inventoryId);
 
   };
-  const handleOk = () => {
+  const handleOk = (data) => {
+
+    dispatch(deleteAuditThunk({ id: data?.inventoryId }))
+      .then((res) => {
+        if (res?.payload?.statusCode === "OK") {
+          toast.success('Delete successfully', {
+            position: 'top-right',
+            autoClose: 3000,
+            style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+          });
+          dispatch(getAllAuditThunk())
+        }
+        else {
+          toast.error('Delete fail', {
+            position: 'top-right',
+            autoClose: 3000,
+            style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+          });
+        }
+      })
 
   };
   return (
@@ -46,7 +63,7 @@ const AuditTableAction = ({ data, flagDelete }) => {
       <ConfirmModalAntd
         open={openModal}
         onCancel={handleModalCancel}
-        onOk={handleOk}
+        onOk={() => handleOk(data)}
         header={"Delete audit information"}
         title={"Do you want to delete this information?"}
         content={""}

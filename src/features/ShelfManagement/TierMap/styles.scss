@@ -1,8 +1,6 @@
 .tier__wrapper {
     width: 100%;
     height: 100vh;
-    padding-left: 25px;
-    padding-right: 25px;
 }
 
 .tier__card {
@@ -26,10 +24,67 @@
     color: #7D7D7D;
     font-size: 20px;
     font-weight: 700;
+    cursor: pointer;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    &:hover {
+        background-color: #99999933;
+    }
 }
 
 .tier__leaf {
     color: #1677FF;
     font-size: 20px;
     font-weight: 700;
+    cursor: default;
+}
+
+.tier__list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 32px;
+    column-gap: 50px;
+    row-gap: 15px;
+}
+
+.tier__item {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 13px;
+    border: 3px solid #1677FF;
+    position: relative;
+
+    & .tier__item__name {
+        color: #272626;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    & .tier__item__capacity {
+        color: #272626;
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    & .tier__item__delete {
+        color: red;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        cursor: pointer;
+    }
+
+    & .tier__item__nav {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        cursor: pointer;
+    }
 }
