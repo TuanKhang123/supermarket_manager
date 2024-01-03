@@ -36,6 +36,7 @@ const Login = () => {
                             autoClose: 3000,
                             style: { color: '#32a852', backgroundColor: '#D7F1FD' },
                         });
+                        navigate('/')
                     }
                     else {
                         toast.error('Login fail', {

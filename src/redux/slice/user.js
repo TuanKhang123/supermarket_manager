@@ -14,7 +14,7 @@ const userSlice = createSlice({
             state.accessToken = "";
             localStorage.removeItem("accessToken");
             state.userCurrent = {};
-            
+
         }
     },
     extraReducers: (builder) => {
@@ -31,6 +31,8 @@ const userSlice = createSlice({
                 getUserThunk.fulfilled,
                 (state, { payload }) => {
                     state.isLoading = false;
+                    console.log(payload);
+
                     if (payload) {
                         state.userCurrent = payload.data;
                         state.accessToken = payload.token;
