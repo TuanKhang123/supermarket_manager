@@ -4,7 +4,7 @@ import Login from "../../features/Login";
 
 const mainRouter = [
     {
-        path: "/",
+        path: "/login",
         element: <Login />
     },
     {

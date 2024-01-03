@@ -13,12 +13,12 @@ const Header = () => {
 
     const onConfirm = () => {
         dispatch(logout());
-        navigate("/");
+        navigate("/login");
     }
 
     return (
         <div className='header'>
-            <div className="header__username">{userCurrent.name}</div>
+            <div className="header__username">{userCurrent?.name}</div>
 
             <Popconfirm
                 title="Logout"
