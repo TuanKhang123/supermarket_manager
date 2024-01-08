@@ -28,20 +28,19 @@ const AddShelf = () => {
             shelfCode: values.shelfCode,
             categoryId: values.categoryId,
             tiers: tiers.map((v, i) => ({
-                NumberOfCompartment: values[`tier0${i}`],
+                numberOfCompartment: values[`tier0${i}`],
             }))
         }
 
-        console.log(body);
-
-        // internshipTransport.post("/api/shelves/create", body)
-        //     .then(resp => {
-        //         if (resp.statusCode === "OK") {
-        //             toast.success("Successfully!");
-        //         } else {
-        //             toast.error("Error!");
-        //         }
-        //     });
+        internshipTransport.post("/api/shelves/create", body)
+            .then(resp => {
+                if (resp.statusCode === "CREATED") {
+                    toast.success("Successfully!");
+                    navigator("shelf");
+                } else {
+                    toast.error("Error!");
+                }
+            });
     }
 
     return (

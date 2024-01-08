@@ -156,8 +156,6 @@ export default function Import() {
 
     const onSubmit = (values) => {
         if (dataSource.length > 0) {
-            // const dev = values["deliverySignature"].file;
-            // const clerk = values["receivingSignature"].file;
             Promise.all([
                 ToBase64(values["deliverySignature"].file.originFileObj),
                 ToBase64(values["receivingSignature"].file.originFileObj),
@@ -175,22 +173,21 @@ export default function Import() {
                     }))
                 };
                 console.log(data);
-                // setLoading(_=> true);
-                // internshipTransport.post("/api/stocks-invoice/create", data)
-                // .then((res) => {
-                //     if (res.statusCode === "CREATED") {
-                //         toast.success(
-                //             "Successfully!",
-                //         );
-                //     } else {
-                //         toast.error(
-                //             "Failed",
-                //         );
-                //         console.log(res.data);
-                //     }
+                setLoading(_=> true);
+                internshipTransport.post("/api/stocks-invoice/create", data)
+                .then((res) => {
+                    if (res.data.statusCode === "CREATED") {
+                        toast.success(
+                            "Successfully!",
+                        );
+                    } else {
+                        toast.error(
+                            "Failed",
+                        );
+                    }
 
-                //     setLoading(_=> false);
-                // });
+                    setLoading(_=> false);
+                });
 
             });
             
