@@ -12,14 +12,6 @@ const Inventory = () => {
     const [range, setRange] = useState(null);
     const navigate = useNavigate();
 
-    const onDelete = async (id) => {
-
-    }
-
-    const onChange = async (id) => {
-        
-    }
-
     const columns = [
         {
             title: "No.",
@@ -28,9 +20,9 @@ const Inventory = () => {
             render: (t, r, i) => ('0' + i).slice(-2)
         },
         {
-            title: "Category",
+            title: "Product Name",
             key: "categoryName",
-            dataIndex: "categoryName",
+            dataIndex: "productName",
         },
         {
             title: "Supplier code",
@@ -61,10 +53,9 @@ const Inventory = () => {
     ];
 
     const search = useCallback(async () => {
-        const start = (range ? range[0] : dayjs(new Date(1975, 1, 1))).format("DD-MM-YYYY");
-        const end = (range ? range[1] : dayjs()).format("DD-MM-YYYY");
-        const searchStr = `api/products/all?search=${input}&page-number=1&limit=1&from=${start}&to=${end}`;
+        const searchStr = `api/products/all?search=${input}`;
         const reps = await internshipTransport.get(searchStr);
+        console.log(reps);
         setData(_ => reps.data);
     }, [input, range]);
 
@@ -72,12 +63,25 @@ const Inventory = () => {
         search();
     }, [input, range]);
 
+    const myFilter = (product, start, end) => {
+        if (!start) return true;
+        let date = dayjs(product.receivingTime);
+        let st = start.set("hour", 0);
+        st = st.set("minute", 0);
+        st = st.set("second", 0);
+
+        let ed = end.set("hour", 23);
+        ed = ed.set("minute", 59);
+        ed = ed.set("second", 59);
+        return date.isBefore(ed) && date.isAfter(start);
+    }
+
     return (
         <div className="inventory__wrapper">
             <div className="inventory__card">
                 <div className="inventory__panel">
                     <Input onChange={e => setInput(e.target.value)} value={input} prefix={<SearchOutlined style={{ color: "#1677ff" }} />} style={{ width: "50%" }} placeholder="Search follow the supplier code" />
-                    <DatePicker.RangePicker picker="date" format="DD/MM/YYYY" defaultValue={dayjs()} onChange={(v) => setRange(_=> v)} />
+                    <DatePicker.RangePicker picker="date" format="DD/MM/YYYY" defaultValue={dayjs()} onChange={(v) => setRange(_ => v)} />
                     <Button type="primary" onClick={_ => navigate("/import")}>
                         Add products
                     </Button>
@@ -92,9 +96,8 @@ const Inventory = () => {
                     }}
                 >
                     <Table
-
                         columns={columns}
-                        dataSource={data || []}
+                        dataSource={range ? data.filter((v, i) => myFilter(v, range[0], range[1])) :  data}
                         bordered
                     />
                 </ConfigProvider>

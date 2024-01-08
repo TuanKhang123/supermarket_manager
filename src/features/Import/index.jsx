@@ -8,6 +8,7 @@ import { internshipTransport } from "../../config/http/transport";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import ToBase64 from "../../utils/ToBase64";
+import { useNavigate } from "react-router";
 
 
 export default function Import() {
@@ -18,6 +19,7 @@ export default function Import() {
     const [categories, setCategories] = useState([]);
     const [form] = Form.useForm();
     const { userCurrent } = useSelector(state => state.user);
+    const navigate = useNavigate();
 
     const _acceptedFormat = "image/png, image/gif, image/jpeg";
 
@@ -63,7 +65,7 @@ export default function Import() {
         {
             title: <h3 className="import__table__heading required">Batch code</h3>,
             dataIndex: "batchCode",
-            type: "text",   
+            type: "text",
         },
         {
             title: <h3 className="import__table__heading required">Product name</h3>,
@@ -174,26 +176,25 @@ export default function Import() {
                         expiredDate: v.expiredDate.toDate(),
                     }))
                 };
-                console.log(data);
-                // setLoading(_=> true);
-                // internshipTransport.post("/api/stocks-invoice/create", data)
-                // .then((res) => {
-                //     if (res.statusCode === "CREATED") {
-                //         toast.success(
-                //             "Successfully!",
-                //         );
-                //     } else {
-                //         toast.error(
-                //             "Failed",
-                //         );
-                //         console.log(res.data);
-                //     }
+                setLoading(_ => true);
+                internshipTransport.post("/api/stocks-invoice/create", data)
+                    .then((res) => {
+                        if (res.data.statusCode === "CREATED") {
+                            toast.success(
+                                "Successfully!",
+                            );
+                            navigate('/inventory');
+                        } else {
+                            toast.error(
+                                "Failed",
+                            );
+                        }
 
-                //     setLoading(_=> false);
-                // });
+                        setLoading(_ => false);
+                    });
 
             });
-            
+
 
         } else {
             toast.error(
@@ -348,7 +349,7 @@ export default function Import() {
                             <Button type="primary" htmlType="submit">Complete</Button>
                         </Form.Item>
                         <Button type="default">New form</Button>
-                        <Button type="primary">Cancel</Button>
+                        <Button type="primary" onClick={_ => navigate('/inventory')}>Cancel</Button>
                     </div>
                 </Form>
             </ConfigProvider>

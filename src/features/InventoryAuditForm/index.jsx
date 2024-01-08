@@ -272,6 +272,7 @@ const InventoryAuditForm = () => {
       // nameStaff: values?.name_clerk,
       products: products
     }
+    console.log(dataSend);
     dispatch(createAuditThunk(dataSend))
       .then(res => {
         if (res?.payload?.data === "create successfully") {
@@ -395,7 +396,7 @@ const InventoryAuditForm = () => {
                   ]}
                 >
                   <DatePicker
-                    // format="YYYY-MM-DD"
+                    format="DD-MM-YYYY"
                     placeholder="Select audit time"
                   // onChange={(value) => { }}
                   />

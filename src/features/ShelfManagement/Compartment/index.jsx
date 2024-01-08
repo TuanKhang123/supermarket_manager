@@ -8,7 +8,7 @@ import { internshipTransport } from "../../../config/http/transport";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
-const CompartmentDetail = ({data, shelfId, tierId, onClear}) => {
+const CompartmentDetail = ({ data, shelfId, tierId, onClear }) => {
 
     const entries = [
         {
@@ -79,7 +79,7 @@ const CompartmentDetail = ({data, shelfId, tierId, onClear}) => {
                         entries.map((value, index) => (
                             <tr key={value.key} >
                                 <td>{value.name}</td>
-                                <td>{data[value.key] }</td>
+                                <td>{data[value.key]}</td>
                             </tr>
                         ))
                     }
@@ -96,7 +96,7 @@ const Compartment = () => {
     const [selected, setSelected] = useState([]);
     const [products, setProducts] = useState([]);
     const [input, setInput] = useState("");
-    const [data, setData]= useState(null);
+    const [data, setData] = useState(null);
 
     const addProduct = (productId, compartments) => {
         if (compartments.length == 0) {
@@ -107,26 +107,34 @@ const Compartment = () => {
             tierId: tierId,
             productId: productId,
         })
-        .then(resp => {
-            console.log(resp.data);
-            if (resp.statusCode === "OK") {
-                toast.success("Successfully");
-            } else {
-                toast.error("Failed!");
-            }
-        });
-    }
-
-    const onClearCompartment = (compartmentId) => {
-        if (compartmentId) {
-            internshipTransport.put(`api/compartments/clear/${compartmentId}`)
             .then(resp => {
+                console.log(resp.data);
                 if (resp.statusCode === "OK") {
                     toast.success("Successfully");
                 } else {
                     toast.error("Failed!");
                 }
             });
+    }
+
+    const onClearCompartment = (compartmentId) => {
+        if (compartmentId) {
+            internshipTransport.put(`api/compartments/clear/${compartmentId}`)
+                .then(resp => {
+                    if (resp.statusCode === "OK") {
+                        toast.success("Successfully");
+                        setData(_ => null);
+                        internshipTransport.get(`api/compartments/${tierId}`)
+                            .then(resp => {
+                                if (resp.statusCode === "OK") {
+                                    setCompartment(_ => resp.data);
+                                }
+                            });
+                    } else {
+                        toast.error("Failed!");
+                    }
+                });
+
         }
     }
 
@@ -166,13 +174,13 @@ const Compartment = () => {
             key: "receivingTime",
             title: "Expire day",
             dataIndex: "receivingTime",
-            render: (text, record, index) => dayjs(Date.parse(record["receivingTime"])).format("DD-MM-YYYY")    
+            render: (text, record, index) => dayjs(Date.parse(record["receivingTime"])).format("DD-MM-YYYY")
         },
         {
             key: "action",
             title: "Action",
             dataIndex: "action",
-            render: (text, record, index) => <Button type="text" icon={<FolderAddOutlined style={{color: "#1677ff"}} />} onClick={_=> addProduct(record["productId"], selected)}>Add</Button>
+            render: (text, record, index) => <Button type="text" icon={<FolderAddOutlined style={{ color: "#1677ff" }} />} onClick={_ => addProduct(record["productId"], selected)}>Add</Button>
         },
     ];
 
@@ -206,7 +214,7 @@ const Compartment = () => {
 
     const onViewDetail = (item, e) => {
         e.stopPropagation();
-        setData(_=> item);
+        setData(_ => item);
     }
 
     const onFilter = (product, input) => {
@@ -277,7 +285,7 @@ const Compartment = () => {
                     >
                         <>
                             <div style={{ width: "50%", marginBottom: "16px" }}>
-                                <Input prefix={<SearchOutlined style={{ color: "#1677FF" }} />} value={input} onChange={e => setInput(_=> e.target.value)} placeholder="Search Product name" />
+                                <Input prefix={<SearchOutlined style={{ color: "#1677FF" }} />} value={input} onChange={e => setInput(_ => e.target.value)} placeholder="Search Product name" />
                             </div>
                             <Table
                                 dataSource={products.filter((v) => onFilter(v, input))}
@@ -287,8 +295,8 @@ const Compartment = () => {
                     </ConfigProvider>
                 </div>
             </div>
-            <Modal open={data != null} footer={null} closeIcon={<CloseOutlined style={{ color: "red" }} onClick={() => setData(_=> null)} />}>
-                <CompartmentDetail data={data} shelfId={shelfId} tierId={tierId} onClear={_=> onClearCompartment(data.compartmentId)} />
+            <Modal open={data != null} footer={null} closeIcon={<CloseOutlined style={{ color: "red" }} onClick={() => setData(_ => null)} />}>
+                <CompartmentDetail data={data} shelfId={shelfId} tierId={tierId} onClear={_ => onClearCompartment(data.compartmentId)} />
             </Modal>
         </>
     );

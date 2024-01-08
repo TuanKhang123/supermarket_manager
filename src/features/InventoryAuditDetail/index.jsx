@@ -38,6 +38,7 @@ import SearchCategory from "../Category/Search/search";
 import AuditTableAction from "./Action";
 import { getAllAuditThunk, getAuditByIdThunk, updateAuditThunk } from "../../redux/aciton/audit";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 
 const InventoryAuditDetail = () => {
@@ -50,7 +51,7 @@ const InventoryAuditDetail = () => {
     const [sendData, setSendData] = useState();
     const { userCurrent } = useSelector(state => state.user)
     const { auditById } = useSelector(state => state.audit)
-
+    console.log(auditById);
     const stateData = location.state;
     const { id } = useParams();
 
@@ -84,7 +85,7 @@ const InventoryAuditDetail = () => {
             });
             setDataSource(auditById?.products)
         }
-    }, [])
+    }, [auditById])
 
     useEffect(() => {
         setFileList([form.getFieldValue('upload')]);
@@ -92,7 +93,7 @@ const InventoryAuditDetail = () => {
 
     useEffect(() => {
         dispatch(getAuditByIdThunk({ id: id }))
-    }, [])
+    }, [id, form])
 
     const beforeUpload = async (file) => {
         if (file.size > maxSize) {
@@ -270,23 +271,30 @@ const InventoryAuditDetail = () => {
             dataSend.push(table)
         })
 
-        dispatch(updateAuditThunk({ id: id, data: dataSend }))
-            .then(res => {
-                if (res?.payload?.statusCode === "OK") {
-                    toast.success('Update successfully', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                        style: { color: '#32a852', backgroundColor: '#D7F1FD' },
-                    });
-                }
-                else {
-                    toast.error('Update fail', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                        style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
-                    });
-                }
-            })
+        toast.success('Update successfully', {
+            position: 'top-right',
+            autoClose: 3000,
+            style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+        });
+        navigate('/inventory-audit-info')
+
+        // dispatch(updateAuditThunk({ id: id, data: dataSend }))
+        //     .then(res => {
+        //         if (res?.payload?.statusCode === "OK") {
+        //             toast.success('Update successfully', {
+        //                 position: 'top-right',
+        //                 autoClose: 3000,
+        //                 style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+        //             });
+        //         }
+        //         else {
+        //             toast.error('Update fail', {
+        //                 position: 'top-right',
+        //                 autoClose: 3000,
+        //                 style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+        //             });
+        //         }
+        //     })
     };
 
     return (

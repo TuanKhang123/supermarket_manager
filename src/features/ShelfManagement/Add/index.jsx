@@ -4,10 +4,12 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { internshipTransport } from "../../../config/http/transport";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const AddShelf = () => {
     const [tiers, setTiers] = useState([10]);
     const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
     const add = () => setTiers(prev => [...prev, 1]);
     const change = (index, value) => setTiers(prev => prev.map((v, i) => i === index ? value : v));
@@ -32,16 +34,15 @@ const AddShelf = () => {
             }))
         }
 
-        console.log(body);
-
-        // internshipTransport.post("/api/shelves/create", body)
-        //     .then(resp => {
-        //         if (resp.statusCode === "OK") {
-        //             toast.success("Successfully!");
-        //         } else {
-        //             toast.error("Error!");
-        //         }
-        //     });
+        internshipTransport.post("/api/shelves/create", body)
+            .then(resp => {
+                if (resp.statusCode === "CREATED") {
+                    toast.success("Successfully!");
+                    navigate("/shelf");
+                } else {
+                    toast.error("Error!");
+                }
+            });
     }
 
     return (

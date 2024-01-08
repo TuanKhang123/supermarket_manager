@@ -35,22 +35,49 @@ const SideBar = () => {
             type,
         };
     }
+
     function getFirstAvailableItemKey(userCurrent) {
-        // if (userCurrent?.hasStatistic)
+        if (userCurrent?.hasStatistic)
             return '1';
-        return '2'; // Mục 'Accounts Management' luôn có sẵn
+        return '2';
+        // Mục 'Accounts Management' luôn có sẵn
         // Nếu có thêm logic cho các mục khác, bạn có thể thêm vào đây
     }
+    let defaultKey = getFirstAvailableItemKey(userCurrent);
+
+
 
 
     useEffect(() => {
-        if (pathName) {
-            // if ()
+        switch (pathName) {
+            case '/':
+                defaultKey = 1;
+                break;
+            case '/account':
+                defaultKey = 2;
+                break;
+            case '/inventory':
+                defaultKey = 3;
+                break;
+            case '/shelf':
+                defaultKey = 4;
+                break;
+            case '/inventory-audit-info':
+                defaultKey = 5;
+                break;
+            case '/category':
+                defaultKey = 6;
+                break;
+            case '/provider':
+                defaultKey = 7;
+                break;
+            default:
+                break;
         }
     }, [pathName])
-    const defaultKey = getFirstAvailableItemKey(userCurrent);
     console.log(userCurrent);
     const items = [
+        // userCurrent?.hasStatistic && 
         // userCurrent?.hasStatistic && 
         // userCurrent?.hasStatistic && 
         getItem('Home Page', '1', <HomeOutlined />),

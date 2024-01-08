@@ -4,9 +4,10 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import { internshipTransport } from "../../../config/http/transport";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const AddProvider = () => {
-
+    const navigate = useNavigate();
     useEffect(() => {
 
     }, []);
@@ -23,6 +24,7 @@ const AddProvider = () => {
             console.log(resp);
             if (resp.statusCode === "CREATED") {
                 toast.success("Successfully!");
+                navigate("/provider");
             }
         } catch (error) {
             toast.error(error.toString());
@@ -127,7 +129,6 @@ const AddProvider = () => {
                         <Form.Item>
                             <Button type="primary" htmlType="submit">Save</Button>
                         </Form.Item>
-                        <Button type="default" htmlType="submit">Save and add more</Button>
                         <Button danger type="default">Cancel</Button>
                     </div>
                 </Form>
