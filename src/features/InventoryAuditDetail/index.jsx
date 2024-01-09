@@ -67,8 +67,11 @@ const InventoryAuditDetail = () => {
             setCurrentPage(page?.current);
     };
 
+    console.log(auditById);
+
     useEffect(() => {
-        if (auditById) {
+        if (auditById?.signatureOfClerk) {
+            console.log(auditById?.signatureOfClerk);
             form.setFieldsValue({
                 date: moment(auditById.timeInventory, "DD-MM-YYYY"),
                 upload: {
@@ -84,7 +87,7 @@ const InventoryAuditDetail = () => {
             });
             setDataSource(auditById?.products)
         }
-    }, [])
+    }, [auditById?.signatureOfClerk])
 
     useEffect(() => {
         setFileList([form.getFieldValue('upload')]);
@@ -353,7 +356,6 @@ const InventoryAuditDetail = () => {
                                     ]}
                                 >
                                     <Upload
-
                                         listType="picture"
                                         beforeUpload={beforeUpload}
                                         fileList={fileList ? fileList : null}

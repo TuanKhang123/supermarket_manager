@@ -16,7 +16,6 @@ const ShelveMap = () => {
     useEffect(_ => {
         internshipTransport.get("api/shelves")
             .then(resp => {
-                console.log(resp);
                 if (resp.statusCode === "OK") {
                     setShelve(_ => resp.data);
                 }
@@ -51,7 +50,7 @@ const ShelveMap = () => {
                 />
                 <div className="smap__shelve">
                     {
-                        shelve.filter((v, i) => v.shelfCode.toLowerCase().includes(input)).map((v, i) => (
+                        shelve.filter((v, i) => v.shelfCode.toLowerCase().includes(input.toLowerCase())).map((v, i) => (
                             <div className="shelf__item" key={i}>
                                 <h3 className="shelf__item__name">
                                     {v.shelfCode}

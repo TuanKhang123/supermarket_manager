@@ -14,7 +14,6 @@ const TierList = () => {
     useState(_ => {
         internshipTransport.get(`api/tiers/${shelfId}`)
             .then((resp) => {
-                console.log(resp);
                 if (resp.statusCode === "OK") {
                     setTiers(_=> resp.data);
                 } else {
@@ -54,7 +53,7 @@ const TierList = () => {
                                     {v.tierCode}
                                 </h3>
                                 <p className="tier__item__capacity">
-                                    {`In use: ${v.inUse * 100}%`}
+                                    {`In use: ${isNaN(v.inUse) ? 0 : v.inUse}%`}
                                 </p>
                                 <UnorderedListOutlined className="tier__item__nav" onClick={_=> navigate(`/shelf/${shelfId}/${v.tierId}`)} />
                             </div>

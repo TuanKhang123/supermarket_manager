@@ -31,7 +31,6 @@ const userSlice = createSlice({
                 getUserThunk.fulfilled,
                 (state, { payload }) => {
                     state.isLoading = false;
-                    console.log(payload);
 
                     if (payload) {
                         state.userCurrent = payload.data;
