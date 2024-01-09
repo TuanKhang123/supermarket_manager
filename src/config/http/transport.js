@@ -1,7 +1,8 @@
 import httpHandler from './axios';
 
 const API_DOMAIN = {
-  INTERNSHIP: "http://localhost:8080"
+  INTERNSHIP: "http://localhost:8080",
+  SERVER_MAIL: "http://localhost:5000"
 }
 
 function get(domain, url, config = {}) {
@@ -37,6 +38,12 @@ export const internshipTransport = {
   },
   delete: (url, config = {}) => {
     return del(API_DOMAIN.INTERNSHIP, url, config);
+  },
+};
+
+export const mailTransport = {
+  put: (url, data, config = {}) => {
+    return put(API_DOMAIN.SERVER_MAIL, url, data, config);
   },
 };
 
