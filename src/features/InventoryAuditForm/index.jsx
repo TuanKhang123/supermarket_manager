@@ -69,7 +69,8 @@ const InventoryAuditForm = () => {
 
     if (userCurrent) {
       form.setFieldsValue({
-        name_clerk: userCurrent?.name
+        name_clerk: userCurrent?.name,
+        date: moment()
       });
     }
 
@@ -265,13 +266,14 @@ const InventoryAuditForm = () => {
       products.push(itemPro)
     })
     const dataSend = {
-      inventoryTime: values?.date.toDate(),
+      inventoryTime: values?.date.format("DD-MM-YYYY"),
       inventoryCode: values?.audit_code,
       staffSignature: values?.upload?.fileList[0].thumbUrl.split("data:image/png;base64,")[1],
       note: values?.description,
       // nameStaff: values?.name_clerk,
       products: products
     }
+    console.log(dataSend);
     dispatch(createAuditThunk(dataSend))
       .then(res => {
         if (res?.payload?.data === "create successfully") {
@@ -395,7 +397,7 @@ const InventoryAuditForm = () => {
                   ]}
                 >
                   <DatePicker
-                    // format="YYYY-MM-DD"
+                    format="DD-MM-YYYY"
                     placeholder="Select audit time"
                   // onChange={(value) => { }}
                   />
@@ -470,7 +472,7 @@ const InventoryAuditForm = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Enter the audit staff's name" />
+                  <Input disabled placeholder="Enter the audit staff's name" />
                 </Form.Item>
               </div>
 
@@ -491,11 +493,11 @@ const InventoryAuditForm = () => {
                               "Please enter a maximum of 500 characters"
                             );
                           }
-                          if (value.trim().length < 5) {
-                            return Promise.reject(
-                              "Please enter a minimum of 5 characters"
-                            );
-                          }
+                          // if (value.trim().length < 3) {
+                          //   return Promise.reject(
+                          //     "Please enter a minimum of 3 characters"
+                          //   );
+                          // }
                           return Promise.resolve();
                         } else {
                           return Promise.resolve();

@@ -8,6 +8,7 @@ import { internshipTransport } from "../../config/http/transport";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import ToBase64 from "../../utils/ToBase64";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Import() {
@@ -18,6 +19,8 @@ export default function Import() {
     const [categories, setCategories] = useState([]);
     const [form] = Form.useForm();
     const { userCurrent } = useSelector(state => state.user);
+
+    const navigate = useNavigate()
 
     const _acceptedFormat = "image/png, image/gif, image/jpeg";
 
@@ -176,10 +179,12 @@ export default function Import() {
                 setLoading(_=> true);
                 internshipTransport.post("/api/stocks-invoice/create", data)
                 .then((res) => {
-                    if (res.data.statusCode === "CREATED") {
+                    console.log(res);
+                    if (res.statusCode === "OK") {
                         toast.success(
                             "Successfully!",
                         );
+                        navigate('/inventory')
                     } else {
                         toast.error(
                             "Failed",
@@ -344,8 +349,7 @@ export default function Import() {
                         <Form.Item>
                             <Button type="primary" htmlType="submit">Complete</Button>
                         </Form.Item>
-                        <Button type="default">New form</Button>
-                        <Button type="primary">Cancel</Button>
+                        <Button type="default" onClick={_=> navigate('/inventory')}>Cancel</Button>
                     </div>
                 </Form>
             </ConfigProvider>

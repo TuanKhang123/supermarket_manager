@@ -18,7 +18,6 @@ import { getUserThunk } from '../../redux/aciton/user';
 
 const SideBar = () => {
     const { userCurrent } = useSelector(state => state.user)
-    console.log(userCurrent);
     const location = useLocation();
     const pathName = location.pathname;
     const dispatch = useDispatch()
@@ -49,13 +48,11 @@ const SideBar = () => {
         }
     }, [pathName])
     const defaultKey = getFirstAvailableItemKey(userCurrent);
-    console.log(userCurrent);
     const items = [
-        // userCurrent?.hasStatistic && 
-        // userCurrent?.hasStatistic && 
-        getItem('Home Page', '1', <HomeOutlined />),
+        
+        userCurrent?.hasStatistic &&  getItem('Home Page', '1', <HomeOutlined />),
         userCurrent?.role === "ADMIN" && getItem('Accounts Management', '2', <MdAccountCircle />),
-        userCurrent?.hasWarehouse && getItem('Inventory Management', '3', <MdOutlineInventory />),
+        userCurrent?.hasWarehouse && getItem('Warehouse Management', '3', <MdOutlineInventory />),
         userCurrent?.hasShelf && getItem('Shelf Management', '4', <MdShelves />),
         userCurrent?.hasAudit && getItem('Inventory Audit', '5', <AiOutlineAudit />),
         userCurrent?.hasCategory && getItem('Category Management', '6', <PieChartOutlined />),
@@ -78,7 +75,6 @@ const SideBar = () => {
     const navigate = useNavigate()
 
     const onClick = (e) => {
-        console.log('click ', e);
         switch (e?.key) {
             case '1':
                 navigate('/')

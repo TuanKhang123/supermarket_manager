@@ -53,7 +53,7 @@ const TierList = () => {
                                     {v.tierCode}
                                 </h3>
                                 <p className="tier__item__capacity">
-                                    {`In use: ${v.inUse}%`}
+                                    {`In use: ${isNaN(v.inUse) ? 0 : v.inUse}%`}
                                 </p>
                                 <UnorderedListOutlined className="tier__item__nav" onClick={_=> navigate(`/shelf/${shelfId}/${v.tierId}`)} />
                             </div>

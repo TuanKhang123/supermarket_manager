@@ -101,6 +101,7 @@ const Compartment = () => {
     const addProduct = (productId, compartments) => {
         if (compartments.length == 0) {
             toast.error("Please select at least 1 compartment!");
+            return;
         }
         internshipTransport.post("api/shelves/add-products", {
             compartmentCodes: compartments.map((v) => v.compartmentCode),
@@ -252,21 +253,21 @@ const Compartment = () => {
                                 <div className={`compartment__item${selected.includes(v) ? " selected" : ""}`} onClick={e => onSelected(v)}>
                                     {
                                         v.productId ?
-                                        <>
-                                            <h3 className="compartment__item__name">
-                                                {
-                                                    v.compartmentCode
-                                                }
-                                            </h3>
-                                            <p className="compartment__item__capacity">
-                                                {
-                                                    `${v.productName || "Null"}: ${v.currentQuantity}`
-                                                }
-                                            </p>
-                                            <UnorderedListOutlined className="compartment__item__nav" onClick={e => onViewDetail(v, e)} />
-                                        </>
-                                        :
-                                        <h3 className="compartment__item__name">Empty</h3>
+                                            <>
+                                                <h3 className="compartment__item__name">
+                                                    {
+                                                        v.compartmentCode
+                                                    }
+                                                </h3>
+                                                <p className="compartment__item__capacity">
+                                                    {
+                                                        `${v.productName || "Null"}: ${v.currentQuantity}`
+                                                    }
+                                                </p>
+                                                <UnorderedListOutlined className="compartment__item__nav" onClick={e => onViewDetail(v, e)} />
+                                            </>
+                                            :
+                                            <h3 className="compartment__item__name">Empty</h3>
                                     }
                                 </div>
                             )

@@ -7,7 +7,6 @@ const Title = () => {
     const pathName = location.pathname;
 
     const [titlePage, setTitlePage] = useState('')
-    console.log(pathName);
     useEffect(() => {
         switch (true) {
             case pathName === '/':
@@ -19,11 +18,11 @@ const Title = () => {
 
             // Inventory management
             case pathName === "/inventory":
-                setTitlePage("Inventory receiving table");
+                setTitlePage("Warehouse receiving table");
                 break;
 
             case pathName.includes("/import"):
-                setTitlePage("Inventory receiving form ");
+                setTitlePage("Warehouse receiving form ");
                 break;
 
             // shelf
