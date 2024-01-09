@@ -18,8 +18,9 @@ const audit = {
     },
 
     updateAudit: async (data) => {
-        let url = `/api/inventories/create`;
-        return internshipTransport.post(url, data);
+        console.log(data);
+        let url = `/api/inventories/update`;
+        return internshipTransport.put(url, data);
     },
 
     deleteAudit: async (data) => {

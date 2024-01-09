@@ -43,7 +43,7 @@ const Title = () => {
             case pathName === '/category':
                 setTitlePage("Category table")
                 break;
-            case pathName === '/inventory-audit-detail':
+            case pathName.includes("/inventory-audit-detail"):
                 setTitlePage("Update details audit")
                 break;
             // category
@@ -51,6 +51,7 @@ const Title = () => {
             case pathName.includes("/category"):
                 setTitlePage("Category table")
                 break;
+
             // provider
             case pathName === '/provider':
                 setTitlePage("Supplier management")

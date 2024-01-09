@@ -5,6 +5,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { useState } from 'react';
 import { logout } from '../../redux/slice/user';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     const { userCurrent } = useSelector(state => state.user);
@@ -13,7 +14,8 @@ const Header = () => {
 
     const onConfirm = () => {
         dispatch(logout());
-        navigate("/login");
+        navigate("/");
+        toast.success('Logout successfully')
     }
 
     return (
