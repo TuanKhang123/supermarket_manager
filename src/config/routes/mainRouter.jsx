@@ -8,7 +8,7 @@ const mainRouter = [
         element: <Login />
     },
     {
-        path: "/resetpassword",
+        path: "/reset-password/:token",
         element: <ResetPassword />
     }
 ]

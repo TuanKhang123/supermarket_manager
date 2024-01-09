@@ -6,21 +6,41 @@ import { useDispatch } from 'react-redux';
 import { loginThunk } from '../../redux/aciton/user';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import accountApi from '../../redux/api/account'
 
 const Login = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [form] = Form.useForm();
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const showModal = () => {
         setIsModalOpen(true);
     };
 
-
-
     const handleOk = () => {
-        setIsModalOpen(false);
+        form.submit();
     };
+    
+    const onFinishModal = async (values) => {
+        const email = values.email;
+        const result = await accountApi.forgotPasswordService(email);
+        if(result.status === 200){
+            toast.success('Reset password send to mail!', {
+                position: 'top-right',
+                autoClose: 3000,
+                style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+            });
+            setIsModalOpen(false);
+        }else{
+            toast.error('Reset password failure!', {
+                position: 'top-right',
+                autoClose: 3000,
+                style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+            });
+        }
+    }
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -52,13 +72,6 @@ const Login = () => {
 
     };
 
-    const onFinishModal = (values) => {
-
-    }
-
-    const handleForgot = () => {
-
-    }
     return (
         <div className="wrapper-login">
             <div className='login'>
@@ -125,13 +138,15 @@ const Login = () => {
                                     onCancel={handleCancel}
                                     centered={true}
                                 >
-                                    <Form>
+                                    <Form
+                                        onFinish={onFinishModal}
+                                        form={form}
+                                    >
                                         <Form.Item
                                             className='right__form-email'
                                             label="Email"
                                             name="email"
-                                            rules={[{ required: true, message: 'Please input your username!' }]}
-                                            onFinish={onFinishModal}
+                                            rules={[{ required: true, message: 'Please input your email!' }]}
                                         >
                                             <Input
                                                 placeholder='Enter your email'
@@ -141,11 +156,6 @@ const Login = () => {
                                 </Modal>
                             </div>
                         </Form>
-
-
-
-
-
                     </div>
                 </div>
             </div>

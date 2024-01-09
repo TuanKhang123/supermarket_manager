@@ -3,29 +3,56 @@ import './style.scss'
 import logo from '../../images/Login.png'
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import accountApi from '../../redux/api/account'
+import { toast } from "react-toastify";
 
 
 
 const ResetPassword = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    const {token} = useParams();
+    
+    const onFinish = async (values) => {   
+        const newPassword = values.new_password;
+        const repeatPassword = values.repeat_password;
+        if(newPassword !== repeatPassword){
+            toast.error('Password not match!', {
+                position: 'top-right',
+                autoClose: 3000,
+                style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+            });
+            return;
+        }
 
-    const onFinish = (values) => {   
-        console.log('Success:', values);
+        //* call api reset pass
+        const result = await accountApi.resetPasswordService(token, newPassword);
+        if(result.status === 200){
+            toast.success('Reset password success!', {
+                position: 'top-right',
+                autoClose: 3000,
+                style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+            });
+            navigate('/')
+        }else{
+            toast.error('Reset password failure!', {
+                position: 'top-right',
+                autoClose: 3000,
+                style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+            });
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        // return;
+        console.log(errorInfo)
     };
 
     const handleCancel = () => { 
         navigate('/')
     }
 
-    const handleForgot = () => {
-
-    }
     return (
         <div className='resetpassword'>
 
