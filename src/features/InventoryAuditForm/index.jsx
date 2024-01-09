@@ -255,10 +255,10 @@ const InventoryAuditForm = () => {
 
   };
   const onFinish = (values) => {
+    console.log(values);
     let products = []
     values?.tableData.map(item => {
       const itemPro = {
-        // ****** Hiện tại productid đang để = product code?????
         productId: item?.pro_id,
         quantity: item?.qty,
         status: item?.status,
@@ -274,24 +274,24 @@ const InventoryAuditForm = () => {
       products: products
     }
     console.log(dataSend);
-    dispatch(createAuditThunk(dataSend))
-      .then(res => {
-        if (res?.payload?.data === "create successfully") {
-          toast.success('Create successfully', {
-            position: 'top-right',
-            autoClose: 3000,
-            style: { color: '#32a852', backgroundColor: '#D7F1FD' },
-          });
-          navigate('/inventory-audit-info')
-        }
-        else {
-          toast.error("Create fail", {
-            position: 'top-right',
-            autoClose: 3000,
-            style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
-          });
-        }
-      })
+    // dispatch(createAuditThunk(dataSend))
+    //   .then(res => {
+    //     if (res?.payload?.data === "create successfully") {
+    //       toast.success('Create successfully', {
+    //         position: 'top-right',
+    //         autoClose: 3000,
+    //         style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+    //       });
+    //       navigate('/inventory-audit-info')
+    //     }
+    //     else {
+    //       toast.error("Create fail", {
+    //         position: 'top-right',
+    //         autoClose: 3000,
+    //         style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+    //       });
+    //     }
+    //   })
   };
 
   const handleChangeSearch = (values) => {
