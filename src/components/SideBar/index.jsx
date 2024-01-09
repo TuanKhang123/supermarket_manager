@@ -21,10 +21,8 @@ const SideBar = () => {
     const location = useLocation();
     const pathName = location.pathname;
     const dispatch = useDispatch()
+    const [defaultKey, setdDefaultKey] = useState('1')
 
-    // useEffect(() => {
-    //     // dispatch(getUserThunk())
-    // }, [])
     function getItem(label, key, icon, children, type) {
         return {
             key,
@@ -34,23 +32,40 @@ const SideBar = () => {
             type,
         };
     }
-    function getFirstAvailableItemKey(userCurrent) {
-        // if (userCurrent?.hasStatistic)
-            return '1';
-        return '2'; // Mục 'Accounts Management' luôn có sẵn
-        // Nếu có thêm logic cho các mục khác, bạn có thể thêm vào đây
-    }
+
 
 
     useEffect(() => {
         if (pathName) {
-            // if ()
+            switch (pathName) {
+                case '/':
+                    setdDefaultKey('1')
+                    break;
+                case '/account':
+                    setdDefaultKey('2')
+                    break;
+                case '/inventory':
+                    setdDefaultKey('3')
+                    break;
+                case '/shelf':
+                    setdDefaultKey('4')
+                    break;
+                case '/inventory-audit-info':
+                    setdDefaultKey('5')
+                    break;
+                case '/category':
+                    setdDefaultKey('6')
+                    break;
+                case '/provider':
+                    setdDefaultKey('7')
+                    break;
+                default:
+                    break;
+            }
         }
     }, [pathName])
-    const defaultKey = getFirstAvailableItemKey(userCurrent);
     const items = [
-        
-        userCurrent?.hasStatistic &&  getItem('Home Page', '1', <HomeOutlined />),
+        userCurrent?.hasStatistic && getItem('Home Page', '1', <HomeOutlined />),
         userCurrent?.role === "ADMIN" && getItem('Accounts Management', '2', <MdAccountCircle />),
         userCurrent?.hasWarehouse && getItem('Warehouse Management', '3', <MdOutlineInventory />),
         userCurrent?.hasShelf && getItem('Shelf Management', '4', <MdShelves />),
@@ -59,19 +74,6 @@ const SideBar = () => {
         userCurrent?.hasSupply && getItem('Supplier Management ', '7', <MdManageAccounts />),
     ];
 
-    // const [items, setItems] = useState([])
-
-    // useEffect(() => {
-    //     setItems(
-    //         userCurrent?.hasStatistic && getItem('Home Page', '1', <HomeOutlined />),
-    //         userCurrent?.role === "ADMIN" && getItem('Accounts Management', '2', <MdAccountCircle />),
-    //         userCurrent?.hasWarehouse && getItem('Inventory Management', '3', <MdOutlineInventory />),
-    //         userCurrent?.hasShelf && getItem('Shelf Management', '4', <MdShelves />),
-    //         userCurrent?.hasAudit && getItem('Inventory Audit', '5', <AiOutlineAudit />),
-    //         userCurrent?.hasCategory && getItem('Category Management', '6', <PieChartOutlined />),
-    //         userCurrent?.hasSupply && getItem('Supplier Management ', '7', <MdManageAccounts />),
-    //     )
-    // }, [userCurrent])
     const navigate = useNavigate()
 
     const onClick = (e) => {

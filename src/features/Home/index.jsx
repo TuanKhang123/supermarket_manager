@@ -22,11 +22,12 @@ const Home = () => {
     const [dataSupplier, setDataSupplier] = useState([]);
     const [statisticQnt, setStatisticQnt] = useState({sold: 0, inShelf: 0, onStock: 0});
     const [countQnt, setCountQnt] = useState({countAccount: 0, countInventory: 0, countSupplier: 0})
-
+    console.log();
     //* Get data statistic
     useEffect(() => {
         const getStatisticData = async  () => {
             const result = await statisticApi.getStatistic(chooseMonth, chooseYear);
+            console.log(result);
             if(result.statusCode === "OK"){
                 //* set income value
                 setIncome(result.data?.income);
@@ -57,20 +58,6 @@ const Home = () => {
     };
 
     const configIncome = {
-        // data: [
-        //     { month: '1', money: 27 },
-        //     { month: '2', money: 50 },
-        //     { month: '3', money: 86 },
-        //     { month: '4', money: 10 },
-        //     { month: '5', money: 20 },
-        //     { month: '6', money: 44 },
-        //     { month: '7', money: 23 },
-        //     { month: '8', money: 14 },
-        //     { month: '9', money: 21 },
-        //     { month: '10', money: 93 },
-        //     { month: '11', money: 22 },
-        //     { month: '12', money: 9 },
-        // ],
         xField: 'month',
         yField: 'money',
         scrollbar: {
@@ -141,37 +128,6 @@ const Home = () => {
         getYear()
         getMonth()
     }, [])
-
-    // const dataSupplier = [
-    //     {
-    //         companyName: 'abc',
-    //         total: '4000'
-    //     },
-    //     {
-    //         companyName: 'R4S',
-    //         total: '123'
-    //     },
-    //     {
-    //         companyName: 'Mam Tom',
-    //         total: '200'
-    //     },
-    //     {
-    //         companyName: 'Ahihi',
-    //         total: '213'
-    //     },
-    //     {
-    //         companyName: 'Ahihi',
-    //         total: '213'
-    //     },
-    //     {
-    //         companyName: 'Ahihi',
-    //         total: '213'
-    //     },
-    //     {
-    //         companyName: 'Ahihi',
-    //         total: '213'
-    //     },
-    // ]
 
     const columnsSupplier = [
         {
