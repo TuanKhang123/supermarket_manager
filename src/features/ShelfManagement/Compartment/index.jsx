@@ -112,10 +112,17 @@ const Compartment = () => {
             .then(resp => {
                 if (resp.statusCode === "OK") {
                     toast.success("Successfully");
-                    internshipTransport.get(`api/compartments/${tierId}`)
+                    Promise.all([
+                        internshipTransport.get(`api/compartments/${tierId}`),
+                        internshipTransport.get(`api/products/all?search=&page-number=1&limit=1&from=11-11-2023&to=${dayjs().format("DD-MM-YYYY")}`)
+                    ])
                         .then((resp) => {
-                            if (resp.statusCode === "OK") {
-                                setCompartment(_ => resp.data);
+                            if (resp[0].statusCode === "OK") {
+                                setCompartment(_ => resp[0].data);
+                                console.log(resp[0].data);
+                            }
+                            if (resp[1].statusCode === "OK") {
+                                setProducts(_ => resp[1].data.filter((v, i) => !v.isDisable));
                             }
                         });
                     setSelected([]);
@@ -134,10 +141,17 @@ const Compartment = () => {
                     if (resp.statusCode === "OK") {
                         toast.success("Successfully");
                         setData(_ => null);
-                        internshipTransport.get(`api/compartments/${tierId}`)
+                        Promise.all([
+                            internshipTransport.get(`api/compartments/${tierId}`),
+                            internshipTransport.get(`api/products/all?search=&page-number=1&limit=1&from=11-11-2023&to=${dayjs().format("DD-MM-YYYY")}`)
+                        ])
                             .then((resp) => {
-                                if (resp.statusCode === "OK") {
-                                    setCompartment(_ => resp.data);
+                                if (resp[0].statusCode === "OK") {
+                                    setCompartment(_ => resp[0].data);
+                                    console.log(resp[0].data);
+                                }
+                                if (resp[1].statusCode === "OK") {
+                                    setProducts(_ => resp[1].data.filter((v, i) => !v.isDisable));
                                 }
                             });
                         setSelected([]);
@@ -198,7 +212,6 @@ const Compartment = () => {
             .then((resp) => {
                 if (resp[0].statusCode === "OK") {
                     setCompartment(_ => resp[0].data);
-                    console.log(resp[0].data);
                 }
                 if (resp[1].statusCode === "OK") {
                     setProducts(_ => resp[1].data.filter((v, i) => !v.isDisable));
