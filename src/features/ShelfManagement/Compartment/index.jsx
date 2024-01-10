@@ -25,7 +25,7 @@ const CompartmentDetail = ({ data, shelfId, tierId, onClear }) => {
         },
         {
             name: "Batch code",
-            key: "bcode",
+            key: "batchCode",
         },
         {
             name: "Quantity",
@@ -33,7 +33,7 @@ const CompartmentDetail = ({ data, shelfId, tierId, onClear }) => {
         },
         {
             name: "Shelf quantity",
-            key: "sqty",
+            key: "shelfQnt",
         },
         {
             name: "Unit price",
@@ -41,11 +41,11 @@ const CompartmentDetail = ({ data, shelfId, tierId, onClear }) => {
         },
         {
             name: "Manufacture date",
-            key: "pro",
+            key: "manufactureDate",
         },
         {
             name: "Expire date",
-            key: "exp",
+            key: "expiredDate",
         },
 
     ];
@@ -103,17 +103,26 @@ const Compartment = () => {
             toast.error("Please select at least 1 compartment!");
             return;
         }
-        internshipTransport.post("api/shelves/add-products", {
-            compartmentCodes: compartments.map((v) => v.compartmentCode),
+        const body = {
+            compartmentIds: compartments.map((v) => v.compartmentId),
             tierId: Number.parseInt(tierId),
             productId: productId,
-        })
+        };
+        internshipTransport.post("api/shelves/add-products", body)
             .then(resp => {
-                console.log(resp);
                 if (resp.statusCode === "OK") {
                     toast.success("Successfully");
+                    internshipTransport.get(`api/compartments/${tierId}`)
+                        .then((resp) => {
+                            if (resp.statusCode === "OK") {
+                                setCompartment(_ => resp.data);
+                            }
+                        });
+                    setSelected([]);
                 } else {
-                    toast.error("Failed!");
+
+                    toast.error(resp.response.data.data);
+                    toast.error(resp.response.data.message);
                 }
             });
     }
@@ -124,7 +133,16 @@ const Compartment = () => {
                 .then(resp => {
                     if (resp.statusCode === "OK") {
                         toast.success("Successfully");
+                        setData(_ => null);
+                        internshipTransport.get(`api/compartments/${tierId}`)
+                            .then((resp) => {
+                                if (resp.statusCode === "OK") {
+                                    setCompartment(_ => resp.data);
+                                }
+                            });
+                        setSelected([]);
                     } else {
+
                         toast.error("Failed!");
                     }
                 });
@@ -132,12 +150,6 @@ const Compartment = () => {
     }
 
     const columns = [
-        {
-            key: "no",
-            title: "No.",
-            dataIndex: "no",
-            render: (text, record, index) => 1,
-        },
         {
             key: "categoryName",
             title: "Category",
@@ -156,7 +168,7 @@ const Compartment = () => {
         {
             key: "inputQuantity",
             title: "Quantity",
-            dataIndex: "inputQuantity",
+            dataIndex: (t, record, i) => record["inputQuantity"] - record["soldQuantity"] - record["shelfQnt"],
         },
         {
             key: "shelfArrangeQnt",
@@ -198,7 +210,7 @@ const Compartment = () => {
             setSelected(prev => prev.filter((v, i) => v.compartmentId !== item.compartmentId));
 
         } else {
-            if (selected.length === 0 || selected[0].productId === item.productId) {
+            if (selected.length === 0 || selected.every((v) => v.productId === item.productId || !v.productId) || !item.productId) {
                 setSelected(prev => [...prev, item]);
             } else {
                 toast.info("Products must be the same!");
@@ -251,14 +263,14 @@ const Compartment = () => {
                             compartment.map((v, i) =>
 
                                 <div className={`compartment__item${selected.includes(v) ? " selected" : ""}`} onClick={e => onSelected(v)}>
+                                    <h3 className="compartment__item__name">
+                                        {
+                                            v.compartmentCode
+                                        }
+                                    </h3>
                                     {
                                         v.productId ?
                                             <>
-                                                <h3 className="compartment__item__name">
-                                                    {
-                                                        v.compartmentCode
-                                                    }
-                                                </h3>
                                                 <p className="compartment__item__capacity">
                                                     {
                                                         `${v.productName || "Null"}: ${v.currentQuantity}`
@@ -267,7 +279,9 @@ const Compartment = () => {
                                                 <UnorderedListOutlined className="compartment__item__nav" onClick={e => onViewDetail(v, e)} />
                                             </>
                                             :
-                                            <h3 className="compartment__item__name">Empty</h3>
+                                            <p>
+                                                Empty
+                                            </p>
                                     }
                                 </div>
                             )
