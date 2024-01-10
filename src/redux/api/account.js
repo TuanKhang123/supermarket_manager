@@ -1,5 +1,5 @@
 import axios from "axios";
-import { internshipTransport } from "../../config/http/transport";
+import { internshipTransport, mailTransport } from "../../config/http/transport";
 
 const account = {
     getAllAccount: async (data) => {
@@ -31,6 +31,21 @@ const account = {
         let url = `/api/accounts/unblock/${data?.id}`;
         return internshipTransport.post(url);
     },
-
+    forgotPasswordService: async (email) => {
+        try {
+            const url = "/api/me/forgot-password"
+            return mailTransport.put(url, {email});
+        } catch (err) {
+        return err.response.data;
+        }
+    },
+    resetPasswordService: async (token, password) => {
+        try {
+            const url = `/api/me/reset-password/${token}`;
+            return mailTransport.put(url, {password});
+        } catch (err) {
+        return err.response.data;
+        }
+    }
 }
 export default account

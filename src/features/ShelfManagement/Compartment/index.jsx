@@ -168,7 +168,8 @@ const Compartment = () => {
         {
             key: "inputQuantity",
             title: "Quantity",
-            dataIndex: (t, record, i) => record["inputQuantity"] - record["soldQuantity"] - record["shelfQnt"],
+            dataIndex: "inputQuantity",
+            render: (text, record, index) => record["inputQuantity"] - record["soldQuantity"] - record["shelfQnt"]
         },
         {
             key: "shelfArrangeQnt",

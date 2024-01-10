@@ -133,24 +133,24 @@ const Home = () => {
         {
             title: "Num",
             key: "number",
-            width: "10%",
+            width: "20%",
             align: "center",
             render: (_, __, index) => ((currentPage - 1) * limit) + index + 1,
         },
         {
             title: "Company name",
             key: "companyName",
-            width: "10%",
+            width: "60%",
             align: "center",
             render: (text) => text.companyName,
         },
         {
             title: "Total inward",
             key: "total",
-            width: "10%",
+            width: "30%",
             align: "center",
             ellipsis: true,
-            render: (text) => text.total,
+            render: (text) => `${Number(text.total).toLocaleString()} VND`,
         }
     ];
 
