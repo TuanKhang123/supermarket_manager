@@ -4,13 +4,13 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { internshipTransport } from "../../../config/http/transport";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const AddShelf = () => {
     const [tiers, setTiers] = useState([10]);
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
-
+    
     const add = () => setTiers(prev => [...prev, 1]);
     const change = (index, value) => setTiers(prev => prev.map((v, i) => i === index ? value : v));
     const del = (index) => setTiers(prev => prev.filter((v, i) => i !== index));
@@ -30,7 +30,7 @@ const AddShelf = () => {
             shelfCode: values.shelfCode,
             categoryId: values.categoryId,
             tiers: tiers.map((v, i) => ({
-                NumberOfCompartment: values[`tier0${i}`],
+                numberOfCompartment: values[`tier0${i}`],
             }))
         }
 

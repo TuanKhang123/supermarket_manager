@@ -69,7 +69,8 @@ const InventoryAuditForm = () => {
 
     if (userCurrent) {
       form.setFieldsValue({
-        name_clerk: userCurrent?.name
+        name_clerk: userCurrent?.name,
+        date: moment()
       });
     }
 
@@ -254,10 +255,10 @@ const InventoryAuditForm = () => {
 
   };
   const onFinish = (values) => {
+    console.log(values);
     let products = []
     values?.tableData.map(item => {
       const itemPro = {
-        // ****** Hiện tại productid đang để = product code?????
         productId: item?.pro_id,
         quantity: item?.qty,
         status: item?.status,
@@ -265,7 +266,7 @@ const InventoryAuditForm = () => {
       products.push(itemPro)
     })
     const dataSend = {
-      inventoryTime: values?.date.toDate(),
+      inventoryTime: values?.date.format("DD-MM-YYYY"),
       inventoryCode: values?.audit_code,
       staffSignature: values?.upload?.fileList[0].thumbUrl.split("data:image/png;base64,")[1],
       note: values?.description,
@@ -471,7 +472,7 @@ const InventoryAuditForm = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Enter the audit staff's name" />
+                  <Input disabled placeholder="Enter the audit staff's name" />
                 </Form.Item>
               </div>
 
@@ -492,11 +493,11 @@ const InventoryAuditForm = () => {
                               "Please enter a maximum of 500 characters"
                             );
                           }
-                          if (value.trim().length < 5) {
-                            return Promise.reject(
-                              "Please enter a minimum of 5 characters"
-                            );
-                          }
+                          // if (value.trim().length < 3) {
+                          //   return Promise.reject(
+                          //     "Please enter a minimum of 3 characters"
+                          //   );
+                          // }
                           return Promise.resolve();
                         } else {
                           return Promise.resolve();

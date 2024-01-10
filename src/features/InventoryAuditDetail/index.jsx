@@ -49,9 +49,8 @@ const InventoryAuditDetail = () => {
     const [fileList, setFileList] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [sendData, setSendData] = useState();
-    const { userCurrent } = useSelector(state => state.user)
     const { auditById } = useSelector(state => state.audit)
-    console.log(auditById);
+
     const stateData = location.state;
     const { id } = useParams();
 
@@ -61,7 +60,6 @@ const InventoryAuditDetail = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [dataSource, setDataSource] = useState([]);
-    const [count, setCount] = useState(0);
 
     const handlePageChange = (page) => {
         if (page != currentPage)
@@ -71,14 +69,14 @@ const InventoryAuditDetail = () => {
     useEffect(() => {
         if (auditById) {
             form.setFieldsValue({
-                date: moment(auditById.timeInventory, "DD-MM-YYYY"),
+                date: moment(auditById.timeInventory),
                 upload: {
                     uid: '-1', // Cần có uid cho mỗi file
                     name: 'signature.png', // Tên file
                     status: 'done',
                     url: `${auditById.signatureOfClerk}`, // URL của hình ảnh
                 },
-                audit_code: auditById?.tnventoryCode,
+                audit_code: auditById?.inventoryCode,
                 name: auditById?.nameOfClerk,
                 description: auditById?.note,
                 tableData: auditById?.products,
@@ -88,8 +86,9 @@ const InventoryAuditDetail = () => {
     }, [auditById])
 
     useEffect(() => {
-        setFileList([form.getFieldValue('upload')]);
-    }, [form]);
+        form.getFieldValue('upload') && setFileList([form.getFieldValue('upload')]);
+
+    }, [form.getFieldValue('upload')]);
 
     useEffect(() => {
         dispatch(getAuditByIdThunk({ id: id }))
@@ -247,11 +246,6 @@ const InventoryAuditDetail = () => {
         }
     };
 
-    const handleRemove = (file) => {
-        const updatedFileList = fileList.filter((item) => item.uid !== file.uid);
-        setFileList(updatedFileList);
-    };
-
     const handleModalCancel = (cancelled) => {
         if (cancelled) {
         }
@@ -264,37 +258,30 @@ const InventoryAuditDetail = () => {
         let dataSend = []
         values?.tableData.map((item) => {
             const table = {
-                productInventoryId: item?.productId,
+                productInventoryId: item?.productInventoryId,
                 quantity: item?.quantity,
                 status: item?.status,
             }
             dataSend.push(table)
         })
 
-        toast.success('Update successfully', {
-            position: 'top-right',
-            autoClose: 3000,
-            style: { color: '#32a852', backgroundColor: '#D7F1FD' },
-        });
-        navigate('/inventory-audit-info')
-
-        // dispatch(updateAuditThunk({ id: id, data: dataSend }))
-        //     .then(res => {
-        //         if (res?.payload?.statusCode === "OK") {
-        //             toast.success('Update successfully', {
-        //                 position: 'top-right',
-        //                 autoClose: 3000,
-        //                 style: { color: '#32a852', backgroundColor: '#D7F1FD' },
-        //             });
-        //         }
-        //         else {
-        //             toast.error('Update fail', {
-        //                 position: 'top-right',
-        //                 autoClose: 3000,
-        //                 style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
-        //             });
-        //         }
-        //     })
+        dispatch(updateAuditThunk({ id: id, data: dataSend }))
+            .then(res => {
+                if (res?.payload?.statusCode === "OK") {
+                    toast.success('Update successfully', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                        style: { color: '#32a852', backgroundColor: '#D7F1FD' },
+                    });
+                }
+                else {
+                    toast.error('Update fail', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                        style: { color: '#bf0d0d', backgroundColor: '#D7F1FD' },
+                    });
+                }
+            })
     };
 
     return (
@@ -361,7 +348,6 @@ const InventoryAuditDetail = () => {
                                     ]}
                                 >
                                     <Upload
-
                                         listType="picture"
                                         beforeUpload={beforeUpload}
                                         fileList={fileList ? fileList : null}
@@ -427,11 +413,11 @@ const InventoryAuditDetail = () => {
                                                             "Please enter a maximum of 500 characters"
                                                         );
                                                     }
-                                                    if (value.trim().length < 5) {
-                                                        return Promise.reject(
-                                                            "Please enter a minimum of 5 characters"
-                                                        );
-                                                    }
+                                                    // if (value.trim().length < 5) {
+                                                    //     return Promise.reject(
+                                                    //         "Please enter a minimum of 5 characters"
+                                                    //     );
+                                                    // }
                                                     return Promise.resolve();
                                                 } else {
                                                     return Promise.resolve();

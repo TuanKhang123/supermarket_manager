@@ -14,7 +14,6 @@ const TierList = () => {
     useState(_ => {
         internshipTransport.get(`api/tiers/${shelfId}`)
             .then((resp) => {
-                console.log(resp);
                 if (resp.statusCode === "OK") {
                     setTiers(_=> resp.data);
                 } else {

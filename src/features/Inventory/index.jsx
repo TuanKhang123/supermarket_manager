@@ -10,18 +10,31 @@ const Inventory = () => {
     const [input, setInput] = useState("");
     const [data, setData] = useState([]);
     const [range, setRange] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 10;
     const navigate = useNavigate();
+    const handlePageChange = (page) => {
+        if (page != currentPage)
+          setCurrentPage(page?.current);
+      };
+    const onDelete = async (id) => {
+
+    }
+
+    const onChange = async (id) => {
+        
+    }
 
     const columns = [
         {
             title: "No.",
             key: "no",
             dataIndex: "no",
-            render: (t, r, i) => ('0' + i).slice(-2)
+            render: (_, __, index) => ((currentPage - 1) * limit) + index + 1,
         },
         {
-            title: "Product Name",
-            key: "categoryName",
+            title: "Product name",
+            key: "productName",
             dataIndex: "productName",
         },
         {
@@ -53,7 +66,10 @@ const Inventory = () => {
     ];
 
     const search = useCallback(async () => {
-        const searchStr = `api/products/all?search=${input}`;
+        const start = (range ? range[0] : dayjs(new Date(1975, 1, 1))).format("DD-MM-YYYY");
+        const end = (range ? range[1] : dayjs()).format("DD-MM-YYYY");
+        const searchStr = `api/products/all?${input ? `search=${input}`: ""}${range ? `&from=${start}&to=${end}` : ""}`;
+        console.log(searchStr);
         const reps = await internshipTransport.get(searchStr);
         console.log(reps);
         setData(_ => reps.data);
@@ -80,8 +96,8 @@ const Inventory = () => {
         <div className="inventory__wrapper">
             <div className="inventory__card">
                 <div className="inventory__panel">
-                    <Input onChange={e => setInput(e.target.value)} value={input} prefix={<SearchOutlined style={{ color: "#1677ff" }} />} style={{ width: "50%" }} placeholder="Search follow the supplier code" />
-                    <DatePicker.RangePicker picker="date" format="DD/MM/YYYY" defaultValue={dayjs()} onChange={(v) => setRange(_ => v)} />
+                    <Input onChange={e => setInput(e.target.value)} value={input} prefix={<SearchOutlined style={{ color: "#1677ff" }} />} style={{ width: "50%" }} placeholder="Search follow the supplier code, product name" />
+                    <DatePicker.RangePicker picker="date" format="DD/MM/YYYY" defaultValue={dayjs()} onChange={(v) => setRange(_=> v)} />
                     <Button type="primary" onClick={_ => navigate("/import")}>
                         Add products
                     </Button>
@@ -96,6 +112,7 @@ const Inventory = () => {
                     }}
                 >
                     <Table
+                        onChange={handlePageChange}
                         columns={columns}
                         dataSource={range ? data.filter((v, i) => myFilter(v, range[0], range[1])) :  data}
                         bordered

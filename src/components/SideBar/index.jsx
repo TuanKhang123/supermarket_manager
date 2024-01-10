@@ -18,14 +18,11 @@ import { getUserThunk } from '../../redux/aciton/user';
 
 const SideBar = () => {
     const { userCurrent } = useSelector(state => state.user)
-    console.log(userCurrent);
     const location = useLocation();
     const pathName = location.pathname;
     const dispatch = useDispatch()
+    const [defaultKey, setdDefaultKey] = useState('1')
 
-    // useEffect(() => {
-    //     // dispatch(getUserThunk())
-    // }, [])
     function getItem(label, key, icon, children, type) {
         return {
             key,
@@ -36,76 +33,50 @@ const SideBar = () => {
         };
     }
 
-    function getFirstAvailableItemKey(userCurrent) {
-        if (userCurrent?.hasStatistic)
-            return '1';
-        return '2';
-        // Mục 'Accounts Management' luôn có sẵn
-        // Nếu có thêm logic cho các mục khác, bạn có thể thêm vào đây
-    }
-    let defaultKey = getFirstAvailableItemKey(userCurrent);
-
-
 
 
     useEffect(() => {
-        switch (pathName) {
-            case '/':
-                defaultKey = 1;
-                break;
-            case '/account':
-                defaultKey = 2;
-                break;
-            case '/inventory':
-                defaultKey = 3;
-                break;
-            case '/shelf':
-                defaultKey = 4;
-                break;
-            case '/inventory-audit-info':
-                defaultKey = 5;
-                break;
-            case '/category':
-                defaultKey = 6;
-                break;
-            case '/provider':
-                defaultKey = 7;
-                break;
-            default:
-                break;
+        if (pathName) {
+            switch (pathName) {
+                case '/':
+                    setdDefaultKey('1')
+                    break;
+                case '/account':
+                    setdDefaultKey('2')
+                    break;
+                case '/inventory':
+                    setdDefaultKey('3')
+                    break;
+                case '/shelf':
+                    setdDefaultKey('4')
+                    break;
+                case '/inventory-audit-info':
+                    setdDefaultKey('5')
+                    break;
+                case '/category':
+                    setdDefaultKey('6')
+                    break;
+                case '/provider':
+                    setdDefaultKey('7')
+                    break;
+                default:
+                    break;
+            }
         }
     }, [pathName])
-    console.log(userCurrent);
     const items = [
-        // userCurrent?.hasStatistic && 
-        // userCurrent?.hasStatistic && 
-        // userCurrent?.hasStatistic && 
-        getItem('Home Page', '1', <HomeOutlined />),
+        userCurrent?.hasStatistic && getItem('Home Page', '1', <HomeOutlined />),
         userCurrent?.role === "ADMIN" && getItem('Accounts Management', '2', <MdAccountCircle />),
-        userCurrent?.hasWarehouse && getItem('Inventory Management', '3', <MdOutlineInventory />),
+        userCurrent?.hasWarehouse && getItem('Warehouse Management', '3', <MdOutlineInventory />),
         userCurrent?.hasShelf && getItem('Shelf Management', '4', <MdShelves />),
         userCurrent?.hasAudit && getItem('Inventory Audit', '5', <AiOutlineAudit />),
         userCurrent?.hasCategory && getItem('Category Management', '6', <PieChartOutlined />),
         userCurrent?.hasSupply && getItem('Supplier Management ', '7', <MdManageAccounts />),
     ];
 
-    // const [items, setItems] = useState([])
-
-    // useEffect(() => {
-    //     setItems(
-    //         userCurrent?.hasStatistic && getItem('Home Page', '1', <HomeOutlined />),
-    //         userCurrent?.role === "ADMIN" && getItem('Accounts Management', '2', <MdAccountCircle />),
-    //         userCurrent?.hasWarehouse && getItem('Inventory Management', '3', <MdOutlineInventory />),
-    //         userCurrent?.hasShelf && getItem('Shelf Management', '4', <MdShelves />),
-    //         userCurrent?.hasAudit && getItem('Inventory Audit', '5', <AiOutlineAudit />),
-    //         userCurrent?.hasCategory && getItem('Category Management', '6', <PieChartOutlined />),
-    //         userCurrent?.hasSupply && getItem('Supplier Management ', '7', <MdManageAccounts />),
-    //     )
-    // }, [userCurrent])
     const navigate = useNavigate()
 
     const onClick = (e) => {
-        console.log('click ', e);
         switch (e?.key) {
             case '1':
                 navigate('/')

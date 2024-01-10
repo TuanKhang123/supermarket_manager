@@ -58,6 +58,7 @@
         display: flex;
         justify-content: space-between;
         margin-top: 15px;
+        height: 30rem;
 
         .common_title {
             align-items: center;
@@ -71,7 +72,6 @@
         }
 
         .invent-statistics {
-            height: 60vh;
             width: 47%;
             display: flex;
             flex-direction: column;
@@ -120,7 +120,7 @@
 
             .statistics-pie {
                 width: 100%;
-                height: 100%;
+                height: 95%;
             }
         }
 

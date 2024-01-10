@@ -7,7 +7,7 @@ import { HiUserGroup } from "react-icons/hi2";
 import { IoDocumentText } from "react-icons/io5";
 import { BsBuildingFillAdd } from "react-icons/bs";
 import { Column, Pie } from '@ant-design/plots';
-import { internshipTransport } from '../../config/http/transport';
+import statisticApi from '../../redux/api/statistic'
 const Home = () => {
 
     const { accessToken } = useSelector(state => state.user)
@@ -15,11 +15,42 @@ const Home = () => {
     const limit = 4;
     const [listMonth, setListMonth] = useState([])
     const [listYear, setListYear] = useState([])
-    const [chooseMonth, setChooseMonth] = useState()
-    const [chooseYear, setChooseYear] = useState()
+    const [chooseMonth, setChooseMonth] = useState(new Date().getMonth() + 1)
+    const [chooseYear, setChooseYear] = useState(new Date().getFullYear())
+    const [income, setIncome] = useState([]);
+    const [statistic, setStatistic] = useState([]);
+    const [dataSupplier, setDataSupplier] = useState([]);
+    const [statisticQnt, setStatisticQnt] = useState({sold: 0, inShelf: 0, onStock: 0});
+    const [countQnt, setCountQnt] = useState({countAccount: 0, countInventory: 0, countSupplier: 0})
+    console.log();
+    //* Get data statistic
+    useEffect(() => {
+        const getStatisticData = async  () => {
+            const result = await statisticApi.getStatistic(chooseMonth, chooseYear);
+            console.log(result);
+            if(result.statusCode === "OK"){
+                //* set income value
+                setIncome(result.data?.income);
+                //* set statistic vaue
+                if(result.data?.inventory){
+                    let inventory = [...result.data?.inventory]
+                    const total = inventory[0].value + inventory[1].value + inventory[2].value;
+                    setStatisticQnt({sold: inventory[1].value ?? 0, inShelf: inventory[2].value ?? 0, onStock: inventory[0].value ?? 0})
+                    //* set percent
+                    inventory[0].value = Number(inventory[0].value* 100 / total);
+                    inventory[1].value = Number(inventory[1].value* 100 / total);
+                    inventory[2].value = Number(inventory[2].value* 100 / total);
+                    setStatistic(inventory);
+                }
+                //* set supplier value
+                setDataSupplier(result.data?.suppliers);
+                //* set count total Account, Inventory, Supplier
+                setCountQnt({countAccount: result?.data?.countAccount ?? 0, countInventory: result?.data?.countInventory ?? 0, countSupplier: result?.data?.countSupplier ?? 0})
+            }
+        };
+        getStatisticData();
+    }, [chooseMonth, chooseYear])
 
-    console.log(chooseMonth);
-    console.log(chooseYear);
 
     const handlePageChange = (page) => {
         if (page != currentPage)
@@ -27,20 +58,6 @@ const Home = () => {
     };
 
     const configIncome = {
-        data: [
-            { month: '1', money: 27 },
-            { month: '2', money: 50 },
-            { month: '3', money: 86 },
-            { month: '4', money: 10 },
-            { month: '5', money: 20 },
-            { month: '6', money: 44 },
-            { month: '7', money: 23 },
-            { month: '8', money: 14 },
-            { month: '9', money: 21 },
-            { month: '10', money: 93 },
-            { month: '11', money: 22 },
-            { month: '12', money: 9 },
-        ],
         xField: 'month',
         yField: 'money',
         scrollbar: {
@@ -51,11 +68,11 @@ const Home = () => {
     };
 
     const configStatistics = {
-        data: [
-            { type: 'in shelf', value: 41.667 },
-            { type: 'on stock   ', value: 50 },
-            { type: 'Sold', value: 8.333 },
-        ],
+        // data: [
+        //     { type: 'in shelf', value: 41.667 },
+        //     { type: 'on stock   ', value: 50 },
+        //     { type: 'Sold', value: 8.333 },
+        // ],
         angleField: 'value',
         colorField: 'type',
         paddingRight: 80,
@@ -74,17 +91,6 @@ const Home = () => {
                 rowPadding: 5,
             },
         },
-
-        // legend: {
-        //     position: 'right',
-        //     itemHeight: 20,
-        //     flipPage: false,
-        //     text: {
-        //         style: {
-        //             fontSize: '14px',
-        //         },
-        //     },
-        // },
     };
 
     const handleMonth = (value, option) => {
@@ -123,59 +129,28 @@ const Home = () => {
         getMonth()
     }, [])
 
-    const dataSupplier = [
-        {
-            companyName: 'abc',
-            total: '4000'
-        },
-        {
-            companyName: 'R4S',
-            total: '123'
-        },
-        {
-            companyName: 'Mam Tom',
-            total: '200'
-        },
-        {
-            companyName: 'Ahihi',
-            total: '213'
-        },
-        {
-            companyName: 'Ahihi',
-            total: '213'
-        },
-        {
-            companyName: 'Ahihi',
-            total: '213'
-        },
-        {
-            companyName: 'Ahihi',
-            total: '213'
-        },
-    ]
-
     const columnsSupplier = [
         {
             title: "Num",
             key: "number",
-            width: "10%",
+            width: "20%",
             align: "center",
             render: (_, __, index) => ((currentPage - 1) * limit) + index + 1,
         },
         {
             title: "Company name",
             key: "companyName",
-            width: "10%",
+            width: "60%",
             align: "center",
             render: (text) => text.companyName,
         },
         {
             title: "Total inward",
             key: "total",
-            width: "10%",
+            width: "30%",
             align: "center",
             ellipsis: true,
-            render: (text) => text.total,
+            render: (text) => `${Number(text.total).toLocaleString()} VND`,
         }
     ];
 
@@ -187,7 +162,7 @@ const Home = () => {
                         <HiUserGroup className='total-icon' />
 
                         <div className="total-quantity">
-                            <p className='total-quantity-number'>365</p>
+                            <p className='total-quantity-number'>{Number(countQnt.countAccount).toLocaleString()}</p>
                             <p className='total-quantity-name'>Users</p>
                         </div>
                     </div>
@@ -196,7 +171,7 @@ const Home = () => {
                         <IoDocumentText className='total-icon' />
 
                         <div className="total-quantity">
-                            <p className='total-quantity-number'>2,858</p>
+                            <p className='total-quantity-number'>{Number(countQnt.countInventory).toLocaleString()}</p>
                             <p className='total-quantity-name'>Inventory management</p>
                         </div>
                     </div>
@@ -205,7 +180,7 @@ const Home = () => {
                         <BsBuildingFillAdd className='total-icon' />
 
                         <div className="total-quantity">
-                            <p className='total-quantity-number'>502</p>
+                            <p className='total-quantity-number'>{Number(countQnt.countSupplier).toLocaleString()}</p>
                             <p className='total-quantity-name'>Supplier</p>
                         </div>
                     </div>
@@ -263,7 +238,7 @@ const Home = () => {
                         </div>
 
                         <div className="revenuestatistic-graph">
-                            <Column {...configIncome} />
+                            <Column {...{data: income, ...configIncome }} />
                         </div>
                     </div>
                 </div>
@@ -278,21 +253,21 @@ const Home = () => {
                         <div className='common-quantity'>
                             <div className="container-total">
                                 <div className="total-quantity">
-                                    <p className='total-quantity-number'>1,000</p>
+                                    <p className='total-quantity-number'>{Number(statisticQnt.sold).toLocaleString()}</p>
                                     <p className='total-quantity-name'>Sold</p>
                                 </div>
                             </div>
 
                             <div className="container-total">
                                 <div className="total-quantity">
-                                    <p className='total-quantity-number'>5,000</p>
+                                    <p className='total-quantity-number'>{Number(statisticQnt.inShelf).toLocaleString()}</p>
                                     <p className='total-quantity-name'>In shelf</p>
                                 </div>
                             </div>
 
                             <div className="container-total">
                                 <div className="total-quantity">
-                                    <p className='total-quantity-number'>6,000</p>
+                                    <p className='total-quantity-number'>{Number(statisticQnt.onStock).toLocaleString()}</p>
                                     <p className='total-quantity-name'>On stock</p>
                                 </div>
                             </div>
@@ -300,7 +275,7 @@ const Home = () => {
 
                         <div className="statistics-pie">
                             {
-                                configStatistics ? <Pie {...configStatistics} /> : null
+                                configStatistics ? <Pie {...{data: statistic, ...configStatistics}} /> : null
                             }
                         </div>
                     </div>

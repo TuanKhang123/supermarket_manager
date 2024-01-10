@@ -4,11 +4,11 @@ import Login from "../../features/Login";
 
 const mainRouter = [
     {
-        path: "/login",
+        path: "/",
         element: <Login />
     },
     {
-        path: "/resetpassword",
+        path: "/reset-password/:token",
         element: <ResetPassword />
     }
 ]

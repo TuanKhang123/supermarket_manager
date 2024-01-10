@@ -25,7 +25,7 @@ const CompartmentDetail = ({ data, shelfId, tierId, onClear }) => {
         },
         {
             name: "Batch code",
-            key: "bcode",
+            key: "batchCode",
         },
         {
             name: "Quantity",
@@ -33,7 +33,7 @@ const CompartmentDetail = ({ data, shelfId, tierId, onClear }) => {
         },
         {
             name: "Shelf quantity",
-            key: "sqty",
+            key: "shelfQnt",
         },
         {
             name: "Unit price",
@@ -41,11 +41,11 @@ const CompartmentDetail = ({ data, shelfId, tierId, onClear }) => {
         },
         {
             name: "Manufacture date",
-            key: "pro",
+            key: "manufactureDate",
         },
         {
             name: "Expire date",
-            key: "exp",
+            key: "expiredDate",
         },
 
     ];
@@ -101,18 +101,35 @@ const Compartment = () => {
     const addProduct = (productId, compartments) => {
         if (compartments.length == 0) {
             toast.error("Please select at least 1 compartment!");
+            return;
         }
-        internshipTransport.post("api/products/add-to-shelf", {
-            compartmentIds: compartments,
-            tierId: tierId,
+        const body = {
+            compartmentIds: compartments.map((v) => v.compartmentId),
+            tierId: Number.parseInt(tierId),
             productId: productId,
-        })
+        };
+        internshipTransport.post("api/shelves/add-products", body)
             .then(resp => {
-                console.log(resp.data);
                 if (resp.statusCode === "OK") {
                     toast.success("Successfully");
+                    Promise.all([
+                        internshipTransport.get(`api/compartments/${tierId}`),
+                        internshipTransport.get(`api/products/all?search=&page-number=1&limit=1&from=11-11-2023&to=${dayjs().format("DD-MM-YYYY")}`)
+                    ])
+                        .then((resp) => {
+                            if (resp[0].statusCode === "OK") {
+                                setCompartment(_ => resp[0].data);
+                                console.log(resp[0].data);
+                            }
+                            if (resp[1].statusCode === "OK") {
+                                setProducts(_ => resp[1].data.filter((v, i) => !v.isDisable));
+                            }
+                        });
+                    setSelected([]);
                 } else {
-                    toast.error("Failed!");
+
+                    toast.error(resp.response.data.data);
+                    toast.error(resp.response.data.message);
                 }
             });
     }
@@ -124,27 +141,29 @@ const Compartment = () => {
                     if (resp.statusCode === "OK") {
                         toast.success("Successfully");
                         setData(_ => null);
-                        internshipTransport.get(`api/compartments/${tierId}`)
-                            .then(resp => {
-                                if (resp.statusCode === "OK") {
-                                    setCompartment(_ => resp.data);
+                        Promise.all([
+                            internshipTransport.get(`api/compartments/${tierId}`),
+                            internshipTransport.get(`api/products/all?search=&page-number=1&limit=1&from=11-11-2023&to=${dayjs().format("DD-MM-YYYY")}`)
+                        ])
+                            .then((resp) => {
+                                if (resp[0].statusCode === "OK") {
+                                    setCompartment(_ => resp[0].data);
+                                    console.log(resp[0].data);
+                                }
+                                if (resp[1].statusCode === "OK") {
+                                    setProducts(_ => resp[1].data.filter((v, i) => !v.isDisable));
                                 }
                             });
+                        setSelected([]);
                     } else {
+
                         toast.error("Failed!");
                     }
                 });
-
         }
     }
 
     const columns = [
-        {
-            key: "no",
-            title: "No.",
-            dataIndex: "no",
-            render: (text, record, index) => 1,
-        },
         {
             key: "categoryName",
             title: "Category",
@@ -164,6 +183,7 @@ const Compartment = () => {
             key: "inputQuantity",
             title: "Quantity",
             dataIndex: "inputQuantity",
+            render: (text, record, index) => record["inputQuantity"] - record["soldQuantity"] - record["shelfQnt"]
         },
         {
             key: "shelfArrangeQnt",
@@ -187,7 +207,7 @@ const Compartment = () => {
     useState(_ => {
         Promise.all([
             internshipTransport.get(`api/compartments/${tierId}`),
-            internshipTransport.get(`http://localhost:8080/api/products/all?search=&page-number=1&limit=1&from=11-11-2023&to=${dayjs().format("DD-MM-YYYY")}`)
+            internshipTransport.get(`api/products/all?search=&page-number=1&limit=1&from=11-11-2023&to=${dayjs().format("DD-MM-YYYY")}`)
         ])
             .then((resp) => {
                 if (resp[0].statusCode === "OK") {
@@ -204,7 +224,7 @@ const Compartment = () => {
             setSelected(prev => prev.filter((v, i) => v.compartmentId !== item.compartmentId));
 
         } else {
-            if (selected.length === 0 || selected[0].productId === item.productId) {
+            if (selected.length === 0 || selected.every((v) => v.productId === item.productId || !v.productId) || !item.productId) {
                 setSelected(prev => [...prev, item]);
             } else {
                 toast.info("Products must be the same!");
@@ -255,18 +275,28 @@ const Compartment = () => {
                     <div className="compartment__list">
                         {
                             compartment.map((v, i) =>
+
                                 <div className={`compartment__item${selected.includes(v) ? " selected" : ""}`} onClick={e => onSelected(v)}>
                                     <h3 className="compartment__item__name">
                                         {
                                             v.compartmentCode
                                         }
                                     </h3>
-                                    <p className="compartment__item__capacity">
-                                        {
-                                            `${v.productName || "Unknown"}: ${v.currentQuantity}`
-                                        }
-                                    </p>
-                                    <UnorderedListOutlined className="compartment__item__nav" onClick={e => onViewDetail(v, e)} />
+                                    {
+                                        v.productId ?
+                                            <>
+                                                <p className="compartment__item__capacity">
+                                                    {
+                                                        `${v.productName || "Null"}: ${v.currentQuantity}`
+                                                    }
+                                                </p>
+                                                <UnorderedListOutlined className="compartment__item__nav" onClick={e => onViewDetail(v, e)} />
+                                            </>
+                                            :
+                                            <p>
+                                                Empty
+                                            </p>
+                                    }
                                 </div>
                             )
                         }
