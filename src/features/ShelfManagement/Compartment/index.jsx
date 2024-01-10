@@ -104,7 +104,7 @@ const Compartment = () => {
             return;
         }
         internshipTransport.post("api/shelves/add-products", {
-            compartmentCodes: compartments.map((v) => v.compartmentCode),
+            compartmentIds: compartments.map((v) => v.compartmentId),
             tierId: Number.parseInt(tierId),
             productId: productId,
         })
@@ -157,6 +157,7 @@ const Compartment = () => {
             key: "inputQuantity",
             title: "Quantity",
             dataIndex: "inputQuantity",
+            render: (text, record, index) => record["inputQuantity"] - record["soldQuantity"] - record["shelfQnt"]
         },
         {
             key: "shelfArrangeQnt",
